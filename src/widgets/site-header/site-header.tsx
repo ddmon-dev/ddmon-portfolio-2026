@@ -9,7 +9,7 @@ export function SiteHeader() {
           href='/'
           className='font-light text-2xl'
         >
-          LOGO
+          DDmon
         </Link>
         <nav className='flex items-center gap-4'>
           <Link href='/'>Profile</Link>

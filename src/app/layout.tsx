@@ -3,6 +3,7 @@ import { poppins, pretendard } from '@/fonts';
 import './globals.css';
 
 import { SiteHeader } from '@/widgets/site-header/site-header';
+import { SiteFooter } from '@/widgets/site-footer';
 
 export const metadata: Metadata = {
   title: 'DDmon Portfolio',
@@ -15,13 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang='ko'
-      className={`${poppins.variable} ${pretendard.variable} antialiased`}
-    >
-      <body>
+    <html lang='ko'>
+      <body
+        className={`${poppins.variable} ${pretendard.variable} antialiased flex flex-col min-h-screen`}
+      >
         <SiteHeader />
-        {children}
+        <main>{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );
