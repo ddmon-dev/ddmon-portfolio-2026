@@ -1,6 +1,7 @@
-import { MAJOR_PROJECTS, type Project } from '@/data/major-projects.data';
+import { getAllProjects, type Project } from '@/shared/lib/mdx';
 import { Container } from '@/shared/ui/container';
 import Link from 'next/link';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import {
@@ -8,18 +9,25 @@ import {
   DialogTrigger,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
   DialogPortal,
   DialogOverlay,
+  DialogClose,
 } from '@/shared/ui/dialog';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
+import { Separator } from '@/shared/ui/separator';
 import { cn } from '@/shared/utils/utils';
 
+import { SquareArrowOutUpRight, XIcon } from 'lucide-react';
+
 export function MajorProjects() {
+  const projects = getAllProjects();
+
   return (
     <section className='py-16'>
       <Container className='space-y-6'>
         <h2 className='text-2xl font-bold text-center'>주요 프로젝트</h2>
-        <ProjectList projects={MAJOR_PROJECTS} />
+        <ProjectList projects={projects} />
       </Container>
     </section>
   );
@@ -53,12 +61,7 @@ function ProjectItem({ project }: { project: Project }) {
         </span>
         <div className='flex flex-wrap gap-1'>
           {project.skills.map(skill => (
-            <span
-              key={skill}
-              className='bg-primary text-primary-foreground px-3 py-1 rounded-lg text-xs'
-            >
-              {skill}
-            </span>
+            <Badge key={skill}>{skill}</Badge>
           ))}
         </div>
       </div>
@@ -84,64 +87,75 @@ function ProjectViewDialog({ children, project }: { children: React.ReactNode; p
               'group-data-[state=closed]:zoom-out-95 group-data-[state=open]:zoom-in-95',
               'fixed top-[50%] left-[50%] z-50',
               'translate-x-[-50%] translate-y-[-50%]',
-              'w-full sm:max-w-5xl',
-              'overflow-y-auto max-h-screen scrollbar-hidden py-8'
+              'w-full sm:max-w-3xl'
             )}
           >
-            <div className='grid gap-4 rounded-lg border px-4 md:px-6 lg:px-8 shadow-lg bg-background'>
-              <DialogHeader className='sticky -top-8 z-10 bg-background space-y-2 pt-8 pb-6'>
-                <DialogTitle>{project.name}</DialogTitle>
-                <div className='flex gap-2 items-center'>
-                  <span className='bg-secondary text-secondary-foreground px-3 py-1 rounded-lg text-xs'>
-                    {project.startDate} ~ {project.endDate}
-                  </span>
-                  <div className='flex flex-wrap gap-1'>
-                    {project.skills.map(skill => (
-                      <span
-                        key={skill}
-                        className='bg-primary text-primary-foreground px-3 py-1 rounded-lg text-xs'
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  {project.links &&
-                    project.links.map(link => (
-                      <div key={link.url}>
-                        <Link
-                          href={link.url}
-                          target='_blank'
-                        >
-                          {link.label}
-                        </Link>
-                      </div>
-                    ))}
+            <div className='overflow-y-auto max-h-screen scrollbar-hidden py-8'>
+              <div className='grid gap-12 rounded-lg border px-4 md:px-6 lg:px-8 shadow-lg bg-background'>
+                <DialogHeader className='space-y-2 pt-14'>
+                  <DialogTitle className='text-3xl mb-6'>{project.name} </DialogTitle>
+                  <ul className='space-y-5 text-base'>
+                    <ViewHeadRow label='개발 기간'>
+                      <Badge>
+                        {project.startDate} - {project.endDate}
+                      </Badge>
+                    </ViewHeadRow>
+                    <ViewHeadRow label='사용 기술'>
+                      {project.skills.map(skill => (
+                        <Badge key={skill}>{skill}</Badge>
+                      ))}
+                    </ViewHeadRow>
+                    <ViewHeadRow label='기여도'>
+                      <Badge>100%</Badge>
+                    </ViewHeadRow>
+                    {project.links && (
+                      <ViewHeadRow label='링크'>
+                        {project.links.map(link => (
+                          <Button
+                            key={link.url}
+                            variant='outline'
+                            size='sm'
+                            asChild
+                          >
+                            <Link
+                              href={link.url}
+                              target='_blank'
+                            >
+                              {link.label}
+                              <SquareArrowOutUpRight className='size-3' />
+                            </Link>
+                          </Button>
+                        ))}
+                      </ViewHeadRow>
+                    )}
+                  </ul>
+                </DialogHeader>
+                <Separator />
+                <div className='prose prose-neutral dark:prose-invert max-w-none pb-8'>
+                  <MDXRemote source={project.content} />
                 </div>
-              </DialogHeader>
-              <div className='space-y-4'>
-                <div className='bg-secondary aspect-video' />
-                Project Content. <br />
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt quod deleniti
-                vitae earum, ex voluptates aliquid fugit, consequuntur eum molestias quisquam minus
-                odio nostrum ab cumque nam perferendis ipsam esse? Lorem, ipsum dolor sit amet
-                consectetur adipisicing elit. Deserunt quod deleniti vitae earum, ex voluptates
-                aliquid fugit, consequuntur eum molestias quisquam minus odio nostrum ab cumque nam
-                perferendis ipsam esse? Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt quod deleniti vitae earum, ex voluptates aliquid fugit, consequuntur eum
-                molestias quisquam minus odio nostrum ab cumque nam perferendis ipsam esse? Lorem,
-                ipsum dolor sit amet consectetur adipisicing elit. Deserunt quod deleniti vitae
-                earum, ex voluptates aliquid fugit, consequuntur eum molestias quisquam minus odio
-                nostrum ab cumque nam perferendis ipsam esse? Lorem, ipsum dolor sit amet
-                consectetur adipisicing elit. Deserunt quod deleniti vitae earum, ex voluptates
-                aliquid fugit, consequuntur eum molestias quisquam minus odio nostrum ab cumque nam
-                perferendis ipsam esse? Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt quod deleniti vitae earum, ex voluptates aliquid fugit, consequuntur eum
-                molestias quisquam minus odio nostrum ab cumque nam perferendis ipsam esse?
               </div>
             </div>
+            <DialogClose asChild>
+              <Button
+                size='sm'
+                className='size-10 rounded-full absolute top-8 left-full ml-4'
+              >
+                <XIcon className='size-5' />
+              </Button>
+            </DialogClose>
           </div>
         </DialogPrimitive.Content>
       </DialogPortal>
     </Dialog>
+  );
+}
+
+function ViewHeadRow({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <li className='space-y-1'>
+      <div className='font-bold'>{label}</div>
+      <div className='space-x-0.5'>{children}</div>
+    </li>
   );
 }

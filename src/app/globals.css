@@ -149,3 +149,215 @@
     }
   }
 }
+
+/* Prose (Markdown) Styles - Tailwind Typography 기반 */
+.prose {
+  font-family: var(--font-secondary);
+  color: var(--color-foreground);
+  word-break: normal;
+  text-align: justify;
+  max-width: 65ch;
+
+  /* 헤딩 */
+  & h1 {
+    font-size: 1.65em;
+    line-height: 1.1111111;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+  }
+
+  & h2 {
+    font-size: 1.5em;
+    line-height: 1.3333333;
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    font-weight: 700;
+  }
+
+  & h3 {
+    font-size: 1.25em;
+    line-height: 1.6;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
+    font-weight: 600;
+  }
+
+  & h4 {
+    font-size: 1em;
+    line-height: 1.5;
+    margin-top: 0.9em;
+    margin-bottom: 0.3em;
+    font-weight: 600;
+  }
+
+  /* 단락 */
+  & p {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    line-height: 1.75;
+  }
+
+  /* 링크 */
+  & a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 500;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: var(--color-primary-foreground);
+      background-color: var(--color-primary);
+    }
+  }
+
+  /* 강조 */
+  & strong {
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  & em {
+    font-style: italic;
+  }
+
+  /* 리스트 */
+  & ul,
+  & ol {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+    padding-left: 1.625em;
+  }
+
+  & ul {
+    list-style-type: disc;
+  }
+
+  & ol {
+    list-style-type: decimal;
+  }
+
+  & li {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+    line-height: 1.75;
+  }
+
+  & ul ul,
+  & ul ol,
+  & ol ul,
+  & ol ol {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  & ul > li {
+    padding-left: 0.375em;
+  }
+
+  & ol > li {
+    padding-left: 0.375em;
+  }
+
+  /* 인라인 코드 */
+  & code {
+    color: var(--color-foreground);
+    background-color: var(--color-muted);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
+  /* 코드 블록 */
+  & pre {
+    background-color: var(--color-muted);
+    color: var(--color-foreground);
+    padding: 1em 1.5em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    line-height: 1.75;
+
+    & code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.875em;
+      font-weight: 400;
+    }
+  }
+
+  /* 인용 */
+  & blockquote {
+    font-weight: 500;
+    font-style: italic;
+    color: var(--color-foreground);
+    border-left: 0.25rem solid var(--color-border);
+    padding-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+
+    & p:first-of-type::before {
+      content: open-quote;
+    }
+
+    & p:last-of-type::after {
+      content: close-quote;
+    }
+  }
+
+  /* 구분선 */
+  & hr {
+    border-color: var(--color-border);
+    border-top-width: 1px;
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+  /* 이미지 */
+  & img {
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+    border-radius: 0.5rem;
+  }
+
+  /* 테이블 */
+  & table {
+    width: 100%;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+    font-size: 0.875em;
+    line-height: 1.7142857;
+  }
+
+  & thead {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  & thead th {
+    font-weight: 600;
+    padding: 0.5714286em;
+    text-align: left;
+  }
+
+  & tbody tr {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  & tbody td {
+    padding: 0.5714286em;
+  }
+}
+
+/* 다크 모드 */
+.dark .prose-invert {
+  & strong {
+    color: var(--color-foreground);
+  }
+}
+
+/* max-w-none 유틸리티와 함께 사용 */
+.prose.max-w-none {
+  max-width: none;
+}
