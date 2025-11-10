@@ -1,76 +1,74 @@
 ---
 id: panoramafilm
 name: 파노라마필름
-summary: 파노라마필름 브랜드 홈페이지 및 대리점 구매 시스템 개발
+summary: 파노라마필름 브랜드 홈페이지 및 시공점 구매 시스템 개발
 startDate: 2024.06
-endDate: 2024.08
+endDate: 2024.09
 skills:
   - Next.js
-  - Post CSS
+  - CSS Modules
   - Tailwind CSS
+  - Zustand
+  - Kakao Map API
+  - Kakao 알림톡 API
   - Supabase
   - Vercel
-  - Apache
   - Ubuntu
+  - Nginx
+  - GitHub
 links:
   - url: https://www.panoramafilm.co.kr
     label: 파노라마필름 홈페이지
   - url: https://oms.panoramafilm.co.kr
-    label: 대리점 구매 시스템
+    label: 시공점 구매 시스템
 ---
 
-# 프로젝트 개요
+## 개요
 
-<img
-  src='https://panoramafilm.co.kr/_next/image/?url=%2F_next%2Fstatic%2Fmedia%2Fmain-visual-1.f8c6c39d.jpg&amp;w=1920&amp;q=100'
-  alt='파노라마필름 메인 비주얼'
-/>
+- 솔라가드 신규 프리미엄 브랜드인 **파노라마필름**의 브랜드 웹사이트, 시공점 구매관리 서비스, 어드민 페이지 총 3개 서비스의 기획, 설계 및 개발 진행.
+- 런칭 후 현재 **45개의 시공점**에서 시스템 사용 중.
 
-**파노라마필름**은 건축용 윈도우 필름 브랜드의 공식 홈페이지 및 대리점 구매 시스템을 구축한 프로젝트입니다. 사용자 친화적인 인터페이스와 효율적인 주문 관리 시스템을 통해 브랜드 가치를 극대화했습니다.
+## 기술 선정 이유
 
-## 주요 기능
+- <code>**Next.js**</code> : 브랜드 웹사이트의 SEO 최적화 및 성능 최적화 통한 데이터 비동기 처리 용이성
+- <code>**CSS Modules**</code> : 브랜드 웹사이트의 디자인 구현 및 유지보수의 용이성
+- <code>**Tailwind CSS**</code> : 시공점 구매관리 서비스와 어드민 페이지의 일관되며 빠른 디자인 구현을
+  위해 선택
+- <code>**Zustand**</code> : 시공점 구매관리 서비스의 전역 상태 관리 ex) 장바구니, 주문 정보 등
+- <code>**Kakao Map API**</code> : 브랜드 웹사이트 시공점 찾기 기능 구현
+- <code>**Kakao 알림톡 API**</code> : 시공점 구매관리 서비스의 알림톡 발송 기능 구현
+- <code>**Supabase**</code> : 빠른 백엔드 환경 구축 및 데이터베이스 개발, 고객사의 운영 관리 부담 절감
+  목적
+- <code>**Vercel**</code> : Next.js 배포 환경 제공 -> KaKao 알림톡 API 연동의 요구사항 미충족으로 폐기
+- <code>**Nginx**</code> / <code>**Ubuntu**</code> : 상기 사유로 Vercel 폐기 후 운영 서버 설정
 
-### 1. 반응형 웹 디자인
+## 브랜드 웹사이트
 
-- 모바일, 태블릿, 데스크톱 모든 디바이스 최적화
-- Tailwind CSS를 활용한 일관된 디자인 시스템
+- 반응형 디자인 구현
+- SEO 최적화를 위한 SSG, SSR 적극 활용
+- 보증서 발급 및 다운로드 기능 구현
+- Kakao Map API를 활용한 시공점 찾기 기능 구현
 
-### 2. 대리점 구매 시스템
+## 시공점 구매관리 시스템
 
-- 실시간 재고 관리
-- 주문 내역 조회 및 관리
-- 대리점 전용 가격 정책 적용
+- 시공점 / 총판 회원에 따른 UI 및 비즈니스 로직 분리
+- 상품 발주 / 장바구니 기능 구현
+- 하위 회원 주문 관리 기능 구현
+- 보증서 / 시공내역서 발급 기능 구현
+- Kakao 알림톡 API를 활용한 알림톡 발송 기능 구현
+- 반응형 디자인 구현
+- 매출 / 주문 통계 기능 구현
+- Server action, Server Component 활용한 보안성 및 개발 효율성 향상
+- FSD 패턴 도입을 통한 컴포넌트 재사용성 및 유지보수성 고려
+- Zustand를 통한 전역 상태 관리 구현 (장바구니, 주문정보 등)
+- 낙관적 업데이트를 통한 사용자 경험 향상
 
-### 3. 관리자 대시보드
+## 어드민 페이지
 
-- Supabase를 활용한 실시간 데이터 동기화
-- 주문 현황 모니터링
-- 제품 및 재고 관리
-
-## 기술 스택 상세
-
-### Frontend
-
-- **Next.js 15** - App Router 활용
-- **Tailwind CSS** - 유틸리티 기반 스타일링
-- **TypeScript** - 타입 안전성
-
-### Backend
-
-- **Supabase** - 인증, 데이터베이스, 스토리지
-- **PostgreSQL** - 관계형 데이터베이스
-
-### 배포
-
-- **Vercel** - 자동 배포 및 CDN
-- **Ubuntu Server** - 추가 서비스 호스팅
-
-## 성과
-
-- 대리점 주문 처리 시간 **70% 단축**
-- 모바일 사용자 **85% 증가**
-- 페이지 로딩 속도 **2초 이내** 달성
-
-## 배운 점
-
-이 프로젝트를 통해 실제 비즈니스 요구사항을 기술로 구현하는 경험을 얻었습니다. 특히 Supabase의 실시간 기능과 Next.js의 서버 컴포넌트를 활용한 성능 최적화에 대해 깊이 있게 학습했습니다.
+- 회원 관리
+- 상품 관리
+- 상품 분류 관리
+- 상품 발주 관리
+- 매출 / 주문 통계
+- 보증서 발급 관리
+- 게시판 관리

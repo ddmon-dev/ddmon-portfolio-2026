@@ -170,7 +170,7 @@
   & h2 {
     font-size: 1.5em;
     line-height: 1.3333333;
-    margin-top: 1.2em;
+    margin-top: 2em;
     margin-bottom: 0.6em;
     font-weight: 700;
   }
@@ -178,7 +178,7 @@
   & h3 {
     font-size: 1.25em;
     line-height: 1.6;
-    margin-top: 1em;
+    margin-top: 1.5em;
     margin-bottom: 0.4em;
     font-weight: 600;
   }
@@ -186,9 +186,15 @@
   & h4 {
     font-size: 1em;
     line-height: 1.5;
-    margin-top: 0.9em;
+    margin-top: 1em;
     margin-bottom: 0.3em;
     font-weight: 600;
+  }
+
+  & h2:first-child,
+  & h3:first-child,
+  & h4:first-child {
+    margin-top: 0;
   }
 
   /* 단락 */
@@ -238,9 +244,9 @@
   }
 
   & li {
-    margin-top: 0.1em;
-    margin-bottom: 0.1em;
-    line-height: 1.75;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    line-height: 1.5;
   }
 
   & ul ul,
@@ -252,11 +258,11 @@
   }
 
   & ul > li {
-    padding-left: 0.375em;
+    padding-left: 0.2em;
   }
 
   & ol > li {
-    padding-left: 0.375em;
+    padding-left: 0.2em;
   }
 
   /* 인라인 코드 */
@@ -350,14 +356,18 @@
   }
 }
 
-/* 다크 모드 */
 .dark .prose-invert {
   & strong {
     color: var(--color-foreground);
   }
 }
 
-/* max-w-none 유틸리티와 함께 사용 */
 .prose.max-w-none {
   max-width: none;
+}
+
+@media (max-width: 768px) {
+  .prose {
+    font-size: 14px;
+  }
 }

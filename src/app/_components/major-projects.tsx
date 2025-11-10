@@ -93,7 +93,7 @@ function ProjectViewDialog({ children, project }: { children: React.ReactNode; p
             <div className='overflow-y-auto max-h-screen scrollbar-hidden py-8'>
               <div className='grid gap-12 rounded-lg border px-4 md:px-6 lg:px-8 shadow-lg bg-background'>
                 <DialogHeader className='space-y-2 pt-14'>
-                  <DialogTitle className='text-3xl mb-6'>{project.name} </DialogTitle>
+                  <DialogTitle className='text-4xl font-bold mb-6'>{project.name} </DialogTitle>
                   <ul className='space-y-5 text-base'>
                     <ViewHeadRow label='개발 기간'>
                       <Badge>
