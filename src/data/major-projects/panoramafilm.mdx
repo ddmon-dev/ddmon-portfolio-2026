@@ -1,20 +1,20 @@
 ---
 id: panoramafilm
 name: 파노라마필름
-summary: 파노라마필름 브랜드 홈페이지 및 시공점 구매 시스템 개발
+summary: 신규 브랜드 홈페이지 및 시공점 구매 시스템 개발
 startDate: 2024.06
 endDate: 2024.09
 skills:
   - Next.js
   - CSS Modules
   - Tailwind CSS
-  - Zustand
   - Kakao Map API
   - Kakao 알림톡 API
   - Supabase
   - Vercel
   - Ubuntu
   - Nginx
+  - Nginx-Proxy-Manager
   - GitHub
 links:
   - url: https://www.panoramafilm.co.kr
@@ -23,22 +23,20 @@ links:
     label: 시공점 구매 시스템
 ---
 
-## 개요
+## 프로젝트 개요
 
 - 솔라가드 신규 프리미엄 브랜드인 **파노라마필름**의 브랜드 웹사이트, 시공점 구매관리 서비스, 어드민 페이지 총 3개 서비스의 기획, 설계 및 개발 진행.
 - 런칭 후 현재 **45개의 시공점**에서 시스템 사용 중.
 
-## 기술 선정 이유
+## 기술 선정 사유
 
 - <code>**Next.js**</code> : 브랜드 웹사이트의 SEO 최적화 및 성능 최적화 통한 데이터 비동기 처리 용이성
 - <code>**CSS Modules**</code> : 브랜드 웹사이트의 디자인 구현 및 유지보수의 용이성
 - <code>**Tailwind CSS**</code> : 시공점 구매관리 서비스와 어드민 페이지의 일관되며 빠른 디자인 구현을
   위해 선택
-- <code>**Zustand**</code> : 시공점 구매관리 서비스의 전역 상태 관리 ex) 장바구니, 주문 정보 등
 - <code>**Kakao Map API**</code> : 브랜드 웹사이트 시공점 찾기 기능 구현
 - <code>**Kakao 알림톡 API**</code> : 시공점 구매관리 서비스의 알림톡 발송 기능 구현
 - <code>**Supabase**</code> : 빠른 백엔드 환경 구축 및 데이터베이스 개발, 고객사의 운영 관리 부담 절감
-  목적
 - <code>**Vercel**</code> : Next.js 배포 환경 제공 -> KaKao 알림톡 API 연동의 요구사항 미충족으로 폐기
 - <code>**Nginx**</code> / <code>**Ubuntu**</code> : 상기 사유로 Vercel 폐기 후 운영 서버 설정
 
@@ -53,6 +51,7 @@ links:
 
 - 시공점 / 총판 회원에 따른 UI 및 비즈니스 로직 분리
 - 상품 발주 / 장바구니 기능 구현
+- 포인트 적립 및 포인트 샵 기능 구현
 - 하위 회원 주문 관리 기능 구현
 - 보증서 / 시공내역서 발급 기능 구현
 - Kakao 알림톡 API를 활용한 알림톡 발송 기능 구현
@@ -62,6 +61,7 @@ links:
 - FSD 패턴 도입을 통한 컴포넌트 재사용성 및 유지보수성 고려
 - Zustand를 통한 전역 상태 관리 구현 (장바구니, 주문정보 등)
 - 낙관적 업데이트를 통한 사용자 경험 향상
+- react-hook-form을 사용하여 복잡한 form 컴포넌트 및 다중 form 컴포넌트 구현
 
 ## 어드민 페이지
 
