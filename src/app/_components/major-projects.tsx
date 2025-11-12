@@ -37,7 +37,7 @@ function ProjectList({ projects }: { projects: Project[] }) {
   if (projects?.length === 0) return null;
 
   return (
-    <ul className='grid grid-cols-3 gap-4'>
+    <ul className='grid grid-cols-3 gap-x-6 gap-y-14'>
       {projects.map(project => (
         <li key={project.name}>
           <ProjectViewDialog project={project}>
