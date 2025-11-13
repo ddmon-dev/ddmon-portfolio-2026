@@ -4,6 +4,7 @@ import './globals.css';
 
 import { SiteHeader } from '@/widgets/site-header/site-header';
 import { SiteFooter } from '@/widgets/site-footer';
+import { Toaster } from '@/shared/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'DDmon Portfolio',
@@ -23,6 +24,11 @@ export default function RootLayout({
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
+        <Toaster
+          richColors
+          position='bottom-center'
+          duration={3000}
+        />
       </body>
     </html>
   );

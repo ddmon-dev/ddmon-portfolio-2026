@@ -5,76 +5,94 @@ import { Container } from '@/shared/ui/container';
 import { HOMEPAGE_PROJECTS, ECATALOG_PROJECTS, type Project } from '@/data/all-projects.data';
 import Link from 'next/link';
 import { Button } from '@/shared/ui/button';
+import { Pagination } from '@/shared/ui/pagination';
 
-const ALL_PROJECTS = [...HOMEPAGE_PROJECTS, ...ECATALOG_PROJECTS] satisfies Project[];
+const PAGE_SIZE = 5;
+const PAGINATION_RANGE = 5;
+
+const ALL_PROJECTS = [...HOMEPAGE_PROJECTS, ...ECATALOG_PROJECTS].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+) satisfies Project[];
+
+type NumberedProject = Project & { number: number };
 
 export function AllProjects() {
   const [page, setPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const sortedProjects = ALL_PROJECTS.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
   const filteredProjects = selectedCategory
-    ? sortedProjects.filter(project => project.category === selectedCategory)
-    : sortedProjects;
+    ? ALL_PROJECTS.filter(project => project.category === selectedCategory)
+    : ALL_PROJECTS;
 
-  const startIndex = 1;
-  const pageSize = 10;
-  const totalPages = Math.ceil(filteredProjects.length / pageSize);
+  const numberedProjects = filteredProjects.map((project, index) => ({
+    ...project,
+    number: filteredProjects.length - index,
+  }));
 
-  const paginatedProjects = filteredProjects.slice(
-    totalPages * (page - 1) + startIndex - 1,
-    totalPages * page + startIndex - 1
-  );
-
-  const handleCategoryChange = (category: string | null) => {
-    setSelectedCategory(category);
-    setPage(1);
-  };
-
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
+  const pageSize = PAGE_SIZE;
+  const paginationRange = PAGINATION_RANGE;
+  const paginatedProjects = numberedProjects.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <section className='py-16'>
-      <Container
-        className='space-y-6'
-        size='sm'
-      >
+      <Container className='space-y-6'>
         <h2 className='text-2xl font-bold text-center'>모든 프로젝트</h2>
-        <nav className='flex gap-1 justify-center'>
-          <Button
-            size='sm'
-            onClick={() => handleCategoryChange(null)}
-          >
-            All
-          </Button>
-          <Button
-            size='sm'
-            onClick={() => handleCategoryChange('homepage')}
-          >
-            Web
-          </Button>
-          <Button
-            size='sm'
-            onClick={() => handleCategoryChange('ecatalog')}
-          >
-            E-Catalog
-          </Button>
-        </nav>
+        <Categories
+          categories={[
+            { label: 'All', value: null },
+            { label: 'Web', value: 'homepage' },
+            { label: 'E-Catalog', value: 'ecatalog' },
+          ]}
+          setPage={setPage}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
         <AllProjectsList projects={paginatedProjects} />
-        <div className='text-center'>
-          <Button onClick={() => handlePageChange(page + 1)}>더 보기</Button>
-        </div>
+        <Pagination
+          dataCount={filteredProjects.length}
+          pageSize={pageSize}
+          paginationRange={paginationRange}
+          page={page}
+          setPage={setPage}
+        />
       </Container>
     </section>
   );
 }
 
-function AllProjectsList({ projects }: { projects: Project[] }) {
+function Categories({
+  categories,
+  setPage,
+  selectedCategory,
+  setSelectedCategory,
+}: {
+  categories: { label: string; value: string | null }[];
+  setPage: (page: number) => void;
+  selectedCategory: string | null;
+  setSelectedCategory: (category: string | null) => void;
+}) {
+  const handleCategoryChange = (category: string | null) => {
+    setPage(1);
+    setSelectedCategory(category);
+  };
+
+  return (
+    <nav className='flex gap-1 justify-center'>
+      {categories.map(category => (
+        <Button
+          key={category.value}
+          size='sm'
+          variant={category.value === selectedCategory ? 'default' : 'secondary'}
+          onClick={() => handleCategoryChange(category.value)}
+        >
+          {category.label}
+        </Button>
+      ))}
+    </nav>
+  );
+}
+
+function AllProjectsList({ projects }: { projects: NumberedProject[] }) {
   return (
     <ul className='divide-y border-y'>
       {projects.map((project, index) => (
@@ -82,20 +100,17 @@ function AllProjectsList({ projects }: { projects: Project[] }) {
           key={`${project.name}-${index}`}
           className='py-4'
         >
-          <AllProjectsItem
-            project={project}
-            index={projects.length - index}
-          />
+          <AllProjectsItem project={project} />
         </li>
       ))}
     </ul>
   );
 }
 
-function AllProjectsItem({ project, index }: { project: Project; index: number }) {
+function AllProjectsItem({ project }: { project: NumberedProject }) {
   return (
     <div className='grid grid-cols-[50px_1fr_100px] gap-2 items-center'>
-      <span className='text-left text-xl font-bold'>{index}</span>
+      <span className='text-left text-xl font-bold'>{project.number}</span>
       <div className='space-y-1'>
         <h3 className='text-lg font-semibold'>{project.name}</h3>
         <div className='flex gap-2 items-center'>
