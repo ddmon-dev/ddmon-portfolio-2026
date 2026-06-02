@@ -128,25 +128,24 @@ export function ProjectCard({
       )}
 
       {/*
-        열림 상태: 카드가 상세 페이지로 확장된다. 모달(중앙 카드 + 어두운 backdrop)이
-        아니라 별도 페이지처럼, 메인과 동일 너비의 흰 Container 위에 콘텐츠를 둔다.
-        layoutId는 카드와 동일해 카드 위치에서 확장되고, 투명한 오버레이 안에서
-        흰 Container가 함께 스케일되어 카드가 시트로 자라나는 것처럼 보인다.
+        열림 상태: 카드 자체가 흰 시트(상세 페이지)로 자라난다. layoutId를 흰 Container에
+        직접 부여해 카드 → 시트로 morph하고 그 안에서 내용이 나타난다. 오버레이는 정적
+        투명 레이어로 스크롤/바깥클릭 닫기만 담당한다(흰 배경이 중앙에서 펼쳐지지 않음).
       */}
       <AnimatePresence>
         {open && [
-          <motion.div
-            key="page"
-            layoutId={id}
-            role="dialog"
-            aria-modal="true"
-            aria-label={title}
+          <div
+            key="overlay"
             onClick={() => setOpen(false)}
             className="fixed inset-0 z-50 overflow-y-auto"
           >
-            {/* 다이얼로그는 투명, 흰 배경은 메인 페이지와 동일 너비의 Container에만 */}
+            {/* 흰 시트: 메인과 동일 너비 Container + 카드와 동일 layoutId로 카드에서 자라남 */}
             <Container
-              as="article"
+              as={motion.div}
+              layoutId={id}
+              role="dialog"
+              aria-modal="true"
+              aria-label={title}
               onClick={event => event.stopPropagation()}
               className="min-h-full space-y-8 bg-white pb-10 sm:pb-14"
             >
@@ -198,7 +197,7 @@ export function ProjectCard({
                 {children}
               </motion.div>
             </Container>
-          </motion.div>,
+          </div>,
 
           // 뒤로 가기: 페이지 morph와 무관하게 뷰포트에 고정 (transform 영향 회피)
           <motion.button
