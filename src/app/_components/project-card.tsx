@@ -34,8 +34,16 @@ export function ProjectCard({
   children,
 }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
+  // 카드 → 시트 morph가 완전히 끝났는지. true가 되면 body를 페이드인한다.
+  const [expanded, setExpanded] = useState(false);
   const id = useId();
   const reduceMotion = useReducedMotion();
+
+  // 열 때 expanded를 초기화하고 연다 (morph 완료 후 body 페이드인을 위해)
+  const openSheet = () => {
+    setExpanded(false);
+    setOpen(true);
+  };
 
   // 모달이 열려 있는 동안 body 스크롤 잠금 + ESC 닫기
   useEffect(() => {
@@ -89,7 +97,7 @@ export function ProjectCard({
       ) : (
         <motion.div
           layoutId={id}
-          onClick={() => setOpen(true)}
+          onClick={openSheet}
           className="cursor-pointer space-y-4"
         >
           <motion.div
@@ -147,6 +155,7 @@ export function ProjectCard({
               aria-modal="true"
               aria-label={title}
               onClick={event => event.stopPropagation()}
+              onLayoutAnimationComplete={() => setExpanded(true)}
               className="min-h-full space-y-8 bg-white pb-10 sm:pb-14"
             >
               {/* 카드와 동일한 비율(aspect-video)을 유지해 morph가 자연스럽게 이어진다 */}
@@ -185,13 +194,13 @@ export function ProjectCard({
                 </p>
               </header>
 
+              {/* body는 카드→시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.25,
-                  delay: reduceMotion ? 0 : 0.15,
-                }}
+                animate={
+                  expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
+                }
+                transition={{ duration: reduceMotion ? 0 : 0.3 }}
                 className="space-y-8"
               >
                 {children}
