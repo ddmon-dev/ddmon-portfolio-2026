@@ -6,7 +6,7 @@ import { Contact } from './_components/contact';
 
 export default function Home() {
   return (
-    <main className="space-y-20">
+    <main className="space-y-40">
       <IntroHero />
       <About />
       <SelectedProjects />

@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { Container } from '@/shared/ui/container';
+import { cn } from '@/shared/utils/classnames';
 
 /**
  * 주요 프로젝트 섹션은 메이져 프로젝트만 보여줄 것
@@ -14,6 +16,7 @@ import { Container } from '@/shared/ui/container';
  * - 알지비 커뮤니케이션즈 백오피스 서비스
  * - 알지비 커뮤니케이션즈 영상 브랜드 사이트
  * - 엠알 홈페이지
+ * - 리틀어썸 워크매니저
  */
 
 export function SelectedProjects() {
@@ -63,12 +66,46 @@ export function SystemsAndTemplates() {
 
 function ProjectCard() {
   return (
-    <div>
-      <div className="aspect-video bg-black/30" />
-      <div>
-        <h3>파노라마 필름</h3>
-        <p>Next.js / Supabase / Ubuntu / Nginx ...</p>
+    <div className="cursor-pointer space-y-4">
+      <Image
+        src="/panoramafilm.png"
+        alt=""
+        width="1438"
+        height="809"
+        className="aspect-video bg-black/30 object-cover"
+      />
+      <div className="space-y-3">
+        <div className="px-2 space-y-1">
+          <h3 className="text-lg/5 font-bold">파노라마 필름</h3>
+          <p className="">홈페이지 / 웹앱</p>
+        </div>
+        <p className="flex flex-wrap gap-x-1">
+          {['Next.js', 'Supabase', 'Nginx'].map(item => (
+            <SkillBadge key={item}>{item}</SkillBadge>
+          ))}
+        </p>
       </div>
     </div>
+  );
+}
+
+function SkillBadge({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        'inline-flex justify-center items-center py-1 px-2.5 rounded-full text-sm shrink-0 overflow-hidden',
+        'bg-black text-white',
+        'max-w-22',
+        className
+      )}
+    >
+      <span className="block truncate">{children}</span>
+    </span>
   );
 }
