@@ -37,10 +37,13 @@ export function ProjectCard({
   // 흰 배경 표시 여부. open과 별개로, 닫을 때는 카드가 그리드로 돌아온 뒤에 끈다.
   // 이 값이 true인 동안 선택된 카드를 backdrop 위(z-50)로 올려 가려지지 않게 한다.
   const [backdropVisible, setBackdropVisible] = useState(false);
+  // 카드 → 시트 morph가 완전히 끝났는지. true가 되면 body를 페이드인한다.
+  const [expanded, setExpanded] = useState(false);
   const id = useId();
   const reduceMotion = useReducedMotion();
 
   const openSheet = () => {
+    setExpanded(false);
     setBackdropVisible(true);
     setOpen(true);
   };
@@ -182,6 +185,7 @@ export function ProjectCard({
               aria-modal="true"
               aria-label={title}
               onClick={event => event.stopPropagation()}
+              onLayoutAnimationComplete={() => setExpanded(true)}
               className="min-h-full space-y-8 bg-white pb-10 sm:pb-14"
             >
               {/* 카드와 동일한 비율(aspect-video)을 유지해 morph가 자연스럽게 이어진다 */}
@@ -220,11 +224,11 @@ export function ProjectCard({
                 </p>
               </header>
 
-              {/* body는 morph 시작과 함께 페이드인 (재생시간 ≥ morph 시간) */}
+              {/* body는 카드→시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: reduceMotion ? 0 : 0.5 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                transition={{ duration: reduceMotion ? 0 : 0.35 }}
                 className="space-y-8"
               >
                 {children}
