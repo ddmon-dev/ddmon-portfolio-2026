@@ -2,21 +2,22 @@ import type { Project } from '@/data/all-projects.data';
 
 /**
  * 노드맵 레이아웃 순수 로직.
- * 좌표/크기는 결정적 PRNG로 생성해 SSR·CSR이 동일한 마크업을 만든다(하이드레이션 불일치 방지).
- * 좌표는 0~1 비율로만 다루고, 실제 px 배치는 컴포넌트에서 CSS %로 처리한다.
+ * 크고 작은 원을 충돌 완화(relaxation)로 빈틈없이 맞물리게 채우는 "원 패킹".
+ * 위치/크기 모두 컨테이너 폭 대비 비율로 내보내 어느 너비에서도 꽉 찬 밀도를 유지한다.
+ * 결정적 PRNG라 SSR·CSR 마크업이 동일하다(하이드레이션 불일치 방지).
  */
 
 export interface ArchiveNode {
   name: string;
   /** 정규화된 링크. 없으면 null → 클릭 비활성. */
   href: string | null;
-  /** 가로 위치 비율 0~1 */
+  /** 중심 x (0~1, 컨테이너 폭 기준) */
   xRatio: number;
-  /** 세로 위치 비율 0~1 (0=위, 1=아래) */
+  /** 중심 y (0~1, 컨테이너 높이 기준) */
   yRatio: number;
-  /** 노드 지름 px (기본 크기, 마우스 스케일 전) */
-  size: number;
-  /** 기본 투명도 0~1 (단색 깊이감) */
+  /** 지름 (컨테이너 폭 대비 0~1) */
+  sizeRatio: number;
+  /** 기본 투명도 0~1 */
   opacity: number;
 }
 
@@ -35,59 +36,63 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 /** 레이아웃 튜닝 상수 — 육안으로 조절하는 지점. */
 const SEED = 0x9e3779b9;
-const MIN_SIZE = 8;
-const MAX_SIZE = 32;
-const SIZE_SKEW = 1.15; // 1에 가까울수록 중·대형 노드 비중↑ (덩어리감)
-const clamp = (v: number) => Math.min(0.98, Math.max(0.02, v));
+const ASPECT = 16 / 5; // 컨테이너 종횡비 (배치 가상공간도 동일)
+const FILL = 0.74; // 원 면적 합 / 영역 면적 — 클수록 빽빽
+const RAW_MIN = 1; // 상대 반지름 최소
+const RAW_MAX = 3.2; // 상대 반지름 최대 (변화 폭)
+const SIZE_SKEW = 1.4; // >1이면 작은 원 다수 + 큰 원 소수
+const PADDING_RATIO = 0.004; // 원 사이 여백 (폭 대비)
+const ITERATIONS = 170; // 충돌 완화 반복 횟수
 
 /**
- * 무작위 배치. 영역 전체에 노드를 균등 랜덤으로 흩뿌린다(결정적 PRNG).
+ * 충돌 완화 기반 원 패킹.
+ * - 반지름을 다양하게 뽑고, 면적 합이 영역의 FILL 비율이 되도록 일괄 스케일.
+ * - 랜덤 초기 배치 후 겹치는 쌍을 밀어내고 영역 안으로 가두길 반복 → 빈틈없는 덩어리.
  */
 export function generateScatter(count: number): Omit<ArchiveNode, 'name' | 'href'>[] {
   const rng = mulberry32(SEED);
-  return Array.from({ length: count }, () => ({
-    xRatio: clamp(rng()),
-    yRatio: clamp(rng()),
-    size: lerp(MIN_SIZE, MAX_SIZE, rng() ** SIZE_SKEW),
-    opacity: lerp(0.62, 1, rng()),
-  }));
-}
+  const VW = 1000;
+  const VH = VW / ASPECT;
 
-/**
- * 각 노드를 가까운 이웃 k개와 잇는 장식용 엣지 목록(중복 제거).
- * 관계를 뜻하지 않고 옵시디언 웹 느낌의 시각 구조/밀도를 만든다.
- * 컨테이너가 가로로 길어 x 거리가 과대평가되므로 ASPECT_X로 보정한다.
- */
-const ASPECT_X = 3;
+  const radii = Array.from({ length: count }, () => lerp(RAW_MIN, RAW_MAX, rng() ** SIZE_SKEW));
+  const areaSum = radii.reduce((s, r) => s + Math.PI * r * r, 0);
+  const scale = Math.sqrt((FILL * VW * VH) / areaSum);
+  const R = radii.map((r) => r * scale);
+  const pad = PADDING_RATIO * VW;
 
-export function computeNearestEdges(
-  nodes: Pick<ArchiveNode, 'xRatio' | 'yRatio'>[],
-  k = 3,
-): [number, number][] {
-  const pts = nodes.map((n) => ({ x: n.xRatio * ASPECT_X, y: n.yRatio }));
-  const seen = new Set<number>();
-  const edges: [number, number][] = [];
-  for (let i = 0; i < pts.length; i++) {
-    const dists = [];
-    for (let j = 0; j < pts.length; j++) {
-      if (i === j) continue;
-      const dx = pts[i].x - pts[j].x;
-      const dy = pts[i].y - pts[j].y;
-      dists.push({ j, d: dx * dx + dy * dy });
-    }
-    dists.sort((a, b) => a.d - b.d);
-    for (let n = 0; n < Math.min(k, dists.length); n++) {
-      const j = dists[n].j;
-      const lo = Math.min(i, j);
-      const hi = Math.max(i, j);
-      const key = lo * nodes.length + hi; // 쌍 중복 제거 키
-      if (!seen.has(key)) {
-        seen.add(key);
-        edges.push([lo, hi]);
+  const xs = R.map((r) => lerp(r, VW - r, rng()));
+  const ys = R.map((r) => lerp(r, VH - r, rng()));
+
+  for (let it = 0; it < ITERATIONS; it++) {
+    for (let i = 0; i < count; i++) {
+      for (let j = i + 1; j < count; j++) {
+        const dx = xs[j] - xs[i];
+        const dy = ys[j] - ys[i];
+        const d = Math.hypot(dx, dy) || 0.0001;
+        const min = R[i] + R[j] + pad;
+        if (d < min) {
+          const push = (min - d) / 2;
+          const ux = dx / d;
+          const uy = dy / d;
+          xs[i] -= ux * push;
+          ys[i] -= uy * push;
+          xs[j] += ux * push;
+          ys[j] += uy * push;
+        }
       }
     }
+    for (let i = 0; i < count; i++) {
+      xs[i] = Math.min(VW - R[i], Math.max(R[i], xs[i]));
+      ys[i] = Math.min(VH - R[i], Math.max(R[i], ys[i]));
+    }
   }
-  return edges;
+
+  return Array.from({ length: count }, (_, i) => ({
+    xRatio: xs[i] / VW,
+    yRatio: ys[i] / VH,
+    sizeRatio: (2 * R[i]) / VW,
+    opacity: lerp(0.62, 1, rng()),
+  }));
 }
 
 /** 링크 정규화: 빈 값은 null, 스킴 없으면 https:// 접두. */
