@@ -34,14 +34,14 @@ export function ProjectCard({
   children,
 }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
-  // 카드 → 시트 morph가 완전히 끝났는지. true가 되면 body를 페이드인한다.
-  const [expanded, setExpanded] = useState(false);
+  // 흰 배경 표시 여부. open과 별개로, 닫을 때는 카드가 그리드로 돌아온 뒤에 끈다.
+  // 이 값이 true인 동안 선택된 카드를 backdrop 위(z-50)로 올려 가려지지 않게 한다.
+  const [backdropVisible, setBackdropVisible] = useState(false);
   const id = useId();
   const reduceMotion = useReducedMotion();
 
-  // 열 때 expanded를 초기화하고 연다 (morph 완료 후 body 페이드인을 위해)
   const openSheet = () => {
-    setExpanded(false);
+    setBackdropVisible(true);
     setOpen(true);
   };
 
@@ -98,7 +98,12 @@ export function ProjectCard({
         <motion.div
           layoutId={id}
           onClick={openSheet}
-          className="cursor-pointer space-y-4"
+          // 닫는 동안(backdrop이 페이드아웃되는 내내) 이 카드를 backdrop(z-40) 위로
+          // 올려 흰 배경에 가려지지 않게 한다. backdrop exit 완료 시 z-index 원복.
+          className={cn(
+            'cursor-pointer space-y-4',
+            backdropVisible && 'relative z-50'
+          )}
         >
           <motion.div
             layoutId={`${id}-image`}
@@ -136,6 +141,28 @@ export function ProjectCard({
       )}
 
       {/*
+        배경 페이드아웃: 모달과 분리된 독립 레이어(open으로 제어). 닫을 때는 카드 복귀와
+        동시에 천천히(0.5s) 페이드아웃해 배경이 부드럽게 드러난다. 카드는 backdropVisible
+        동안 z-50으로 backdrop 위에 있어, 페이드아웃 내내 가려지지 않는다(깜빡임 없음).
+        exit가 끝나면 onExitComplete로 backdropVisible을 꺼 카드 z-index를 원복한다.
+      */}
+      <AnimatePresence onExitComplete={() => setBackdropVisible(false)}>
+        {open && (
+          <motion.div
+            key="backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              transition: { duration: reduceMotion ? 0 : 0.5 },
+            }}
+            transition={{ duration: reduceMotion ? 0 : 0.25 }}
+            className="fixed inset-0 z-40 bg-background"
+          />
+        )}
+      </AnimatePresence>
+
+      {/*
         열림 상태: 카드 자체가 흰 시트(상세 페이지)로 자라난다. layoutId를 흰 Container에
         직접 부여해 카드 → 시트로 morph하고 그 안에서 내용이 나타난다. 오버레이는 정적
         투명 레이어로 스크롤/바깥클릭 닫기만 담당한다(흰 배경이 중앙에서 펼쳐지지 않음).
@@ -155,7 +182,6 @@ export function ProjectCard({
               aria-modal="true"
               aria-label={title}
               onClick={event => event.stopPropagation()}
-              onLayoutAnimationComplete={() => setExpanded(true)}
               className="min-h-full space-y-8 bg-white pb-10 sm:pb-14"
             >
               {/* 카드와 동일한 비율(aspect-video)을 유지해 morph가 자연스럽게 이어진다 */}
@@ -194,13 +220,11 @@ export function ProjectCard({
                 </p>
               </header>
 
-              {/* body는 카드→시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
+              {/* body는 morph 시작과 함께 페이드인 (재생시간 ≥ morph 시간) */}
               <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={
-                  expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
-                }
-                transition={{ duration: reduceMotion ? 0 : 0.3 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: reduceMotion ? 0 : 0.5 }}
                 className="space-y-8"
               >
                 {children}
