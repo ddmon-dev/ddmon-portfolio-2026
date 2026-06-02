@@ -1,27 +1,31 @@
 import type { Project } from '@/data/all-projects.data';
 
 /**
- * 노드맵 레이아웃 순수 로직.
- * 크고 작은 원을 충돌 완화(relaxation)로 빈틈없이 맞물리게 채우는 "원 패킹".
- * 위치/크기 모두 컨테이너 폭 대비 비율로 내보내 어느 너비에서도 꽉 찬 밀도를 유지한다.
+ * 보로노이 모자이크 레이아웃 순수 로직.
+ * 영역 전체를 프로젝트 수만큼의 셀로 쪼개 빈틈없이(100%) 채운다.
+ * 외부 라이브러리 없이: 시드 점 → Lloyd 완화(균일·유기적) → 반평면 클리핑으로 각 셀 다각형 계산.
  * 결정적 PRNG라 SSR·CSR 마크업이 동일하다(하이드레이션 불일치 방지).
  */
 
-export interface ArchiveNode {
+export const VIEW_W = 1600;
+export const VIEW_H = 500; // 16:5
+
+export interface VoronoiCell {
   name: string;
   /** 정규화된 링크. 없으면 null → 클릭 비활성. */
   href: string | null;
-  /** 중심 x (0~1, 컨테이너 폭 기준) */
-  xRatio: number;
-  /** 중심 y (0~1, 컨테이너 높이 기준) */
-  yRatio: number;
-  /** 지름 (컨테이너 폭 대비 0~1) */
-  sizeRatio: number;
+  /** 셀 다각형 꼭짓점 [x, y] (viewBox 좌표) */
+  points: [number, number][];
+  /** 셀 중심(라벨/근접 판정용, viewBox 좌표) */
+  cx: number;
+  cy: number;
   /** 기본 투명도 0~1 */
   opacity: number;
 }
 
-/** mulberry32 — 32bit 시드 기반 결정적 난수. 동일 시드는 항상 동일 시퀀스. */
+type Pt = [number, number];
+
+/** mulberry32 — 32bit 시드 기반 결정적 난수. */
 function mulberry32(seed: number): () => number {
   let a = seed >>> 0;
   return () => {
@@ -34,65 +38,74 @@ function mulberry32(seed: number): () => number {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
-/** 레이아웃 튜닝 상수 — 육안으로 조절하는 지점. */
 const SEED = 0x9e3779b9;
-const ASPECT = 16 / 5; // 컨테이너 종횡비 (배치 가상공간도 동일)
-const FILL = 0.74; // 원 면적 합 / 영역 면적 — 클수록 빽빽
-const RAW_MIN = 1; // 상대 반지름 최소
-const RAW_MAX = 3.2; // 상대 반지름 최대 (변화 폭)
-const SIZE_SKEW = 1.4; // >1이면 작은 원 다수 + 큰 원 소수
-const PADDING_RATIO = 0.004; // 원 사이 여백 (폭 대비)
-const ITERATIONS = 170; // 충돌 완화 반복 횟수
+const LLOYD = 5; // 셀을 고르게 다듬는 완화 반복 횟수
 
-/**
- * 충돌 완화 기반 원 패킹.
- * - 반지름을 다양하게 뽑고, 면적 합이 영역의 FILL 비율이 되도록 일괄 스케일.
- * - 랜덤 초기 배치 후 겹치는 쌍을 밀어내고 영역 안으로 가두길 반복 → 빈틈없는 덩어리.
- */
-export function generateScatter(count: number): Omit<ArchiveNode, 'name' | 'href'>[] {
-  const rng = mulberry32(SEED);
-  const VW = 1000;
-  const VH = VW / ASPECT;
-
-  const radii = Array.from({ length: count }, () => lerp(RAW_MIN, RAW_MAX, rng() ** SIZE_SKEW));
-  const areaSum = radii.reduce((s, r) => s + Math.PI * r * r, 0);
-  const scale = Math.sqrt((FILL * VW * VH) / areaSum);
-  const R = radii.map((r) => r * scale);
-  const pad = PADDING_RATIO * VW;
-
-  const xs = R.map((r) => lerp(r, VW - r, rng()));
-  const ys = R.map((r) => lerp(r, VH - r, rng()));
-
-  for (let it = 0; it < ITERATIONS; it++) {
-    for (let i = 0; i < count; i++) {
-      for (let j = i + 1; j < count; j++) {
-        const dx = xs[j] - xs[i];
-        const dy = ys[j] - ys[i];
-        const d = Math.hypot(dx, dy) || 0.0001;
-        const min = R[i] + R[j] + pad;
-        if (d < min) {
-          const push = (min - d) / 2;
-          const ux = dx / d;
-          const uy = dy / d;
-          xs[i] -= ux * push;
-          ys[i] -= uy * push;
-          xs[j] += ux * push;
-          ys[j] += uy * push;
-        }
-      }
-    }
-    for (let i = 0; i < count; i++) {
-      xs[i] = Math.min(VW - R[i], Math.max(R[i], xs[i]));
-      ys[i] = Math.min(VH - R[i], Math.max(R[i], ys[i]));
+/** 다각형을 "a에 더 가까운 반평면"으로 자른다(Sutherland–Hodgman). */
+function clipHalfPlane(poly: Pt[], a: Pt, b: Pt): Pt[] {
+  const nx = b[0] - a[0];
+  const ny = b[1] - a[1];
+  const c = (b[0] * b[0] + b[1] * b[1] - a[0] * a[0] - a[1] * a[1]) / 2;
+  const inside = (p: Pt) => p[0] * nx + p[1] * ny <= c;
+  const isect = (p1: Pt, p2: Pt): Pt => {
+    const d0 = p1[0] * nx + p1[1] * ny;
+    const d1 = p2[0] * nx + p2[1] * ny;
+    const t = (c - d0) / (d1 - d0);
+    return [p1[0] + t * (p2[0] - p1[0]), p1[1] + t * (p2[1] - p1[1])];
+  };
+  const out: Pt[] = [];
+  const L = poly.length;
+  for (let k = 0; k < L; k++) {
+    const cur = poly[k];
+    const prev = poly[(k - 1 + L) % L];
+    const ci = inside(cur);
+    const pi = inside(prev);
+    if (ci) {
+      if (!pi) out.push(isect(prev, cur));
+      out.push(cur);
+    } else if (pi) {
+      out.push(isect(prev, cur));
     }
   }
+  return out;
+}
 
-  return Array.from({ length: count }, (_, i) => ({
-    xRatio: xs[i] / VW,
-    yRatio: ys[i] / VH,
-    sizeRatio: (2 * R[i]) / VW,
-    opacity: lerp(0.62, 1, rng()),
-  }));
+/** seed의 보로노이 셀 = 사각형을 다른 모든 seed의 수직이등분선으로 클리핑. */
+function cellOf(rect: Pt[], seed: Pt, seeds: Pt[]): Pt[] {
+  let poly = rect.map((p) => [p[0], p[1]] as Pt);
+  for (const other of seeds) {
+    if (other === seed) continue;
+    poly = clipHalfPlane(poly, seed, other);
+    if (poly.length === 0) break;
+  }
+  return poly;
+}
+
+/** 다각형 무게중심(면적 가중). 면적이 0에 가까우면 꼭짓점 평균으로 폴백. */
+function centroid(poly: Pt[]): Pt {
+  let area = 0;
+  let cx = 0;
+  let cy = 0;
+  const L = poly.length;
+  for (let k = 0; k < L; k++) {
+    const [x0, y0] = poly[k];
+    const [x1, y1] = poly[(k + 1) % L];
+    const cross = x0 * y1 - x1 * y0;
+    area += cross;
+    cx += (x0 + x1) * cross;
+    cy += (y0 + y1) * cross;
+  }
+  area *= 0.5;
+  if (Math.abs(area) < 1e-6) {
+    let sx = 0;
+    let sy = 0;
+    for (const p of poly) {
+      sx += p[0];
+      sy += p[1];
+    }
+    return [sx / L, sy / L];
+  }
+  return [cx / (6 * area), cy / (6 * area)];
 }
 
 /** 링크 정규화: 빈 값은 null, 스킴 없으면 https:// 접두. */
@@ -103,13 +116,40 @@ function normalizeLink(link?: string): string | null {
   return `https://${trimmed}`;
 }
 
-/** 프로젝트 배열들을 합쳐 좌표/크기/링크를 부여한 노드 배열(직렬화 가능)로 변환. */
-export function normalizeProjects(...groups: Project[][]): ArchiveNode[] {
+/** 프로젝트 배열들을 합쳐 보로노이 셀로 변환(직렬화 가능). */
+export function generateVoronoi(...groups: Project[][]): VoronoiCell[] {
   const projects = groups.flat();
-  const scatter = generateScatter(projects.length);
-  return projects.map((project, i) => ({
-    name: project.name,
-    href: normalizeLink(project.link),
-    ...scatter[i],
-  }));
+  const n = projects.length;
+  const rng = mulberry32(SEED);
+  const rect: Pt[] = [
+    [0, 0],
+    [VIEW_W, 0],
+    [VIEW_W, VIEW_H],
+    [0, VIEW_H],
+  ];
+
+  let seeds: Pt[] = Array.from({ length: n }, () => [
+    lerp(8, VIEW_W - 8, rng()),
+    lerp(8, VIEW_H - 8, rng()),
+  ]);
+
+  // Lloyd 완화: 각 seed를 자기 셀 중심으로 이동 → 고르고 유기적인 셀.
+  let cells: Pt[][] = [];
+  for (let iter = 0; iter <= LLOYD; iter++) {
+    cells = seeds.map((s) => cellOf(rect, s, seeds));
+    if (iter < LLOYD) seeds = cells.map((c) => centroid(c));
+  }
+
+  return projects.map((project, i) => {
+    const poly = cells[i];
+    const [cx, cy] = centroid(poly);
+    return {
+      name: project.name,
+      href: normalizeLink(project.link),
+      points: poly,
+      cx,
+      cy,
+      opacity: lerp(0.5, 0.95, rng()),
+    };
+  });
 }
