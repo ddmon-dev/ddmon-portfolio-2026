@@ -28,8 +28,15 @@ export function ProjectSheet({
   gallery: ProjectGallery;
   projects: Project[];
 }) {
-  const { open, activeIndex, expanded, sliding, direction, idBase, reduceMotion } =
-    gallery;
+  const {
+    open,
+    activeIndex,
+    expanded,
+    sliding,
+    direction,
+    idBase,
+    reduceMotion,
+  } = gallery;
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +67,7 @@ export function ProjectSheet({
             animate={{ opacity: 1 }}
             exit={{
               opacity: 0,
-              transition: { duration: reduceMotion ? 0 : 0.5 },
+              transition: { duration: reduceMotion ? 0 : 0.5, delay: 0.25 },
             }}
             transition={{ duration: reduceMotion ? 0 : 0.25 }}
             // 높이는 inset에서 파생하지 않고 dvh로 명시해 뷰포트를 확실히 덮는다.
@@ -96,7 +103,10 @@ export function ProjectSheet({
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: reduceMotion ? 0 : 0.4, ease: 'easeInOut' }}
+                transition={{
+                  duration: reduceMotion ? 0 : 0.4,
+                  ease: 'easeInOut',
+                }}
                 // popLayout이 absolute로 바꿔도 폭이 collapse되지 않도록 전체 폭을 고정한다.
                 className="w-full min-h-dvh"
               >
@@ -206,7 +216,10 @@ function ProjectPanel({
             </div>
             <p className="flex flex-wrap gap-x-1.5">
               {project.skills.map(skill => (
-                <SkillBadge key={skill} layoutId={morphId && `${morphId}-skill-${skill}`}>
+                <SkillBadge
+                  key={skill}
+                  layoutId={morphId && `${morphId}-skill-${skill}`}
+                >
                   {skill}
                 </SkillBadge>
               ))}
