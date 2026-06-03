@@ -1,9 +1,12 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { type MouseEvent, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import {
+  HouseIcon,
+  GithubLogoIcon,
   CaretLeftIcon,
   CaretRightIcon,
   ListIcon,
@@ -11,7 +14,7 @@ import {
   type Icon,
 } from '@phosphor-icons/react';
 import { Container } from '@/shared/ui/container';
-import { cn } from '@/shared/utils/classnames';
+import { Button } from '@/shared/ui/button';
 import { SkillBadge } from './skill-badge';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
@@ -230,10 +233,19 @@ function ProjectPanel({
           <div className="shrink-0 ml-auto flex flex-col gap-y-2">
             <span>2024.08, 1 month</span>
             <span>기여도 : 100%</span>
-            <nav className="mt-auto">
-              <a href="" target="_blank" rel="">
-                사이트 방문하기
-              </a>
+            <nav className="mt-auto flex gap-2">
+              <Button asChild size="sm" shape="pill" variant="outline">
+                <Link href="" target="_blank" rel="">
+                  <HouseIcon />
+                  Visit Site
+                </Link>
+              </Button>
+              <Button asChild size="sm" shape="pill" variant="outline">
+                <Link href="" target="_blank" rel="">
+                  <GithubLogoIcon />
+                  Visit Repo
+                </Link>
+              </Button>
             </nav>
           </div>
         </header>
@@ -257,12 +269,6 @@ function ProjectPanel({
  * 이전/다음은 항상 클릭 가능하며, 양 끝에서는 시트를 닫는다(요구사항).
  * 양 끝임을 hasPrev/hasNext로 시각적으로만 흐리게 표시한다.
  */
-// 네비게이션 버튼이 공유하는 알약형 비주얼. 색/블러/호버를 여기 한 곳에서 관리한다.
-const navButtonClasses = cn(
-  'flex items-center rounded-full',
-  'bg-black/60 text-white backdrop-blur transition-colors hover:bg-black'
-);
-
 function SheetNav({
   gallery,
   hasPrev,
@@ -282,19 +288,16 @@ function SheetNav({
     >
       <Container className="flex justify-end py-4">
         <div className="rounded-full bg-orange-500/10 backdrop-blur flex gap-2 items-center justify-end p-2 pl-3.5 pointer-events-auto">
-          <button
-            type="button"
+          <Button
             aria-label="시트 닫기"
             data-autofocus
             onClick={gallery.close}
-            className={cn(
-              navButtonClasses,
-              'bg-orange-500 hover:bg-orange-400 gap-1.5 py-2 pl-3 pr-4 text-sm'
-            )}
+            size="sm"
+            shape="pill"
           >
             <ListIcon aria-hidden size={18} weight="light" />
             목록으로
-          </button>
+          </Button>
 
           <div className="flex gap-0.5 items-center">
             <ArrowButton
@@ -333,13 +336,14 @@ function ArrowButton({
 }) {
   const Glyph = enabled ? DirectionIcon : XIcon;
   return (
-    <button
-      type="button"
+    <Button
       aria-label={label}
       onClick={onClick}
-      className={cn(navButtonClasses, 'h-11 w-11 justify-center')}
+      shape="pill"
+      size="icon"
+      variant="secondary"
     >
       <Glyph aria-hidden size={20} weight="light" />
-    </button>
+    </Button>
   );
 }
