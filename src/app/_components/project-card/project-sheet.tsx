@@ -3,6 +3,13 @@
 import Image from 'next/image';
 import { type MouseEvent, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  ListIcon,
+  XIcon,
+  type Icon,
+} from '@phosphor-icons/react';
 import { Container } from '@/shared/ui/container';
 import { cn } from '@/shared/utils/classnames';
 import { SkillBadge } from './skill-badge';
@@ -285,22 +292,20 @@ function SheetNav({
               'bg-orange-500 hover:bg-orange-400 gap-1.5 py-2 pl-3 pr-4 text-sm'
             )}
           >
-            <span aria-hidden className="text-base leading-none">
-              ←
-            </span>
+            <ListIcon aria-hidden size={18} weight="light" />
             목록으로
           </button>
 
           <div className="flex gap-0.5 items-center">
             <ArrowButton
               label="이전 프로젝트"
-              glyph="←"
+              icon={CaretLeftIcon}
               enabled={hasPrev}
               onClick={() => gallery.navigate(-1)}
             />
             <ArrowButton
               label="다음 프로젝트"
-              glyph="→"
+              icon={CaretRightIcon}
               enabled={hasNext}
               onClick={() => gallery.navigate(1)}
             />
@@ -312,30 +317,29 @@ function SheetNav({
 }
 
 /**
- * 이전/다음 화살표 버튼. 양 끝(enabled=false)에서는 글리프 대신 x를 보여 더 진행할 곳이
- * 없음을 알리고, 클릭하면 시트를 닫는다(닫기 동작은 navigate가 처리).
+ * 이전/다음 화살표 버튼. 양 끝(enabled=false)에서는 방향 아이콘 대신 X를 보여 더 진행할
+ * 곳이 없음을 알리고, 클릭하면 시트를 닫는다(닫기 동작은 navigate가 처리).
  */
 function ArrowButton({
   label,
-  glyph,
+  icon: DirectionIcon,
   enabled,
   onClick,
 }: {
   label: string;
-  glyph: string;
+  icon: Icon;
   enabled: boolean;
   onClick: () => void;
 }) {
+  const Glyph = enabled ? DirectionIcon : XIcon;
   return (
     <button
       type="button"
       aria-label={label}
       onClick={onClick}
-      className={cn(navButtonClasses, 'h-11 w-11 justify-center text-lg')}
+      className={cn(navButtonClasses, 'h-11 w-11 justify-center')}
     >
-      <span aria-hidden className="leading-none">
-        {enabled ? glyph : 'x'}
-      </span>
+      <Glyph aria-hidden size={20} weight="light" />
     </button>
   );
 }
