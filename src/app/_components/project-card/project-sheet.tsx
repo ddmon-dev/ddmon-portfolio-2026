@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Container } from '@/shared/ui/container';
 import { cn } from '@/shared/utils/classnames';
 import { SkillBadge } from './skill-badge';
+import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { type ProjectGallery } from './use-project-gallery';
 
@@ -31,6 +32,10 @@ export function ProjectSheet({
   const { open, activeIndex, expanded, sliding, direction, idBase } = gallery;
 
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 시트가 열린 동안 Tab 포커스를 시트 안(오버레이 + 네비게이션)에 가둔다.
+  const trapRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(open, trapRef);
 
   // 프로젝트 전환 시 시트 스크롤을 맨 위로 초기화한다.
   useEffect(() => {
@@ -67,65 +72,74 @@ export function ProjectSheet({
         )}
       </AnimatePresence>
 
-      {/* 스크롤/바깥클릭 닫기를 담당하는 정적 오버레이 */}
-      {open && (
-        <div
-          ref={scrollRef}
-          onClick={gallery.close}
-          className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto"
-        >
-          {sliding ? (
-            /*
-              슬라이드 모드: layoutId 없는 캐러셀. popLayout으로 빠져나가는 패널을 흐름
-              밖(absolute)으로 빼 좌우로 겹쳐 슬라이드한다. initial={false}로 캐러셀이
-              처음 mount될 때(현재 패널)는 슬라이드 없이 제자리에 나타나고, 이후 추가되는
-              패널만 좌우로 슬라이드한다.
-            */
-            <AnimatePresence
-              initial={false}
-              custom={direction}
-              mode="popLayout"
-              onExitComplete={gallery.onSlideSettled}
-            >
-              <motion.div
-                key={activeIndex}
+      {/*
+        포커스 트랩 컨테이너. 오버레이(패널)와 네비게이션을 한 부모로 묶어 Tab 포커스를
+        이 안에 가둔다. 네비 페이드아웃을 살리려 항상 마운트하고, 내부는 open일 때만 렌더.
+      */}
+      <div ref={trapRef}>
+        {/* 스크롤/바깥클릭 닫기를 담당하는 정적 오버레이 */}
+        {open && (
+          <div
+            ref={scrollRef}
+            onClick={gallery.close}
+            className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto"
+          >
+            {sliding ? (
+              /*
+                슬라이드 모드: layoutId 없는 캐러셀. popLayout으로 빠져나가는 패널을 흐름
+                밖(absolute)으로 빼 좌우로 겹쳐 슬라이드한다. initial={false}로 캐러셀이
+                처음 mount될 때(현재 패널)는 슬라이드 없이 제자리에 나타나고, 이후 추가되는
+                패널만 좌우로 슬라이드한다.
+              */
+              <AnimatePresence
+                initial={false}
                 custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.4, ease: 'easeInOut' }}
-                // popLayout이 absolute로 바꿔도 폭이 collapse되지 않도록 전체 폭을 고정한다.
-                className="w-full min-h-dvh"
+                mode="popLayout"
+                onExitComplete={gallery.onSlideSettled}
               >
-                <ProjectPanel project={projects[activeIndex]} expanded={expanded} />
-              </motion.div>
-            </AnimatePresence>
-          ) : (
-            /*
-              정착 모드: layoutId를 가진 단일 패널. mount 시 카드에서 morph해 자라나고,
-              unmount 시 현재 활성 카드로 morph해 돌아간다.
-            */
-            <ProjectPanel
-              project={projects[activeIndex]}
-              morphId={`${idBase}-${activeIndex}`}
-              expanded={expanded}
-              onMorphComplete={gallery.onMorphComplete}
+                <motion.div
+                  key={activeIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  // popLayout이 absolute로 바꿔도 폭이 collapse되지 않도록 전체 폭을 고정한다.
+                  className="w-full min-h-dvh"
+                >
+                  <ProjectPanel
+                    project={projects[activeIndex]}
+                    expanded={expanded}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              /*
+                정착 모드: layoutId를 가진 단일 패널. mount 시 카드에서 morph해 자라나고,
+                unmount 시 현재 활성 카드로 morph해 돌아간다.
+              */
+              <ProjectPanel
+                project={projects[activeIndex]}
+                morphId={`${idBase}-${activeIndex}`}
+                expanded={expanded}
+                onMorphComplete={gallery.onMorphComplete}
+              />
+            )}
+          </div>
+        )}
+
+        <AnimatePresence>
+          {open && (
+            <SheetNav
+              key="nav"
+              gallery={gallery}
+              hasPrev={activeIndex > 0}
+              hasNext={activeIndex < projects.length - 1}
             />
           )}
-        </div>
-      )}
-
-      <AnimatePresence>
-        {open && (
-          <SheetNav
-            key="nav"
-            gallery={gallery}
-            hasPrev={activeIndex > 0}
-            hasNext={activeIndex < projects.length - 1}
-          />
-        )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </>
   );
 }
@@ -254,6 +268,8 @@ function SheetNav({
     <>
       <motion.button
         type="button"
+        aria-label="시트 닫기"
+        data-autofocus
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}

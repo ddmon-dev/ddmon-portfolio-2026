@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 /**
  * 프로젝트 갤러리(그리드 + 단일 상세 시트)의 상태·타이밍을 한곳에 캡슐화한다.
@@ -34,7 +34,24 @@ export function useProjectGallery(count: number) {
     setOpen(true);
   };
 
-  const close = () => setOpen(false);
+  const close = () => {
+    if (sliding) {
+      // 슬라이드 도중 닫기: 정착 패널(layoutId 보유)을 한 프레임 띄운 뒤 닫아야
+      // 닫힘 morph가 산다. (슬라이드 캐러셀은 layoutId가 없어 그냥 사라지기 때문)
+      setSliding(false);
+      setPending(null);
+      requestAnimationFrame(() => setOpen(false));
+    } else {
+      setOpen(false);
+    }
+  };
+
+  // ESC 콜백이 항상 최신 close(최신 sliding 클로저)를 부르도록 ref에 담아 둔다.
+  // 렌더 중 ref 쓰기는 금지라(react-hooks/refs) effect에서 갱신한다.
+  const closeRef = useRef(close);
+  useEffect(() => {
+    closeRef.current = close;
+  });
 
   /**
    * 이전/다음 탐색. 범위를 벗어나면(양 끝) 시트를 닫는다.
@@ -71,7 +88,7 @@ export function useProjectGallery(count: number) {
     document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') closeRef.current();
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -96,8 +113,11 @@ export function useProjectGallery(count: number) {
     onBackdropExitComplete: () => setBackdropVisible(false),
     /** 최초 열기 morph가 끝나면 본문 페이드인을 트리거한다. */
     onMorphComplete: () => setExpanded(true),
-    /** 슬라이드(빠져나가는 슬라이드의 exit)가 끝나면 morph를 다시 켠다. */
-    onSlideSettled: () => setSliding(false),
+    /** 슬라이드(빠져나가는 슬라이드의 exit)가 끝나면 morph를 다시 켜고 방향을 리셋한다. */
+    onSlideSettled: () => {
+      setSliding(false);
+      setDirection(0);
+    },
   };
 }
 

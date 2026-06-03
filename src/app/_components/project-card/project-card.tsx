@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { type KeyboardEvent, type Ref } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { SkillBadge } from './skill-badge';
@@ -22,6 +23,7 @@ export function ProjectCard({
   onClick,
   className,
   'aria-hidden': ariaHidden,
+  ref,
 }: {
   project: Project;
   sharedId?: string;
@@ -29,13 +31,29 @@ export function ProjectCard({
   className?: string;
   /** placeholder로 쓸 때 보조기술에서 숨긴다. */
   'aria-hidden'?: boolean;
+  /** 닫힘 후 포커스 복귀 대상으로 쓰도록 갤러리가 활성 카드에 넘긴다. */
+  ref?: Ref<HTMLDivElement>;
 }) {
   const { title, category, image, skills } = project;
 
   return (
     <motion.div
+      ref={ref}
       layoutId={sharedId}
       onClick={onClick}
+      // 클릭 가능할 때만 키보드로도 열 수 있게 버튼 역할을 부여한다.
+      onKeyDown={
+        onClick
+          ? (event: KeyboardEvent) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       aria-hidden={ariaHidden}
       className={cn('space-y-4', onClick && 'cursor-pointer', className)}
     >

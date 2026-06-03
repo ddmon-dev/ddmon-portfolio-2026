@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { Container } from '@/shared/ui/container';
 import { cn } from '@/shared/utils/classnames';
 import { ProjectCard } from './project-card';
@@ -29,6 +30,17 @@ export function ProjectGallery({
   const gallery = useProjectGallery(projects.length);
   const { open, activeIndex, backdropVisible, idBase } = gallery;
 
+  // 닫힐 때 트리거(현재 활성 카드)로 포커스를 되돌린다. 카드는 placeholder 전환으로
+  // remount되므로 저장된 참조가 아니라 remount된 활성 카드 노드를 직접 잡아 focus한다.
+  const activeCardRef = useRef<HTMLDivElement>(null);
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (wasOpen.current && !open) {
+      activeCardRef.current?.focus({ preventScroll: true });
+    }
+    wasOpen.current = open;
+  }, [open]);
+
   return (
     <Container as="section" className="space-y-8">
       <h2 className="text-4xl font-bold">{title}</h2>
@@ -41,6 +53,7 @@ export function ProjectGallery({
             <li key={project.title}>
               <ProjectCard
                 key={isPlaceholder ? 'placeholder' : 'card'}
+                ref={isActive ? activeCardRef : undefined}
                 project={project}
                 sharedId={isPlaceholder ? undefined : `${idBase}-${index}`}
                 onClick={isPlaceholder ? undefined : () => gallery.openAt(index)}
