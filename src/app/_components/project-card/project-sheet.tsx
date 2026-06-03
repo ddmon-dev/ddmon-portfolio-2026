@@ -250,6 +250,12 @@ function ProjectPanel({
  * 이전/다음은 항상 클릭 가능하며, 양 끝에서는 시트를 닫는다(요구사항).
  * 양 끝임을 hasPrev/hasNext로 시각적으로만 흐리게 표시한다.
  */
+// 네비게이션 버튼이 공유하는 알약형 비주얼. 색/블러/호버를 여기 한 곳에서 관리한다.
+const navButtonClasses = cn(
+  'flex items-center rounded-full',
+  'bg-black/60 text-white backdrop-blur transition-colors hover:bg-black'
+);
+
 function SheetNav({
   gallery,
   hasPrev,
@@ -259,63 +265,77 @@ function SheetNav({
   hasPrev: boolean;
   hasNext: boolean;
 }) {
-  const arrowBase = cn(
-    'fixed top-1/2 z-60 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full',
-    'bg-black/60 text-lg text-white backdrop-blur transition-colors hover:bg-black'
-  );
-
   return (
-    <>
-      <motion.button
-        type="button"
-        aria-label="시트 닫기"
-        data-autofocus
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={gallery.close}
-        className={cn(
-          'fixed left-4 top-4 z-60 flex items-center gap-1.5 rounded-full py-2 pl-3 pr-4',
-          'bg-black/60 text-sm text-white backdrop-blur transition-colors hover:bg-black',
-          'sm:left-6 sm:top-6'
-        )}
-      >
-        <span aria-hidden className="text-base leading-none">
-          ←
-        </span>
-        뒤로
-      </motion.button>
+    <motion.nav
+      initial={{ opacity: 0, y: '100%' }}
+      animate={{ opacity: 1, y: '0%' }}
+      exit={{ opacity: 0, y: '100%', transition: { duration: 0.2, delay: 0 } }}
+      transition={{ duration: 0.2, delay: 0.25 }}
+      className="fixed bottom-0 inset-x-0 z-70 flex gap-2 items-center pointer-events-none"
+    >
+      <Container className="flex justify-end py-4">
+        <div className="rounded-full bg-orange-500/10 backdrop-blur flex gap-2 items-center justify-end p-2 pl-3.5 pointer-events-auto">
+          <button
+            type="button"
+            aria-label="시트 닫기"
+            data-autofocus
+            onClick={gallery.close}
+            className={cn(
+              navButtonClasses,
+              'bg-orange-500 hover:bg-orange-400 gap-1.5 py-2 pl-3 pr-4 text-sm'
+            )}
+          >
+            <span aria-hidden className="text-base leading-none">
+              ←
+            </span>
+            목록으로
+          </button>
 
-      <motion.button
-        type="button"
-        aria-label="이전 프로젝트"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hasPrev ? 1 : 0.4 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={() => gallery.navigate(-1)}
-        className={cn(arrowBase, 'left-4 sm:left-6')}
-      >
-        <span aria-hidden className="leading-none">
-          ←
-        </span>
-      </motion.button>
+          <div className="flex gap-0.5 items-center">
+            <ArrowButton
+              label="이전 프로젝트"
+              glyph="←"
+              enabled={hasPrev}
+              onClick={() => gallery.navigate(-1)}
+            />
+            <ArrowButton
+              label="다음 프로젝트"
+              glyph="→"
+              enabled={hasNext}
+              onClick={() => gallery.navigate(1)}
+            />
+          </div>
+        </div>
+      </Container>
+    </motion.nav>
+  );
+}
 
-      <motion.button
-        type="button"
-        aria-label="다음 프로젝트"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hasNext ? 1 : 0.4 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={() => gallery.navigate(1)}
-        className={cn(arrowBase, 'right-4 sm:right-6')}
-      >
-        <span aria-hidden className="leading-none">
-          →
-        </span>
-      </motion.button>
-    </>
+/**
+ * 이전/다음 화살표 버튼. 양 끝(enabled=false)에서는 글리프 대신 x를 보여 더 진행할 곳이
+ * 없음을 알리고, 클릭하면 시트를 닫는다(닫기 동작은 navigate가 처리).
+ */
+function ArrowButton({
+  label,
+  glyph,
+  enabled,
+  onClick,
+}: {
+  label: string;
+  glyph: string;
+  enabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className={cn(navButtonClasses, 'h-11 w-11 justify-center text-lg')}
+    >
+      <span aria-hidden className="leading-none">
+        {enabled ? glyph : 'x'}
+      </span>
+    </button>
   );
 }
