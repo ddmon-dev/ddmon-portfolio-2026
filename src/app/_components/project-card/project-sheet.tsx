@@ -28,15 +28,7 @@ export function ProjectSheet({
   gallery: ProjectGallery;
   projects: Project[];
 }) {
-  const {
-    open,
-    activeIndex,
-    expanded,
-    sliding,
-    direction,
-    idBase,
-    reduceMotion,
-  } = gallery;
+  const { open, activeIndex, expanded, sliding, direction, idBase } = gallery;
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -46,11 +38,10 @@ export function ProjectSheet({
   }, [activeIndex]);
 
   // 좌우 슬라이드는 순수 x 이동만 한다.
-  const distance = reduceMotion ? 0 : 100;
   const slideVariants = {
-    enter: (dir: number) => ({ x: `${dir * distance}%` }),
+    enter: (dir: number) => ({ x: `${dir * 100}%` }),
     center: { x: 0 },
-    exit: (dir: number) => ({ x: `${-dir * distance}%` }),
+    exit: (dir: number) => ({ x: `${-dir * 100}%` }),
   };
 
   return (
@@ -67,9 +58,9 @@ export function ProjectSheet({
             animate={{ opacity: 1 }}
             exit={{
               opacity: 0,
-              transition: { duration: reduceMotion ? 0 : 0.5, delay: 0.25 },
+              transition: { duration: 0.5, delay: 0.25 },
             }}
-            transition={{ duration: reduceMotion ? 0 : 0.25 }}
+            transition={{ duration: 0.25 }}
             // 높이는 inset에서 파생하지 않고 dvh로 명시해 뷰포트를 확실히 덮는다.
             className="fixed inset-x-0 top-0 z-40 h-dvh bg-background"
           />
@@ -103,18 +94,11 @@ export function ProjectSheet({
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{
-                  duration: reduceMotion ? 0 : 0.4,
-                  ease: 'easeInOut',
-                }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
                 // popLayout이 absolute로 바꿔도 폭이 collapse되지 않도록 전체 폭을 고정한다.
                 className="w-full min-h-dvh"
               >
-                <ProjectPanel
-                  project={projects[activeIndex]}
-                  expanded={expanded}
-                  reduceMotion={!!reduceMotion}
-                />
+                <ProjectPanel project={projects[activeIndex]} expanded={expanded} />
               </motion.div>
             </AnimatePresence>
           ) : (
@@ -126,7 +110,6 @@ export function ProjectSheet({
               project={projects[activeIndex]}
               morphId={`${idBase}-${activeIndex}`}
               expanded={expanded}
-              reduceMotion={!!reduceMotion}
               onMorphComplete={gallery.onMorphComplete}
             />
           )}
@@ -155,13 +138,11 @@ function ProjectPanel({
   project,
   morphId,
   expanded,
-  reduceMotion,
   onMorphComplete,
 }: {
   project: Project;
   morphId?: string;
   expanded: boolean;
-  reduceMotion: boolean;
   onMorphComplete?: () => void;
 }) {
   return (
@@ -240,7 +221,7 @@ function ProjectPanel({
         <motion.div
           initial={false}
           animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-          transition={{ duration: reduceMotion ? 0 : 0.35 }}
+          transition={{ duration: 0.35 }}
           className="space-y-8 px-4"
         >
           {project.content}
@@ -264,7 +245,6 @@ function SheetNav({
   hasPrev: boolean;
   hasNext: boolean;
 }) {
-  const { reduceMotion } = gallery;
   const arrowBase = cn(
     'fixed top-1/2 z-60 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full',
     'bg-black/60 text-lg text-white backdrop-blur transition-colors hover:bg-black'
@@ -277,7 +257,7 @@ function SheetNav({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
         onClick={gallery.close}
         className={cn(
           'fixed left-4 top-4 z-60 flex items-center gap-1.5 rounded-full py-2 pl-3 pr-4',
@@ -297,7 +277,7 @@ function SheetNav({
         initial={{ opacity: 0 }}
         animate={{ opacity: hasPrev ? 1 : 0.4 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
         onClick={() => gallery.navigate(-1)}
         className={cn(arrowBase, 'left-4 sm:left-6')}
       >
@@ -312,7 +292,7 @@ function SheetNav({
         initial={{ opacity: 0 }}
         animate={{ opacity: hasNext ? 1 : 0.4 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.2 }}
+        transition={{ duration: 0.2 }}
         onClick={() => gallery.navigate(1)}
         className={cn(arrowBase, 'right-4 sm:right-6')}
       >

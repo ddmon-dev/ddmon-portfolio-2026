@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useId, useState } from 'react';
-import { useReducedMotion } from 'motion/react';
 
 /**
  * 프로젝트 갤러리(그리드 + 단일 상세 시트)의 상태·타이밍을 한곳에 캡슐화한다.
@@ -25,7 +24,6 @@ export function useProjectGallery(count: number) {
   const [sliding, setSliding] = useState(false);
   const [direction, setDirection] = useState(0);
   const idBase = useId();
-  const reduceMotion = useReducedMotion();
 
   const openAt = (index: number) => {
     setActiveIndex(index);
@@ -91,7 +89,6 @@ export function useProjectGallery(count: number) {
     sliding,
     direction,
     idBase,
-    reduceMotion,
     openAt,
     close,
     navigate,
