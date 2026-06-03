@@ -80,7 +80,15 @@ export function ProjectSheet({
               {/* 카드와 동일한 비율(aspect-video)을 유지해 morph가 자연스럽게 이어진다 */}
               <motion.div
                 layoutId={`${id}-image`}
-                className="overflow-hidden rounded-b-md"
+                // 카드와 동일하게 radius를 style로 줘 morph 중 모서리가 tween되게 한다.
+                // 상단은 평평하게, 하단만 크게.
+                style={{
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  borderBottomLeftRadius: 32,
+                  borderBottomRightRadius: 32,
+                }}
+                className="overflow-hidden"
               >
                 <Image
                   src={image.src}
@@ -91,37 +99,57 @@ export function ProjectSheet({
                 />
               </motion.div>
 
-              <header className="space-y-3 border-b border-black/10 pb-6">
-                <motion.h3
-                  layoutId={`${id}-title`}
-                  className="w-fit text-3xl font-bold sm:text-4xl"
-                >
-                  {title}
-                </motion.h3>
-                <motion.p
-                  layoutId={`${id}-category`}
-                  className="w-fit text-black/60"
-                >
-                  {category}
-                </motion.p>
-                <p className="flex flex-wrap gap-1.5 pt-1">
-                  {skills.map(skill => (
-                    <SkillBadge key={skill} layoutId={`${id}-skill-${skill}`}>
-                      {skill}
-                    </SkillBadge>
-                  ))}
-                </p>
-              </header>
+              <div className="space-y-8 divide-y divide-black/10">
+                <header className="pb-6 px-4 flex gap-4">
+                  <div className="space-y-6">
+                    <div className="space-y-1 px-1">
+                      <motion.h3
+                        layoutId={`${id}-title`}
+                        className="w-fit font-bold text-4xl leading-[1.3]"
+                      >
+                        {title}
+                      </motion.h3>
+                      <motion.p
+                        layoutId={`${id}-category`}
+                        className="w-fit text-black/60 text-lg pl-0.5"
+                      >
+                        {category}
+                      </motion.p>
+                    </div>
+                    <p className="flex flex-wrap gap-x-1.5">
+                      {skills.map(skill => (
+                        <SkillBadge
+                          key={skill}
+                          layoutId={`${id}-skill-${skill}`}
+                        >
+                          {skill}
+                        </SkillBadge>
+                      ))}
+                    </p>
+                  </div>
+                  <div className="shrink-0 ml-auto flex flex-col gap-y-2">
+                    <span>2024.08, 1 month</span>
+                    <span>기여도 : 100%</span>
+                    <nav className="mt-auto">
+                      <a href="" target="_blank" rel="">
+                        사이트 방문하기
+                      </a>
+                    </nav>
+                  </div>
+                </header>
 
-              {/* body는 카드 → 시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-                transition={{ duration: reduceMotion ? 0 : 0.35 }}
-                className="space-y-8"
-              >
-                {children}
-              </motion.div>
+                {/* body는 카드 → 시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={
+                    expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }
+                  }
+                  transition={{ duration: reduceMotion ? 0 : 0.35 }}
+                  className="space-y-8 px-4"
+                >
+                  {children}
+                </motion.div>
+              </div>
             </Container>
           </div>
         )}

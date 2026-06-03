@@ -111,7 +111,14 @@ function CardFace({
     >
       <motion.div
         layoutId={sharedId && `${sharedId}-image`}
-        className="overflow-hidden rounded-md"
+        // radius는 클래스가 아니라 style로 줘야 motion이 morph 중 보정·tween한다.
+        style={{
+          borderTopLeftRadius: 6,
+          borderTopRightRadius: 6,
+          borderBottomLeftRadius: 6,
+          borderBottomRightRadius: 6,
+        }}
+        className="overflow-hidden"
       >
         <Image
           src={image.src}
@@ -125,13 +132,13 @@ function CardFace({
         <div className="space-y-1 px-2">
           <motion.h3
             layoutId={sharedId && `${sharedId}-title`}
-            className="w-fit text-lg/5 font-bold"
+            className="w-fit text-lg leading-[1.3] font-bold"
           >
             {title}
           </motion.h3>
           <motion.p
             layoutId={sharedId && `${sharedId}-category`}
-            className="w-fit"
+            className="w-fit text-sm"
           >
             {category}
           </motion.p>
@@ -141,6 +148,7 @@ function CardFace({
             <SkillBadge
               key={skill}
               layoutId={sharedId && `${sharedId}-skill-${skill}`}
+              className="text-xs"
             >
               {skill}
             </SkillBadge>
