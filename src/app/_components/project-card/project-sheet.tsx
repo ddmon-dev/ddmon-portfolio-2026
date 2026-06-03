@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Container } from '@/shared/ui/container';
 import { cn } from '@/shared/utils/classnames';
 import { SkillBadge } from './skill-badge';
-import { type ProjectImage } from './card-face';
+import { type ProjectImage } from './project-card';
 import { type CardSheet } from './use-card-sheet';
 
 /**

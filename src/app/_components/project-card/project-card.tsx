@@ -1,10 +1,19 @@
 'use client';
 
+import Image from 'next/image';
 import { type ReactNode } from 'react';
+import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
-import { CardFace, type ProjectImage } from './card-face';
+import { SkillBadge } from './skill-badge';
 import { ProjectSheet } from './project-sheet';
 import { useCardSheet } from './use-card-sheet';
+
+export type ProjectImage = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+};
 
 type ProjectCardProps = {
   title: string;
@@ -37,28 +46,107 @@ export function ProjectCard({
   return (
     <>
       {/*
-        닫힘: 공유 id를 가진 실제 카드. 열리면 이 카드를 언마운트하고, 같은 마크업의
-        invisible 사본(id 없음)만 남겨 그리드 자리를 유지한다 — 같은 layoutId가 동시에
-        둘 존재하지 않아야 시트가 카드 위치에서 정확히 morph한다(shared element 정석).
+        하나의 CardFace가 open에 따라 두 정체성 사이를 오간다.
+        - 닫힘: 공유 id를 가진 실제 카드(클릭 가능)
+        - 열림: id 없는 invisible placeholder. 시트가 카드 위치에서 정확히 morph하려면
+          같은 layoutId가 동시에 둘 존재하면 안 되므로, 열릴 때 카드를 언마운트해야 한다.
+
+        key를 'card' ↔ 'placeholder'로 바꿔 React가 인스턴스를 remount하도록 강제한다.
+        이 remount가 morph의 unmount/mount 트리거이며, key가 그 의도를 명시한다.
+        (닫는 동안 backdrop 페이드아웃 내내 카드를 backdrop(z-40) 위로 올려 흰 배경에
+        가려지지 않게 한다. backdrop exit 완료 시 z-index 원복.)
       */}
-      {sheet.open ? (
-        <div aria-hidden className="invisible">
-          <CardFace {...face} />
-        </div>
-      ) : (
-        <CardFace
-          sharedId={sheet.id}
-          onClick={sheet.openSheet}
-          // 닫는 동안(backdrop 페이드아웃 내내) 이 카드를 backdrop(z-40) 위로 올려
-          // 흰 배경에 가려지지 않게 한다. backdrop exit 완료 시 z-index 원복.
-          className={cn(sheet.backdropVisible && 'relative z-50')}
-          {...face}
-        />
-      )}
+      <CardFace
+        key={sheet.open ? 'placeholder' : 'card'}
+        {...face}
+        sharedId={sheet.open ? undefined : sheet.id}
+        onClick={sheet.open ? undefined : sheet.openSheet}
+        aria-hidden={sheet.open || undefined}
+        className={cn(
+          sheet.open ? 'invisible' : sheet.backdropVisible && 'relative z-50'
+        )}
+      />
 
       <ProjectSheet sheet={sheet} {...face}>
         {children}
       </ProjectSheet>
     </>
+  );
+}
+
+/**
+ * 카드의 표면(이미지 + 제목 + 카테고리 + 스킬). 닫힘일 땐 실제 카드, 열림일 땐 자리 유지용
+ * invisible placeholder로 쓰인다 — ProjectCard가 key를 바꿔 둘 사이를 remount로 전환한다.
+ *
+ * sharedId가 주어지면 각 요소에 layoutId를 부여해 카드 ↔ 상세 시트 간 morph에 참여한다.
+ * sharedId가 없으면(placeholder) layoutId 없이 렌더되어 공유 레이아웃에 끼어들지 않고,
+ * 동일 마크업이므로 실제 카드와 정확히 같은 크기를 차지한다.
+ */
+function CardFace({
+  sharedId,
+  title,
+  category,
+  image,
+  skills,
+  onClick,
+  className,
+  'aria-hidden': ariaHidden,
+}: {
+  sharedId?: string;
+  title: string;
+  category: string;
+  image: ProjectImage;
+  skills: string[];
+  onClick?: () => void;
+  className?: string;
+  /** placeholder로 쓸 때 보조기술에서 숨긴다. */
+  'aria-hidden'?: boolean;
+}) {
+  return (
+    <motion.div
+      layoutId={sharedId}
+      onClick={onClick}
+      aria-hidden={ariaHidden}
+      className={cn('space-y-4', onClick && 'cursor-pointer', className)}
+    >
+      <motion.div
+        layoutId={sharedId && `${sharedId}-image`}
+        className="overflow-hidden rounded-md"
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          className="aspect-video w-full bg-black/30 object-cover"
+        />
+      </motion.div>
+      <div className="space-y-3">
+        <div className="space-y-1 px-2">
+          <motion.h3
+            layoutId={sharedId && `${sharedId}-title`}
+            className="w-fit text-lg/5 font-bold"
+          >
+            {title}
+          </motion.h3>
+          <motion.p
+            layoutId={sharedId && `${sharedId}-category`}
+            className="w-fit"
+          >
+            {category}
+          </motion.p>
+        </div>
+        <p className="flex flex-wrap gap-x-1">
+          {skills.map(skill => (
+            <SkillBadge
+              key={skill}
+              layoutId={sharedId && `${sharedId}-skill-${skill}`}
+            >
+              {skill}
+            </SkillBadge>
+          ))}
+        </p>
+      </div>
+    </motion.div>
   );
 }
