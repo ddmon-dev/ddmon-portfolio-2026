@@ -155,10 +155,6 @@ export function ProjectSheet({
   );
 }
 
-/**
- * 프로젝트 상세 패널(이미지 + 헤더 + 본문). 정착 모드에선 morphId가 주어져 layoutId로
- * 카드 ↔ 시트 morph에 참여하고, 슬라이드 모드에선 morphId 없이 좌우로 슬라이드만 한다.
- */
 function ProjectPanel({
   project,
   morphId,
@@ -181,11 +177,8 @@ function ProjectPanel({
       onLayoutAnimationComplete={onMorphComplete}
       className="min-h-dvh space-y-8 pb-10 sm:pb-14"
     >
-      {/* 카드와 동일한 비율(aspect-video)을 유지해 morph가 자연스럽게 이어진다 */}
       <motion.div
         layoutId={morphId && `${morphId}-image`}
-        // 카드와 동일하게 radius를 style로 줘 morph 중 모서리가 tween되게 한다.
-        // 상단은 평평하게, 하단만 크게.
         style={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
@@ -215,15 +208,11 @@ function ProjectPanel({
               </motion.h3>
               <motion.p
                 layoutId={morphId && `${morphId}-category`}
-                className="w-fit text-black/60 text-lg pl-0.5"
+                className="w-fit text-black/60 text-xl leading-normal translate-x-0.5"
               >
                 {project.category}
               </motion.p>
             </div>
-            {/*
-              헤더 뱃지는 카드와 동일한 SkillBadgeRow(로고-only + 같은 truncate)를 같은 layoutId로
-              렌더한다 → morph가 모양 변화 없이 위치/크기만 이어진다. 전체 스킬은 아래 본문에 둔다.
-            */}
             <SkillBadgeRow
               skills={project.skills}
               layoutId={morphId && `${morphId}-skills`}
@@ -249,14 +238,12 @@ function ProjectPanel({
           </div>
         </header>
 
-        {/* body는 카드 → 시트 morph가 완전히 끝난 뒤(expanded) 페이드인 */}
         <motion.div
           initial={false}
           animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
           transition={{ duration: 0.35 }}
           className="space-y-8 px-4"
         >
-          {/* 헤더는 로고만 truncate해 보여주므로, 본문에서 전체 스택을 로고+텍스트로 노출한다. */}
           <DetailSection title="Tech Stack">
             <ul className="flex flex-wrap gap-2">
               {project.skills.map(skill => (
@@ -273,11 +260,6 @@ function ProjectPanel({
   );
 }
 
-/**
- * 뒤로/이전/다음 버튼. 페이지 morph와 무관하게 뷰포트에 고정된다.
- * 이전/다음은 항상 클릭 가능하며, 양 끝에서는 시트를 닫는다(요구사항).
- * 양 끝임을 hasPrev/hasNext로 시각적으로만 흐리게 표시한다.
- */
 function SheetNav({
   gallery,
   hasPrev,
@@ -328,10 +310,6 @@ function SheetNav({
   );
 }
 
-/**
- * 이전/다음 화살표 버튼. 양 끝(enabled=false)에서는 방향 아이콘 대신 X를 보여 더 진행할
- * 곳이 없음을 알리고, 클릭하면 시트를 닫는다(닫기 동작은 navigate가 처리).
- */
 function ArrowButton({
   label,
   icon: DirectionIcon,

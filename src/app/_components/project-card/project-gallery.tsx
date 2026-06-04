@@ -44,7 +44,7 @@ export function ProjectGallery({
   return (
     <Container as="section" className="space-y-8">
       <h2 className="text-4xl font-bold">{title}</h2>
-      <ul className="grid grid-cols-3 gap-x-4 gap-y-8">
+      <ul className="grid grid-cols-3 gap-x-4 gap-y-8 max-sm:grid-cols-1">
         {projects.map((project, index) => {
           const isActive = activeIndex === index;
           const isPlaceholder = open && isActive;
@@ -56,7 +56,9 @@ export function ProjectGallery({
                 ref={isActive ? activeCardRef : undefined}
                 project={project}
                 sharedId={isPlaceholder ? undefined : `${idBase}-${index}`}
-                onClick={isPlaceholder ? undefined : () => gallery.openAt(index)}
+                onClick={
+                  isPlaceholder ? undefined : () => gallery.openAt(index)
+                }
                 aria-hidden={isPlaceholder || undefined}
                 className={cn(
                   isPlaceholder
