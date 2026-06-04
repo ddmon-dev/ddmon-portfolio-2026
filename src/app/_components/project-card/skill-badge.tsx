@@ -1,71 +1,66 @@
-'use client';
-
-import { motion } from 'motion/react';
 import { TechLogo, resolveTechId } from '@/shared/ui/tech-logo';
 import { cn } from '@/shared/utils/classnames';
 
-/** 헤더(카드·시트)에 로고로 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
+/** 헤더(카드)에 로고로 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
 export const MAX_HEADER_SKILLS = 5;
 
-export function SkillBadge({
-  skill,
-  className,
-}: {
-  skill: string;
-  className?: string;
-}) {
-  return (
-    <span
-      className={cn(
-        'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-full px-3 text-sm',
-        'bg-secondary-light text-on-secondary',
-        className
-      )}
-    >
-      <TechLogo tech={resolveTechId(skill)} size={20} className="shrink-0" />
-      <span className="block max-w-22 truncate">{skill}</span>
-    </span>
-  );
-}
+const chipBase =
+  'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
 
+/**
+ * 스킬 로고 칩들의 가로 줄.
+ * - 기본(카드): MAX_HEADER_SKILLS까지만 보이고 나머지는 +N으로 접는다.
+ * - full(시트): 전부 펼치고, 칩에 hover하면 스킬명을 툴팁으로 보여준다.
+ */
 export function SkillBadgeRow({
   skills,
-  layoutId,
+  full = false,
   className,
 }: {
   skills: string[];
-  layoutId?: string;
+  full?: boolean;
   className?: string;
 }) {
-  const overflow = skills.length - MAX_HEADER_SKILLS;
-  const chipBase =
-    'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
+  const visible = full ? skills : skills.slice(0, MAX_HEADER_SKILLS);
+  const overflow = full ? 0 : skills.length - MAX_HEADER_SKILLS;
 
   return (
     <p className={cn('flex w-fit flex-wrap items-center gap-1', className)}>
-      {skills.slice(0, MAX_HEADER_SKILLS).map(skill => (
-        <motion.span
-          key={skill}
-          layoutId={layoutId && `${layoutId}-${skill}`}
-          title={skill}
-          aria-label={skill}
-          className={chipBase}
-        >
-          <TechLogo tech={resolveTechId(skill)} size={24} />
-        </motion.span>
+      {visible.map(skill => (
+        <SkillChip key={skill} skill={skill} tooltip={full} />
       ))}
       {overflow > 0 && (
-        <motion.span
-          layoutId={layoutId && `${layoutId}-overflow`}
+        <span
           title={skills.slice(MAX_HEADER_SKILLS).join(', ')}
           className={cn(
             chipBase,
-            'font-semibold text-secondary-light/50 bg-transparent text-sm'
+            'bg-transparent text-sm font-semibold text-secondary-light/50'
           )}
         >
           +{overflow}
-        </motion.span>
+        </span>
       )}
     </p>
+  );
+}
+
+function SkillChip({ skill, tooltip }: { skill: string; tooltip: boolean }) {
+  return (
+    <span
+      title={tooltip ? undefined : skill}
+      aria-label={skill}
+      className={cn(chipBase, tooltip && 'group/skill relative')}
+    >
+      <TechLogo tech={resolveTechId(skill)} size={24} />
+      {tooltip && (
+        <span
+          role="tooltip"
+          className="pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-secondary px-3 py-1 text-xs text-on-secondary opacity-0 transition-opacity group-hover/skill:opacity-100"
+        >
+          {skill}
+          <span className="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 rounded-[2px] bg-secondary" />
+        </span>
+      )}
+    </span>
   );
 }

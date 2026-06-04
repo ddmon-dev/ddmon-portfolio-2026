@@ -83,7 +83,7 @@ function ProjectPanel({
 }) {
   return (
     <Container
-      as={motion.div}
+      as={motion.article}
       role="dialog"
       aria-modal="true"
       aria-label={project.title}
@@ -125,7 +125,12 @@ function ProjectPanel({
               {project.category}
             </p>
           </div>
-          <SkillBadgeRow skills={project.skills} className="mx-auto" />
+          <section className="space-y-3">
+            <h4 className="block text-center font-bold text-muted-foreground/60">
+              USED STACK
+            </h4>
+            <SkillBadgeRow skills={project.skills} full className="mx-auto" />
+          </section>
         </motion.header>
 
         <motion.div
