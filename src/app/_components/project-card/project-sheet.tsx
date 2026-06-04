@@ -2,17 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { type MouseEvent, useEffect, useRef } from 'react';
+import { type MouseEvent, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import {
-  HouseIcon,
-  GithubLogoIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
-  ListIcon,
-  XIcon,
-  type Icon,
-} from '@phosphor-icons/react';
+import { HouseIcon, GithubLogoIcon, ListIcon } from '@phosphor-icons/react';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
 import { SkillBadge, SkillBadgeRow } from './skill-badge';
@@ -22,14 +14,9 @@ import { type Project } from './types';
 import { type ProjectGallery } from './use-project-gallery';
 
 /**
- * 펼쳐진 상세 시트. 세 레이어로 구성된다.
- * 1. backdrop  : 모달과 분리된 독립 배경 레이어. 닫을 때 천천히(0.5s) 페이드아웃.
- * 2. 패널      : 프로젝트 상세. 두 모드를 상호 배타적으로 렌더한다.
- *    - 정착(sliding=false): layoutId를 가진 단일 패널. 열기/닫기 morph 담당.
- *    - 슬라이드(sliding=true): layoutId 없는 캐러셀. 이전/다음 좌우 슬라이드 담당.
- *    슬라이드가 끝나면 캐러셀이 언마운트되고 단일 패널이 layoutId를 가진 채 새로
- *    mount된다 — morph는 요소가 layoutId를 갖고 mount될 때만 제대로 설정되기 때문이다.
- * 3. 네비게이션 : 뒤로/이전/다음 버튼. 페이지 morph와 무관하게 뷰포트에 고정.
+ * 펼쳐진 상세 시트. 두 레이어로 구성된다.
+ * 1. backdrop : 모달과 분리된 독립 배경 레이어. 닫을 때 천천히 페이드아웃.
+ * 2. 패널     : layoutId를 가진 단일 패널. 연 카드에서 morph해 자라나고, 닫으면 그 카드로 돌아간다.
  *
  * 상태/타이밍은 모두 useProjectGallery가 쥐고 있고, 여기서는 그 값으로 렌더만 한다.
  */
@@ -40,25 +27,11 @@ export function ProjectSheet({
   gallery: ProjectGallery;
   projects: Project[];
 }) {
-  const { open, activeIndex, expanded, sliding, direction, idBase } = gallery;
+  const { open, activeIndex, expanded, idBase } = gallery;
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // 시트가 열린 동안 Tab 포커스를 시트 안(오버레이 + 네비게이션)에 가둔다.
+  // 시트가 열린 동안 Tab 포커스를 시트 안(패널 + 네비)에 가둔다.
   const trapRef = useRef<HTMLDivElement>(null);
   useFocusTrap(open, trapRef);
-
-  // 프로젝트 전환 시 시트 스크롤을 맨 위로 초기화한다.
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0 });
-  }, [activeIndex]);
-
-  // 좌우 슬라이드는 순수 x 이동만 한다.
-  const slideVariants = {
-    enter: (dir: number) => ({ x: `${dir * 100}%` }),
-    center: { x: 0 },
-    exit: (dir: number) => ({ x: `${-dir * 100}%` }),
-  };
 
   return (
     <>
@@ -77,78 +50,29 @@ export function ProjectSheet({
               transition: { duration: 0.5, delay: 0.25 },
             }}
             transition={{ duration: 0.25 }}
-            // 높이는 inset에서 파생하지 않고 dvh로 명시해 뷰포트를 확실히 덮는다.
             className="fixed inset-x-0 top-0 z-40 h-dvh bg-background"
           />
         )}
       </AnimatePresence>
 
-      {/*
-        포커스 트랩 컨테이너. 오버레이(패널)와 네비게이션을 한 부모로 묶어 Tab 포커스를
-        이 안에 가둔다. 네비 페이드아웃을 살리려 항상 마운트하고, 내부는 open일 때만 렌더.
-      */}
+      {/* 포커스 트랩 컨테이너 — 네비 페이드아웃을 살리려 항상 마운트하고, 내부는 open일 때만 렌더. */}
       <div ref={trapRef}>
-        {/* 스크롤/바깥클릭 닫기를 담당하는 정적 오버레이 */}
         {open && (
           <div
-            ref={scrollRef}
             onClick={gallery.close}
             className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto"
           >
-            {sliding ? (
-              /*
-                슬라이드 모드: layoutId 없는 캐러셀. popLayout으로 빠져나가는 패널을 흐름
-                밖(absolute)으로 빼 좌우로 겹쳐 슬라이드한다. initial={false}로 캐러셀이
-                처음 mount될 때(현재 패널)는 슬라이드 없이 제자리에 나타나고, 이후 추가되는
-                패널만 좌우로 슬라이드한다.
-              */
-              <AnimatePresence
-                initial={false}
-                custom={direction}
-                mode="popLayout"
-                onExitComplete={gallery.onSlideSettled}
-              >
-                <motion.div
-                  key={activeIndex}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.4, ease: 'easeInOut' }}
-                  // popLayout이 absolute로 바꿔도 폭이 collapse되지 않도록 전체 폭을 고정한다.
-                  className="w-full min-h-dvh"
-                >
-                  <ProjectPanel
-                    project={projects[activeIndex]}
-                    expanded={expanded}
-                  />
-                </motion.div>
-              </AnimatePresence>
-            ) : (
-              /*
-                정착 모드: layoutId를 가진 단일 패널. mount 시 카드에서 morph해 자라나고,
-                unmount 시 현재 활성 카드로 morph해 돌아간다.
-              */
-              <ProjectPanel
-                project={projects[activeIndex]}
-                morphId={`${idBase}-${activeIndex}`}
-                expanded={expanded}
-                onMorphComplete={gallery.onMorphComplete}
-              />
-            )}
+            <ProjectPanel
+              project={projects[activeIndex]}
+              morphId={`${idBase}-${activeIndex}`}
+              expanded={expanded}
+              onMorphComplete={gallery.onMorphComplete}
+            />
           </div>
         )}
 
         <AnimatePresence>
-          {open && (
-            <SheetNav
-              key="nav"
-              gallery={gallery}
-              hasPrev={activeIndex > 0}
-              hasNext={activeIndex < projects.length - 1}
-            />
-          )}
+          {open && <SheetNav key="nav" gallery={gallery} />}
         </AnimatePresence>
       </div>
     </>
@@ -162,9 +86,9 @@ function ProjectPanel({
   onMorphComplete,
 }: {
   project: Project;
-  morphId?: string;
+  morphId: string;
   expanded: boolean;
-  onMorphComplete?: () => void;
+  onMorphComplete: () => void;
 }) {
   return (
     <Container
@@ -178,7 +102,7 @@ function ProjectPanel({
       className="min-h-dvh space-y-8 pb-10 sm:pb-14"
     >
       <motion.div
-        layoutId={morphId && `${morphId}-image`}
+        layoutId={`${morphId}-image`}
         style={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
@@ -201,13 +125,13 @@ function ProjectPanel({
           <div className="space-y-6">
             <div className="space-y-1 px-1">
               <motion.h3
-                layoutId={morphId && `${morphId}-title`}
+                layoutId={`${morphId}-title`}
                 className="w-fit font-bold text-4xl leading-[1.3]"
               >
                 {project.title}
               </motion.h3>
               <motion.p
-                layoutId={morphId && `${morphId}-category`}
+                layoutId={`${morphId}-category`}
                 className="w-fit text-black/60 text-xl leading-normal translate-x-0.5"
               >
                 {project.category}
@@ -215,7 +139,7 @@ function ProjectPanel({
             </div>
             <SkillBadgeRow
               skills={project.skills}
-              layoutId={morphId && `${morphId}-skills`}
+              layoutId={`${morphId}-skills`}
             />
           </div>
           <div className="shrink-0 ml-auto flex flex-col gap-y-2">
@@ -260,15 +184,7 @@ function ProjectPanel({
   );
 }
 
-function SheetNav({
-  gallery,
-  hasPrev,
-  hasNext,
-}: {
-  gallery: ProjectGallery;
-  hasPrev: boolean;
-  hasNext: boolean;
-}) {
+function SheetNav({ gallery }: { gallery: ProjectGallery }) {
   return (
     <motion.nav
       initial={{ opacity: 0, y: '100%' }}
@@ -278,7 +194,7 @@ function SheetNav({
       className="fixed bottom-0 inset-x-0 z-70 flex gap-2 items-center pointer-events-none"
     >
       <Container className="flex justify-end py-4">
-        <div className="rounded-full bg-orange-500/10 backdrop-blur flex gap-2 items-center justify-end p-2 pl-3.5 pointer-events-auto">
+        <div className="rounded-full bg-orange-500/10 backdrop-blur flex items-center p-2 pl-3.5 pointer-events-auto">
           <Button
             aria-label="시트 닫기"
             data-autofocus
@@ -289,48 +205,8 @@ function SheetNav({
             <ListIcon aria-hidden size={18} weight="light" />
             목록으로
           </Button>
-
-          <div className="flex gap-0.5 items-center">
-            <ArrowButton
-              label="이전 프로젝트"
-              icon={CaretLeftIcon}
-              enabled={hasPrev}
-              onClick={() => gallery.navigate(-1)}
-            />
-            <ArrowButton
-              label="다음 프로젝트"
-              icon={CaretRightIcon}
-              enabled={hasNext}
-              onClick={() => gallery.navigate(1)}
-            />
-          </div>
         </div>
       </Container>
     </motion.nav>
-  );
-}
-
-function ArrowButton({
-  label,
-  icon: DirectionIcon,
-  enabled,
-  onClick,
-}: {
-  label: string;
-  icon: Icon;
-  enabled: boolean;
-  onClick: () => void;
-}) {
-  const Glyph = enabled ? DirectionIcon : XIcon;
-  return (
-    <Button
-      aria-label={label}
-      onClick={onClick}
-      shape="pill"
-      size="icon"
-      variant="neutral"
-    >
-      <Glyph aria-hidden size={20} weight="light" />
-    </Button>
   );
 }
