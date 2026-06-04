@@ -24,7 +24,18 @@ const selectedProjects: Project[] = [
     title: '파노라마 필름',
     category: '홈페이지 / 웹앱',
     image: { ...placeholderImage, alt: '파노라마 필름 프로젝트' },
-    skills: ['Next.js', 'Supabase', 'Tailwind', 'Nginx'],
+    skills: [
+      'Next.js',
+      'Supabase',
+      'Tailwind',
+      'Nginx',
+      'React',
+      'TypeScript',
+      'PostgreSQL',
+      'Puppeteer',
+      'Framer Motion',
+      'Server Actions',
+    ],
     content: (
       <>
         <DetailSection title="Overview">

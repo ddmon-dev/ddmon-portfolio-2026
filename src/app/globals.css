@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-primary: var(--font-suit);
+  --font-primary: var(--font-pretendard);
 
   /* brand — primary (orange) */
   --primary: #f26619;       /* 채움 배경/포커스: 위에 on-primary를 올린다 */

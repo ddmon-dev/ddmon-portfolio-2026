@@ -7,8 +7,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { HouseIcon, GithubLogoIcon, ListIcon } from '@phosphor-icons/react';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
-import { SkillBadge, SkillBadgeRow } from './skill-badge';
-import { DetailSection } from './detail-section';
+import { SkillBadgeRow } from './skill-badge';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { type ProjectGallery } from './use-project-gallery';
@@ -35,10 +34,6 @@ export function ProjectSheet({
 
   return (
     <>
-      {/*
-        배경 페이드아웃: 닫을 때 카드 복귀와 동시에 천천히 드러난다. 카드는 backdropVisible
-        동안 z-50으로 이 위에 있어 페이드아웃 내내 가려지지 않는다(깜빡임 없음).
-      */}
       <AnimatePresence onExitComplete={gallery.onBackdropExitComplete}>
         {open && (
           <motion.div
@@ -55,7 +50,6 @@ export function ProjectSheet({
         )}
       </AnimatePresence>
 
-      {/* 포커스 트랩 컨테이너 — 네비 페이드아웃을 살리려 항상 마운트하고, 내부는 open일 때만 렌더. */}
       <div ref={trapRef}>
         {open && (
           <div
@@ -70,7 +64,6 @@ export function ProjectSheet({
             />
           </div>
         )}
-
         <AnimatePresence>
           {open && <SheetNav key="nav" gallery={gallery} />}
         </AnimatePresence>
@@ -99,7 +92,7 @@ function ProjectPanel({
       aria-label={project.title}
       onClick={(event: MouseEvent) => event.stopPropagation()}
       onLayoutAnimationComplete={onMorphComplete}
-      className="min-h-dvh space-y-8 pb-10 sm:pb-14"
+      className="min-h-dvh space-y-12 pb-30"
     >
       <motion.div
         layoutId={`${morphId}-image`}
@@ -120,10 +113,10 @@ function ProjectPanel({
         />
       </motion.div>
 
-      <div className="space-y-8 divide-y divide-black/10">
-        <header className="pb-6 px-4 flex gap-4">
+      <div className="space-y-8">
+        <header className="px-6 gap-4">
           <div className="space-y-6">
-            <div className="space-y-1 px-1">
+            <div className="space-y-1">
               <motion.h3
                 layoutId={`${morphId}-title`}
                 className="w-fit font-bold text-4xl leading-[1.3]"
@@ -142,41 +135,21 @@ function ProjectPanel({
               layoutId={`${morphId}-skills`}
             />
           </div>
-          <div className="shrink-0 ml-auto flex flex-col gap-y-2">
-            <span>2024.08, 1 month</span>
-            <span>기여도 : 100%</span>
-            <nav className="mt-auto flex gap-2">
-              <Button asChild size="sm" shape="pill" variant="outline">
-                <Link href="" target="_blank" rel="">
-                  <HouseIcon />
-                  Visit Site
-                </Link>
-              </Button>
-              <Button asChild size="sm" shape="pill" variant="outline">
-                <Link href="" target="_blank" rel="">
-                  <GithubLogoIcon />
-                  Visit Repo
-                </Link>
-              </Button>
-            </nav>
-          </div>
         </header>
 
         <motion.div
           initial={false}
-          animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+          animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="space-y-8 px-4"
+          className="border-t border-border"
+        />
+
+        <motion.div
+          initial={false}
+          animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="space-y-8 px-6"
         >
-          <DetailSection title="Tech Stack">
-            <ul className="flex flex-wrap gap-2">
-              {project.skills.map(skill => (
-                <li key={skill}>
-                  <SkillBadge skill={skill} />
-                </li>
-              ))}
-            </ul>
-          </DetailSection>
           {project.content}
         </motion.div>
       </div>
@@ -193,17 +166,30 @@ function SheetNav({ gallery }: { gallery: ProjectGallery }) {
       transition={{ duration: 0.2, delay: 0.25 }}
       className="fixed bottom-0 inset-x-0 z-70 flex gap-2 items-center pointer-events-none"
     >
-      <Container className="flex justify-end py-4">
-        <div className="rounded-full bg-orange-500/10 backdrop-blur flex items-center p-2 pl-3.5 pointer-events-auto">
+      <Container className="flex justify-center py-4">
+        <div className="flex justify-center gap-1 pointer-events-auto">
           <Button
             aria-label="시트 닫기"
             data-autofocus
             onClick={gallery.close}
             size="sm"
             shape="pill"
+            variant="secondary"
           >
             <ListIcon aria-hidden size={18} weight="light" />
             목록으로
+          </Button>
+          <Button asChild size="sm" shape="pill" variant="secondary">
+            <Link href="" target="_blank" rel="">
+              <HouseIcon />
+              Visit Site
+            </Link>
+          </Button>
+          <Button asChild size="sm" shape="pill" variant="secondary">
+            <Link href="" target="_blank" rel="">
+              <GithubLogoIcon />
+              Visit Repo
+            </Link>
           </Button>
         </div>
       </Container>

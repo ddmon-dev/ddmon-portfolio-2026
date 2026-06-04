@@ -80,7 +80,6 @@ export function ProjectCard({
         <SkillBadgeRow
           skills={skills}
           layoutId={sharedId && `${sharedId}-skills`}
-          compact
         />
       </div>
     </motion.div>

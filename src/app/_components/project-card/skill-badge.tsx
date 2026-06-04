@@ -32,35 +32,17 @@ export function SkillBadgeRow({
   skills,
   layoutId,
   className,
-  compact = false,
 }: {
   skills: string[];
   layoutId?: string;
   className?: string;
-  compact?: boolean;
 }) {
   const overflow = skills.length - MAX_HEADER_SKILLS;
-  const sizing = compact
-    ? { container: 'gap-1', chip: 'size-9', logo: 24, overflowText: 'text-sm' }
-    : {
-        container: 'gap-1.5',
-        chip: 'size-12',
-        logo: 32,
-        overflowText: 'text-lg',
-      };
-  const chipBase = cn(
-    'inline-flex shrink-0 items-center justify-center rounded-full border border-border',
-    sizing.chip
-  );
+  const chipBase =
+    'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
 
   return (
-    <p
-      className={cn(
-        'flex w-fit flex-wrap items-center',
-        sizing.container,
-        className
-      )}
-    >
+    <p className={cn('flex w-fit flex-wrap items-center gap-1', className)}>
       {skills.slice(0, MAX_HEADER_SKILLS).map(skill => (
         <motion.span
           key={skill}
@@ -69,7 +51,7 @@ export function SkillBadgeRow({
           aria-label={skill}
           className={chipBase}
         >
-          <TechLogo tech={resolveTechId(skill)} size={sizing.logo} />
+          <TechLogo tech={resolveTechId(skill)} size={24} />
         </motion.span>
       ))}
       {overflow > 0 && (
@@ -78,8 +60,7 @@ export function SkillBadgeRow({
           title={skills.slice(MAX_HEADER_SKILLS).join(', ')}
           className={cn(
             chipBase,
-            'font-bold text-secondary-light/50 border-none',
-            sizing.overflowText
+            'font-semibold text-secondary-light/50 bg-transparent text-sm'
           )}
         >
           +{overflow}
