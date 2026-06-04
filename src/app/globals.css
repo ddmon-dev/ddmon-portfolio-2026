@@ -3,19 +3,55 @@
 :root {
   --font-primary: var(--font-suit);
 
+  /* brand — primary (orange) */
+  --primary: #f26619;       /* 채움 배경/포커스: 위에 on-primary를 올린다 */
+  --primary-light: #ff9a4d; /* hover, 연한 강조 배경 */
+  --primary-dark: #c24e12;  /* 텍스트/링크 오렌지(흰 배경 대비 5.8:1), pressed */
+  --on-primary: #1a1208;    /* 오렌지 위 글자(먹색) */
+
+  /* brand — secondary (warm near-black) */
+  --secondary: #1c1917;       /* 메인 중립, 제목 */
+  --secondary-light: #57534e; /* 보조 텍스트, 아웃라인 버튼 */
+  --secondary-dark: #0c0a09;  /* 가장 진한 먹 */
+  --on-secondary: #fafaf9;    /* 먹색 위 글자 */
+
+  /* surface (warm neutral) */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1917;
+  --muted: #f5f5f4;
+  --muted-foreground: #78716c;
+  --border: #e7e5e4;
+  --ring: #f26619;
 }
 
 @media (prefers-color-scheme: dark) {
+  /* 다크 모드: 라이트 우선 정책상 구조만 잡아둔다.
+     활성화 시 아래 토큰을 오버라이드한다 (권장 출발값).
+     - background: #0c0a09  /  foreground: #fafaf9
+     - muted: #292524       /  muted-foreground: #a8a29e
+     - border: #292524
+     - primary: #ff8a47     (어두운 배경에서 대비 확보 위해 밝은 톤으로) */
   :root {}
 }
 
 @theme inline {
   --font-primary: var(--font-primary);
 
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-on-primary: var(--on-primary);
+  --color-secondary: var(--secondary);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-dark: var(--secondary-dark);
+  --color-on-secondary: var(--on-secondary);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
 }
 
 body {

@@ -8,21 +8,21 @@ import { cn } from '@/shared/utils/classnames';
  * - variant(색) / shape(모서리)를 cva 축으로 관리한다.
  * - asChild를 켜면 <span> 대신 자식 요소(Link, a 등)에 스타일만 입힌다.
  *
- * 색은 프로젝트 토큰(foreground)과 강조색(orange)에 맞춘다.
+ * 색은 프로젝트 컬러 토큰(primary/secondary/foreground)에 맞춘다.
  * 아이콘 크기는 Phosphor의 size prop이 정하므로 기본 스타일에서 강제하지 않는다.
  */
 export const badgeVariants = cva(
   cn(
     'inline-flex items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap',
     '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40'
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
   ),
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-orange-500 text-white',
+        default: 'border-transparent bg-primary text-on-primary',
         secondary: 'border-transparent bg-foreground/10 text-foreground',
-        outline: 'border-foreground/15 text-foreground',
+        outline: 'border-border text-foreground',
         destructive: 'border-transparent bg-red-500 text-white',
       },
       shape: {

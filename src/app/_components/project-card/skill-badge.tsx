@@ -19,7 +19,7 @@ export function SkillBadge({
       layoutId={layoutId}
       className={cn(
         'inline-flex justify-center items-center py-1 px-2.5 rounded-full text-sm shrink-0 overflow-hidden',
-        'bg-black text-white',
+        'bg-secondary text-on-secondary',
         'max-w-22',
         className
       )}
