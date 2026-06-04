@@ -4,11 +4,8 @@ import Image from 'next/image';
 import { type KeyboardEvent, type Ref } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
-import { SkillBadge } from './skill-badge';
+import { SkillBadgeRow } from './skill-badge';
 import { type Project } from './types';
-
-/** 카드 표면에 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
-const MAX_CARD_SKILLS = 5;
 
 /**
  * 그리드에 놓이는 프로젝트 카드(이미지 + 제목 + 카테고리 + 스킬). 이 카드들이 모여
@@ -94,26 +91,14 @@ export function ProjectCard({
             {category}
           </motion.p>
         </div>
-        <p className="flex flex-wrap gap-1">
-          {skills.slice(0, MAX_CARD_SKILLS).map(skill => (
-            <SkillBadge
-              key={skill}
-              skill={skill}
-              showLabel={false}
-              layoutId={sharedId && `${sharedId}-skill-${skill}`}
-            />
-          ))}
-          {skills.length > MAX_CARD_SKILLS && (
-            <span
-              className={cn(
-                'inline-flex size-7 shrink-0 items-center justify-center rounded-full',
-                'bg-secondary-light text-on-secondary text-xs'
-              )}
-            >
-              +{skills.length - MAX_CARD_SKILLS}
-            </span>
-          )}
-        </p>
+        {/*
+          헤더 뱃지 줄을 layoutId로 시트 헤더와 연결한다. 카드·시트가 같은 SkillBadgeRow(로고-only
+          + 같은 truncate)를 쓰므로 morph는 모양 변화 없이 위치/크기만 이어진다. 전체 스킬은 시트 본문.
+        */}
+        <SkillBadgeRow
+          skills={skills}
+          layoutId={sharedId && `${sharedId}-skills`}
+        />
       </div>
     </motion.div>
   );

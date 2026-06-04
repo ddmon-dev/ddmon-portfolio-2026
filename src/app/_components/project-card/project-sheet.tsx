@@ -15,7 +15,8 @@ import {
 } from '@phosphor-icons/react';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
-import { SkillBadge } from './skill-badge';
+import { SkillBadge, SkillBadgeRow } from './skill-badge';
+import { DetailSection } from './detail-section';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { type ProjectGallery } from './use-project-gallery';
@@ -219,15 +220,14 @@ function ProjectPanel({
                 {project.category}
               </motion.p>
             </div>
-            <p className="flex flex-wrap gap-1.5">
-              {project.skills.map(skill => (
-                <SkillBadge
-                  key={skill}
-                  skill={skill}
-                  layoutId={morphId && `${morphId}-skill-${skill}`}
-                />
-              ))}
-            </p>
+            {/*
+              헤더 뱃지는 카드와 동일한 SkillBadgeRow(로고-only + 같은 truncate)를 같은 layoutId로
+              렌더한다 → morph가 모양 변화 없이 위치/크기만 이어진다. 전체 스킬은 아래 본문에 둔다.
+            */}
+            <SkillBadgeRow
+              skills={project.skills}
+              layoutId={morphId && `${morphId}-skills`}
+            />
           </div>
           <div className="shrink-0 ml-auto flex flex-col gap-y-2">
             <span>2024.08, 1 month</span>
@@ -256,6 +256,16 @@ function ProjectPanel({
           transition={{ duration: 0.35 }}
           className="space-y-8 px-4"
         >
+          {/* 헤더는 로고만 truncate해 보여주므로, 본문에서 전체 스택을 로고+텍스트로 노출한다. */}
+          <DetailSection title="Tech Stack">
+            <ul className="flex flex-wrap gap-2">
+              {project.skills.map(skill => (
+                <li key={skill}>
+                  <SkillBadge skill={skill} />
+                </li>
+              ))}
+            </ul>
+          </DetailSection>
           {project.content}
         </motion.div>
       </div>
