@@ -42,7 +42,7 @@ export function ProjectSheet({
             animate={{ opacity: 1 }}
             exit={{
               opacity: 0,
-              transition: { duration: 0.5, delay: 0.25 },
+              transition: { duration: 0.25, delay: 0.25 },
             }}
             transition={{ duration: 0.25 }}
             className="fixed inset-x-0 top-0 z-40 h-dvh bg-background"
@@ -52,10 +52,7 @@ export function ProjectSheet({
 
       <div ref={trapRef}>
         {open && (
-          <div
-            onClick={gallery.close}
-            className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto"
-          >
+          <div className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto">
             <ProjectPanel
               project={projects[activeIndex]}
               morphId={`${idBase}-${activeIndex}`}
@@ -109,7 +106,7 @@ function ProjectPanel({
           alt={project.image.alt}
           width={project.image.width}
           height={project.image.height}
-          className="aspect-video w-full bg-black/30 object-cover"
+          className="aspect-video w-full object-cover"
         />
       </motion.div>
 
@@ -119,13 +116,13 @@ function ProjectPanel({
             <div className="space-y-1">
               <motion.h3
                 layoutId={`${morphId}-title`}
-                className="w-fit font-bold text-4xl leading-[1.3]"
+                className="mx-auto w-fit text-center font-bold text-4xl leading-[1.3]"
               >
                 {project.title}
               </motion.h3>
               <motion.p
                 layoutId={`${morphId}-category`}
-                className="w-fit text-black/60 text-xl leading-normal translate-x-0.5"
+                className="mx-auto w-fit text-center text-black/60 text-xl leading-normal"
               >
                 {project.category}
               </motion.p>
@@ -133,6 +130,7 @@ function ProjectPanel({
             <SkillBadgeRow
               skills={project.skills}
               layoutId={`${morphId}-skills`}
+              className="mx-auto"
             />
           </div>
         </header>

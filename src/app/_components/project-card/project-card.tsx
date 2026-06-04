@@ -66,13 +66,13 @@ export function ProjectCard({
         <div className="space-y-1 px-2">
           <motion.h3
             layoutId={sharedId && `${sharedId}-title`}
-            className="w-fit text-lg leading-[1.3] font-bold"
+            className="mx-auto w-fit text-center text-lg leading-[1.3] font-bold"
           >
             {title}
           </motion.h3>
           <motion.p
             layoutId={sharedId && `${sharedId}-category`}
-            className="w-fit text-sm leading-normal"
+            className="mx-auto w-fit text-center text-sm leading-normal"
           >
             {category}
           </motion.p>
@@ -80,6 +80,7 @@ export function ProjectCard({
         <SkillBadgeRow
           skills={skills}
           layoutId={sharedId && `${sharedId}-skills`}
+          className="mx-auto"
         />
       </div>
     </motion.div>
