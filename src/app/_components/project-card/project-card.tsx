@@ -12,6 +12,7 @@ export function ProjectCard({
   sharedId,
   onClick,
   className,
+  revealText = false,
   'aria-hidden': ariaHidden,
   ref,
 }: {
@@ -19,6 +20,11 @@ export function ProjectCard({
   sharedId?: string;
   onClick?: () => void;
   className?: string;
+  /**
+   * 닫기 morph로 카드가 돌아오는 중이면 true. 이미지는 morph로 돌아오고, 텍스트(제목/카테고리/
+   * 스킬)는 이때만 페이드인해 톡 튀어나오지 않게 한다. 평소 그리드 카드는 false(정적).
+   */
+  revealText?: boolean;
   'aria-hidden'?: boolean;
   ref?: Ref<HTMLDivElement>;
 }) {
@@ -27,7 +33,6 @@ export function ProjectCard({
   return (
     <motion.div
       ref={ref}
-      layoutId={sharedId}
       onClick={onClick}
       onKeyDown={
         onClick
@@ -62,27 +67,22 @@ export function ProjectCard({
           className="aspect-video w-full bg-black/30 object-cover"
         />
       </motion.div>
-      <div className="space-y-3">
+      <motion.div
+        initial={revealText ? { opacity: 0 } : false}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: revealText ? 0.25 : 0 }}
+        className="space-y-3"
+      >
         <div className="space-y-1 px-2">
-          <motion.h3
-            layoutId={sharedId && `${sharedId}-title`}
-            className="mx-auto w-fit text-center text-lg leading-[1.3] font-bold"
-          >
+          <h3 className="mx-auto w-fit text-center text-lg leading-[1.3] font-bold">
             {title}
-          </motion.h3>
-          <motion.p
-            layoutId={sharedId && `${sharedId}-category`}
-            className="mx-auto w-fit text-center text-sm leading-normal"
-          >
+          </h3>
+          <p className="mx-auto w-fit text-center text-sm leading-normal">
             {category}
-          </motion.p>
+          </p>
         </div>
-        <SkillBadgeRow
-          skills={skills}
-          layoutId={sharedId && `${sharedId}-skills`}
-          className="mx-auto"
-        />
-      </div>
+        <SkillBadgeRow skills={skills} className="mx-auto" />
+      </motion.div>
     </motion.div>
   );
 }

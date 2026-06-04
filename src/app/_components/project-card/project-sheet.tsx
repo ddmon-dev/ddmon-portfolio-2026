@@ -13,11 +13,11 @@ import { type Project } from './types';
 import { type ProjectGallery } from './use-project-gallery';
 
 /**
- * 펼쳐진 상세 시트. 두 레이어로 구성된다.
- * 1. backdrop : 모달과 분리된 독립 배경 레이어. 닫을 때 천천히 페이드아웃.
- * 2. 패널     : layoutId를 가진 단일 패널. 연 카드에서 morph해 자라나고, 닫으면 그 카드로 돌아간다.
- *
- * 상태/타이밍은 모두 useProjectGallery가 쥐고 있고, 여기서는 그 값으로 렌더만 한다.
+ * 펼쳐진 상세 시트. 세 레이어로 구성된다.
+ * 1. backdrop : 흰 배경 레이어(z-40). 열 때 페이드인, 닫을 때 페이드아웃해 그리드를 드러낸다.
+ * 2. 패널     : 상세(z-50). 이미지만 layoutId로 카드 ↔ 시트 morph, 헤더/본문은 morph 완료 후 페이드인.
+ * 3. 네비     : 닫기 버튼(z-70).
+ * 상태/타이밍은 모두 useProjectGallery가 쥐고, 여기서는 렌더만 한다.
  */
 export function ProjectSheet({
   gallery,
@@ -34,16 +34,17 @@ export function ProjectSheet({
 
   return (
     <>
+      {/*
+        backdrop: 그리드를 가린다. 닫을 때 천천히 페이드아웃하며, 그동안 활성 카드는 이 위로
+        승격(z-50)돼 이미지 morph가 가려지지 않는다. 페이드아웃이 끝나면 승격을 원복한다.
+      */}
       <AnimatePresence onExitComplete={gallery.onBackdropExitComplete}>
         {open && (
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{
-              opacity: 0,
-              transition: { duration: 0.25, delay: 0.25 },
-            }}
+            exit={{ opacity: 0, transition: { duration: 0.4, delay: 0.25 } }}
             transition={{ duration: 0.25 }}
             className="fixed inset-x-0 top-0 z-40 h-dvh bg-background"
           />
@@ -83,16 +84,15 @@ function ProjectPanel({
   return (
     <Container
       as={motion.div}
-      layoutId={morphId}
       role="dialog"
       aria-modal="true"
       aria-label={project.title}
       onClick={(event: MouseEvent) => event.stopPropagation()}
-      onLayoutAnimationComplete={onMorphComplete}
-      className="min-h-dvh space-y-12 pb-30"
+      className="min-h-dvh space-y-12 pb-30 max-sm:px-0"
     >
       <motion.div
         layoutId={`${morphId}-image`}
+        onLayoutAnimationComplete={onMorphComplete}
         style={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
@@ -111,41 +111,34 @@ function ProjectPanel({
       </motion.div>
 
       <div className="space-y-8">
-        <header className="px-6 gap-4">
-          <div className="space-y-6">
-            <div className="space-y-1">
-              <motion.h3
-                layoutId={`${morphId}-title`}
-                className="mx-auto w-fit text-center font-bold text-4xl leading-[1.3]"
-              >
-                {project.title}
-              </motion.h3>
-              <motion.p
-                layoutId={`${morphId}-category`}
-                className="mx-auto w-fit text-center text-black/60 text-xl leading-normal"
-              >
-                {project.category}
-              </motion.p>
-            </div>
-            <SkillBadgeRow
-              skills={project.skills}
-              layoutId={`${morphId}-skills`}
-              className="mx-auto"
-            />
+        <motion.header
+          initial={false}
+          animate={{ opacity: expanded ? 1 : 0 }}
+          transition={{ duration: 0.25 }}
+          className="px-6 space-y-6"
+        >
+          <div className="space-y-1">
+            <h3 className="mx-auto w-fit text-center font-bold text-4xl leading-[1.3]">
+              {project.title}
+            </h3>
+            <p className="mx-auto w-fit text-center text-black/60 text-xl leading-normal">
+              {project.category}
+            </p>
           </div>
-        </header>
+          <SkillBadgeRow skills={project.skills} className="mx-auto" />
+        </motion.header>
 
         <motion.div
           initial={false}
           animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.25 }}
           className="border-t border-border"
         />
 
         <motion.div
           initial={false}
           animate={expanded ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.25 }}
           className="space-y-8 px-6"
         >
           {project.content}

@@ -4,12 +4,11 @@ import { useEffect, useId, useState } from 'react';
 
 /**
  * 프로젝트 갤러리(그리드 + 단일 상세 시트)의 상태·타이밍을 캡슐화한다.
- * 시트 상태를 목록 레벨(갤러리)에서 쥐어, 연 카드로 정확히 morph해 열고 닫는다.
  *
  * - open: 시트 표시 여부. 스크롤 잠금/ESC 닫기의 기준.
- * - activeIndex: 현재 펼쳐진 프로젝트. placeholder 카드/닫힘 morph 타겟의 기준.
- * - backdropVisible: 흰 배경 레이어 표시 여부. 닫을 때는 카드가 그리드로 돌아온 뒤 끈다.
- * - expanded: 최초 열기 morph가 끝났는지. true면 시트 본문을 페이드인한다.
+ * - activeIndex: 현재 펼쳐진 프로젝트. placeholder 카드/이미지 morph 타겟의 기준.
+ * - backdropVisible: 흰 backdrop 표시 여부. 닫을 때는 backdrop이 사라진 뒤 카드 z 승격을 원복한다.
+ * - expanded: 이미지 morph가 끝났는지. true면 헤더/본문을 페이드인한다.
  */
 export function useProjectGallery() {
   const [open, setOpen] = useState(false);
@@ -53,9 +52,9 @@ export function useProjectGallery() {
     idBase,
     openAt,
     close,
-    /** backdrop 페이드아웃이 끝난 뒤 카드 z-index를 원복한다. */
+    /** backdrop 페이드아웃이 끝난 뒤 카드 z 승격을 원복한다. */
     onBackdropExitComplete: () => setBackdropVisible(false),
-    /** 최초 열기 morph가 끝나면 본문 페이드인을 트리거한다. */
+    /** 이미지 morph가 끝나면 헤더/본문 페이드인을 트리거한다. */
     onMorphComplete: () => setExpanded(true),
   };
 }

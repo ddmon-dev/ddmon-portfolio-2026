@@ -10,14 +10,10 @@ import { type Project } from './types';
 
 /**
  * 프로젝트 한 섹션 = 제목 + 카드 그리드 + 단일 상세 시트.
- * 시트를 목록 레벨에서 한 개만 둔다.
  *
- * 역할 분담:
- * - useProjectGallery : 전환 상태와 타이밍(open/active/expanded)
- * - ProjectCard       : 그리드 카드(과 활성 카드의 자리 유지용 placeholder)
- * - ProjectSheet      : 펼쳐진 상세(배경 + 단일 패널 + 닫기 네비)
- *
- * 카드 클릭 → 그 자리에서 시트로 morph. 닫으면 그 카드 자리로 morph해 돌아온다(placeholder = 활성 카드).
+ * 카드 클릭 → 이미지가 시트로 morph(layoutId), 흰 backdrop이 그리드를 가린다.
+ * 닫으면 이미지가 카드로 morph-back 하고 카드 텍스트는 페이드인한다.
+ * 닫는 동안 활성 카드는 backdrop 위로 승격돼(z-50) 이미지 morph가 디밍 없이 깨끗하게 보인다.
  */
 export function ProjectGallery({
   title,
@@ -30,7 +26,7 @@ export function ProjectGallery({
   const { open, activeIndex, backdropVisible, idBase } = gallery;
 
   // 닫힐 때 트리거(현재 활성 카드)로 포커스를 되돌린다. 카드는 placeholder 전환으로
-  // remount되므로 저장된 참조가 아니라 remount된 활성 카드 노드를 직접 잡아 focus한다.
+  // remount되므로 remount된 활성 카드 노드를 직접 잡아 focus한다.
   const activeCardRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
   useEffect(() => {
@@ -47,6 +43,8 @@ export function ProjectGallery({
         {projects.map((project, index) => {
           const isActive = activeIndex === index;
           const isPlaceholder = open && isActive;
+          // 닫는 중인 활성 카드: backdrop 위로 올려 이미지 morph를 깨끗하게 보이고 텍스트는 페이드인.
+          const isReturning = !open && isActive && backdropVisible;
 
           return (
             <li key={project.title}>
@@ -59,10 +57,9 @@ export function ProjectGallery({
                   isPlaceholder ? undefined : () => gallery.openAt(index)
                 }
                 aria-hidden={isPlaceholder || undefined}
+                revealText={isReturning}
                 className={cn(
-                  isPlaceholder
-                    ? 'invisible'
-                    : isActive && backdropVisible && 'relative z-50'
+                  isPlaceholder ? 'invisible' : isReturning && 'relative z-50'
                 )}
               />
             </li>
