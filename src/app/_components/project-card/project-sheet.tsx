@@ -341,7 +341,7 @@ function ArrowButton({
       onClick={onClick}
       shape="pill"
       size="icon"
-      variant="secondary"
+      variant="neutral"
     >
       <Glyph aria-hidden size={20} weight="light" />
     </Button>

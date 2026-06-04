@@ -20,10 +20,19 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-on-primary',
-        secondary: 'border-transparent bg-foreground/10 text-foreground',
-        outline: 'border-border text-foreground',
+        // 컬러 토큰 기반 솔리드 (default = primary)
+        default: 'border-transparent bg-primary text-white',
+        'primary-light': 'border-transparent bg-primary-light text-on-primary',
+        'primary-dark': 'border-transparent bg-primary-dark text-white',
+        secondary: 'border-transparent bg-secondary text-on-secondary',
+        'secondary-light':
+          'border-transparent bg-secondary-light text-on-secondary',
+        'secondary-dark':
+          'border-transparent bg-secondary-dark text-on-secondary',
         destructive: 'border-transparent bg-red-500 text-white',
+        // 중립/아웃라인
+        neutral: 'border-transparent bg-foreground/10 text-foreground',
+        outline: 'border-border text-foreground',
       },
       shape: {
         default: 'rounded-md',

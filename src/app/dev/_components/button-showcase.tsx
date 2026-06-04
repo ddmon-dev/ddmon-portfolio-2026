@@ -1,26 +1,23 @@
 import { Button } from '@/shared/ui/button';
 import { DevSection } from './dev-section';
+import { ArrowLeftGlyph, ArrowRightGlyph, PlusGlyph } from './demo-glyphs';
 
-const VARIANTS = [
+const COLOR_VARIANTS = [
   'default',
+  'primary-light',
+  'primary-dark',
   'secondary',
-  'outline',
-  'ghost',
-  'link',
+  'secondary-light',
+  'secondary-dark',
+  'destructive',
+  'neutral',
 ] as const;
+
+const STYLE_VARIANTS = ['outline', 'ghost', 'link'] as const;
 
 const SIZES = ['xs', 'sm', 'default', 'lg'] as const;
 
 const ICON_SIZES = ['icon-sm', 'icon', 'icon-lg'] as const;
-
-/** 아이콘 사이즈 버튼 데모용 인라인 글리프 (서버 컴포넌트 유지를 위해 Phosphor 대신 사용) */
-function PlusGlyph() {
-  return (
-    <svg width={18} height={18} viewBox="0 0 20 20" fill="currentColor" aria-hidden>
-      <path d="M10 3a1 1 0 0 1 1 1v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H4a1 1 0 1 1 0-2h5V4a1 1 0 0 1 1-1Z" />
-    </svg>
-  );
-}
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -37,11 +34,19 @@ export function ButtonShowcase() {
   return (
     <DevSection
       title="버튼"
-      description="@/shared/ui/button · variant / size / shape 축"
+      description="@/shared/ui/button · 컬러 토큰 variant / size / shape / 아이콘"
     >
       <div className="flex flex-col gap-8">
-        <Row label="Variant">
-          {VARIANTS.map((variant) => (
+        <Row label="Color variant">
+          {COLOR_VARIANTS.map((variant) => (
+            <Button key={variant} variant={variant}>
+              {variant}
+            </Button>
+          ))}
+        </Row>
+
+        <Row label="Style variant">
+          {STYLE_VARIANTS.map((variant) => (
             <Button key={variant} variant={variant}>
               {variant}
             </Button>
@@ -67,6 +72,22 @@ export function ButtonShowcase() {
               <PlusGlyph />
             </Button>
           ))}
+        </Row>
+
+        <Row label="Icon + text">
+          <Button>
+            <ArrowLeftGlyph />
+            왼쪽 아이콘
+          </Button>
+          <Button>
+            오른쪽 아이콘
+            <ArrowRightGlyph />
+          </Button>
+          <Button>
+            <ArrowLeftGlyph />
+            양쪽 아이콘
+            <ArrowRightGlyph />
+          </Button>
         </Row>
 
         <Row label="State">

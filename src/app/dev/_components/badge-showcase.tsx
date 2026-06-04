@@ -1,7 +1,18 @@
 import { Badge } from '@/shared/ui/badge';
 import { DevSection } from './dev-section';
+import { ArrowLeftGlyph, ArrowRightGlyph } from './demo-glyphs';
 
-const VARIANTS = ['default', 'secondary', 'outline', 'destructive'] as const;
+const COLOR_VARIANTS = [
+  'default',
+  'primary-light',
+  'primary-dark',
+  'secondary',
+  'secondary-light',
+  'secondary-dark',
+  'destructive',
+  'neutral',
+  'outline',
+] as const;
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -16,13 +27,10 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 export function BadgeShowcase() {
   return (
-    <DevSection
-      title="뱃지"
-      description="@/shared/ui/badge · variant / shape 축"
-    >
+    <DevSection title="뱃지" description="@/shared/ui/badge · 컬러 토큰 variant / shape / 아이콘">
       <div className="flex flex-col gap-8">
         <Row label="Variant">
-          {VARIANTS.map((variant) => (
+          {COLOR_VARIANTS.map((variant) => (
             <Badge key={variant} variant={variant}>
               {variant}
             </Badge>
@@ -32,6 +40,22 @@ export function BadgeShowcase() {
         <Row label="Shape">
           <Badge shape="default">default</Badge>
           <Badge shape="pill">pill</Badge>
+        </Row>
+
+        <Row label="Icon + text">
+          <Badge>
+            <ArrowLeftGlyph size={12} />
+            왼쪽 아이콘
+          </Badge>
+          <Badge>
+            오른쪽 아이콘
+            <ArrowRightGlyph size={12} />
+          </Badge>
+          <Badge>
+            <ArrowLeftGlyph size={12} />
+            양쪽 아이콘
+            <ArrowRightGlyph size={12} />
+          </Badge>
         </Row>
       </div>
     </DevSection>
