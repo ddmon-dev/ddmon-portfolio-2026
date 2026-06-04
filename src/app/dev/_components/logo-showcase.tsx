@@ -1,17 +1,13 @@
-import { Container } from '@/shared/ui/container';
 import { TECH_STACK } from '@/data/tech-stack.data';
 import { TECH_LOGOS, TechLogo } from '@/shared/ui/tech-logo';
+import { DevSection } from './dev-section';
 
 export function LogoShowcase() {
   return (
-    <Container as="section" className="py-12">
-      <header className="mb-8">
-        <h2 className="text-2xl font-bold text-foreground">기술 스택 로고</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          devicons-react 컬러 아이콘 · 숙련도 티어별 정리
-        </p>
-      </header>
-
+    <DevSection
+      title="기술 스택 로고"
+      description="devicons-react 컬러 아이콘 · 숙련도 티어별 정리"
+    >
       <div className="flex flex-col gap-10">
         {TECH_STACK.map((tier) => (
           <div key={tier.id}>
@@ -35,6 +31,6 @@ export function LogoShowcase() {
           </div>
         ))}
       </div>
-    </Container>
+    </DevSection>
   );
 }
