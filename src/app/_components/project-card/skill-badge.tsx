@@ -7,33 +7,27 @@ import { cn } from '@/shared/utils/classnames';
 /** 헤더(카드·시트)에 로고로 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
 export const MAX_HEADER_SKILLS = 5;
 
+/**
+ * 본문(시트 Tech Stack)용 로고+텍스트 알약. 정적으로 놓이며 morph에 참여하지 않는다.
+ */
 export function SkillBadge({
   skill,
-  showLabel = true,
   className,
 }: {
-  /** 스킬명. 좌측 로고는 이 값에서 해석하고, showLabel일 때 텍스트로도 노출한다. */
   skill: string;
-  /** false면 로고만 보이는 원형 뱃지(헤더용), true면 로고+텍스트 알약(본문용). */
-  showLabel?: boolean;
   className?: string;
 }) {
   return (
-    // motion.span으로 둬서 헤더 줄(layoutId) morph 중 부모의 scale 변형을 역보정받아
-    // 뱃지 비율(원형)이 찌그러지지 않게 한다. layout/layoutId가 없어 개별 morph는 없다.
-    <motion.span
-      // 로고만 보이는 경우 호버 시 스킬명을 알 수 있게 title을 단다.
-      title={showLabel ? undefined : skill}
+    <span
       className={cn(
-        'inline-flex h-9 shrink-0 items-center justify-center overflow-hidden rounded-full text-sm',
+        'inline-flex h-9 shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-full px-3 text-sm',
         'bg-secondary-light text-on-secondary',
-        showLabel ? 'gap-1.5 px-3' : 'w-9',
         className
       )}
     >
       <TechLogo tech={resolveTechId(skill)} size={20} className="shrink-0" />
-      {showLabel && <span className="block max-w-22 truncate">{skill}</span>}
-    </motion.span>
+      <span className="block max-w-22 truncate">{skill}</span>
+    </span>
   );
 }
 
@@ -56,10 +50,14 @@ export function SkillBadgeRow({
   compact?: boolean;
 }) {
   const overflow = skills.length - MAX_HEADER_SKILLS;
-  const chipSize = compact ? 'size-9' : 'size-12';
-  const logoSize = compact ? 24 : 32;
-  // +N은 SVG가 아니라 텍스트라, 칩 크기에 맞춰 폰트도 달리 줘야 morph 중 함께 커진다.
-  const overflowText = compact ? 'text-sm' : 'text-lg';
+  // 사이즈 프리셋 한 묶음 — +N은 SVG가 아니라 텍스트라 폰트도 칩 크기에 맞춰 morph되게 한다.
+  const sizing = compact
+    ? { chip: 'size-9', logo: 24, overflowText: 'text-sm' }
+    : { chip: 'size-12', logo: 32, overflowText: 'text-lg' };
+  const chipBase = cn(
+    'inline-flex shrink-0 items-center justify-center rounded-full border border-border',
+    sizing.chip
+  );
 
   return (
     <p className={cn('flex w-fit flex-wrap items-center gap-2.5', className)}>
@@ -68,22 +66,17 @@ export function SkillBadgeRow({
           key={skill}
           layoutId={layoutId && `${layoutId}-${skill}`}
           title={skill}
-          className={cn(
-            'inline-flex shrink-0 items-center justify-center rounded-full border border-border',
-            chipSize
-          )}
+          aria-label={skill}
+          className={chipBase}
         >
-          <TechLogo tech={resolveTechId(skill)} size={logoSize} />
+          <TechLogo tech={resolveTechId(skill)} size={sizing.logo} />
         </motion.span>
       ))}
       {overflow > 0 && (
         <motion.span
           layoutId={layoutId && `${layoutId}-overflow`}
-          className={cn(
-            'inline-flex shrink-0 items-center justify-center rounded-full border border-border font-medium text-secondary-light',
-            chipSize,
-            overflowText
-          )}
+          title={skills.slice(MAX_HEADER_SKILLS).join(', ')}
+          className={cn(chipBase, 'font-medium text-secondary-light', sizing.overflowText)}
         >
           +{overflow}
         </motion.span>

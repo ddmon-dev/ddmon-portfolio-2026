@@ -58,6 +58,9 @@ export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
  * 자유 문자열 스킬명을 TechId로 해석한다. 소문자+영숫자만 남겨 정규화하면
  * 'Next.js' → 'nextjs', 'Framer Motion' → 'framermotion'처럼 TechId와 맞아떨어진다.
  * 매칭되는 로고가 없으면 null(범용 폴백 글리프로 표기) 을 돌려준다.
+ *
+ * 전제: TechId는 이 정규화 키와 1:1이어야 한다(구분 문자를 모두 지우므로, 새 TechId 추가 시
+ * 다른 기술과 정규화 결과가 겹치지 않는지 확인할 것).
  */
 export function resolveTechId(skill: string): TechId | null {
   const key = skill.toLowerCase().replace(/[^a-z0-9]/g, '');
