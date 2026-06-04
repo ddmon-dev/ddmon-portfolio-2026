@@ -18,7 +18,14 @@ export type TechId =
   | 'gnuboard5'
   | 'mongodb'
   | 'apache'
-  | 'nginx';
+  | 'nginx'
+  // 아래는 숙련도 티어(TECH_STACK)에는 없지만 프로젝트 스킬 뱃지에서
+  // 로고로 쓰이는 기술들. 로고 레지스트리(TECH_LOGOS)에만 존재한다.
+  | 'tailwind'
+  | 'jquery'
+  | 'puppeteer'
+  | 'framermotion'
+  | 'swiper';
 
 export type TechTier = {
   /** 티어 식별자 */

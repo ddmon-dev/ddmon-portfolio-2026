@@ -2,14 +2,19 @@ import type { ComponentType } from 'react';
 import {
   ApacheOriginal,
   Css3Original,
+  FramermotionOriginal,
   Html5Original,
   JavascriptOriginal,
+  JqueryOriginal,
   MongodbOriginal,
   NextjsOriginal,
   NginxOriginal,
   PhpOriginal,
+  PuppeteerOriginal,
   ReactOriginal,
   SupabaseOriginal,
+  SwiperOriginal,
+  TailwindcssOriginal,
   TypescriptOriginal,
 } from 'devicons-react';
 import type { TechId } from '@/data/tech-stack.data';
@@ -42,20 +47,36 @@ export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
   mongodb: { label: 'MongoDB', Icon: MongodbOriginal },
   apache: { label: 'Apache', Icon: ApacheOriginal },
   nginx: { label: 'Nginx', Icon: NginxOriginal },
+  tailwind: { label: 'Tailwind', Icon: TailwindcssOriginal },
+  jquery: { label: 'jQuery', Icon: JqueryOriginal },
+  puppeteer: { label: 'Puppeteer', Icon: PuppeteerOriginal },
+  framermotion: { label: 'Framer Motion', Icon: FramermotionOriginal },
+  swiper: { label: 'Swiper', Icon: SwiperOriginal },
 };
+
+/**
+ * 자유 문자열 스킬명을 TechId로 해석한다. 소문자+영숫자만 남겨 정규화하면
+ * 'Next.js' → 'nextjs', 'Framer Motion' → 'framermotion'처럼 TechId와 맞아떨어진다.
+ * 매칭되는 로고가 없으면 null(범용 폴백 글리프로 표기) 을 돌려준다.
+ */
+export function resolveTechId(skill: string): TechId | null {
+  const key = skill.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return key in TECH_LOGOS ? (key as TechId) : null;
+}
 
 export function TechLogo({
   tech,
   size = 48,
   className,
 }: {
-  tech: TechId;
+  /** null이면(해석 실패) 범용 폴백 글리프를 그린다. */
+  tech: TechId | null;
   size?: number;
   className?: string;
 }) {
-  const entry = TECH_LOGOS[tech];
+  const entry = tech ? TECH_LOGOS[tech] : undefined;
 
-  if (entry.Icon) {
+  if (entry?.Icon) {
     return (
       <span
         className={cn('inline-flex shrink-0', className)}

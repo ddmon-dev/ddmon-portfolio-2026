@@ -7,6 +7,9 @@ import { cn } from '@/shared/utils/classnames';
 import { SkillBadge } from './skill-badge';
 import { type Project } from './types';
 
+/** 카드 표면에 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
+const MAX_CARD_SKILLS = 5;
+
 /**
  * 그리드에 놓이는 프로젝트 카드(이미지 + 제목 + 카테고리 + 스킬). 이 카드들이 모여
  * ProjectGallery를 이룬다.
@@ -91,16 +94,25 @@ export function ProjectCard({
             {category}
           </motion.p>
         </div>
-        <p className="flex flex-wrap gap-x-1">
-          {skills.map(skill => (
+        <p className="flex flex-wrap gap-1">
+          {skills.slice(0, MAX_CARD_SKILLS).map(skill => (
             <SkillBadge
               key={skill}
+              skill={skill}
+              showLabel={false}
               layoutId={sharedId && `${sharedId}-skill-${skill}`}
-              className="text-xs"
-            >
-              {skill}
-            </SkillBadge>
+            />
           ))}
+          {skills.length > MAX_CARD_SKILLS && (
+            <span
+              className={cn(
+                'inline-flex size-7 shrink-0 items-center justify-center rounded-full',
+                'bg-secondary-light text-on-secondary text-xs'
+              )}
+            >
+              +{skills.length - MAX_CARD_SKILLS}
+            </span>
+          )}
         </p>
       </div>
     </motion.div>

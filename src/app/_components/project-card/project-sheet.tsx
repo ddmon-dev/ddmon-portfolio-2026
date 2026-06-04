@@ -219,14 +219,13 @@ function ProjectPanel({
                 {project.category}
               </motion.p>
             </div>
-            <p className="flex flex-wrap gap-x-1.5">
+            <p className="flex flex-wrap gap-1.5">
               {project.skills.map(skill => (
                 <SkillBadge
                   key={skill}
+                  skill={skill}
                   layoutId={morphId && `${morphId}-skill-${skill}`}
-                >
-                  {skill}
-                </SkillBadge>
+                />
               ))}
             </p>
           </div>
