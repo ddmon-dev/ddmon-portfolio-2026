@@ -13,26 +13,24 @@ export function ProjectCard({ project }: { project: Project }) {
   const { title, category, image, skills } = project;
 
   const sheet = useProjectSheet();
-  const { open, backdropVisible } = sheet;
+  const { phase } = sheet;
   const morphId = useId();
 
-  // open이면 카드는 자리만 지키는 placeholder가 되고, layoutId를 시트 이미지에 양보한다.
-  // 닫는 중(returning)이면 backdrop 위로 승격(z-50)돼 이미지 morph-back이 디밍 없이 보이고,
-  // 카드 텍스트는 이때만 페이드인한다.
-  const isPlaceholder = open;
-  const isReturning = !open && backdropVisible;
-  const revealText = isReturning;
+  // open: 카드는 자리만 지키는 placeholder가 되고 이미지 layoutId를 시트에 양보한다.
+  // closing: backdrop 위로 승격(z-50)돼 이미지가 디밍 없이 morph-back 하고, 카드 텍스트는 이때 페이드인.
+  const isPlaceholder = phase === 'open';
+  const isReturning = phase === 'closing';
 
-  // 닫힘 완료 시 트리거 카드로 포커스 복귀. placeholder 전환으로 카드 서브트리가
-  // remount되므로, 현재 살아있는 트리거 노드를 ref로 잡아 직접 focus한다.
+  // 'open'을 벗어나는 순간(닫기 시작) 트리거 카드로 포커스를 되돌린다. placeholder 전환으로
+  // 카드가 remount되므로, 현재 살아있는 트리거 노드를 ref로 잡아 직접 focus한다.
   const triggerRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
   useEffect(() => {
-    if (wasOpen.current && !open) {
+    if (wasOpen.current && phase !== 'open') {
       triggerRef.current?.focus({ preventScroll: true });
     }
-    wasOpen.current = open;
-  }, [open]);
+    wasOpen.current = phase === 'open';
+  }, [phase]);
 
   return (
     <>
@@ -78,9 +76,9 @@ export function ProjectCard({ project }: { project: Project }) {
           />
         </motion.div>
         <motion.div
-          initial={revealText ? { opacity: 0 } : false}
+          initial={isReturning ? { opacity: 0 } : false}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: revealText ? 0.25 : 0 }}
+          transition={{ duration: 0.4, delay: isReturning ? 0.25 : 0 }}
           className="space-y-3"
         >
           <div className="space-y-1 px-2 text-center">

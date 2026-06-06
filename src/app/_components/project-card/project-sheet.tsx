@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HouseIcon, GithubLogoIcon, ListIcon } from '@phosphor-icons/react';
@@ -24,17 +24,17 @@ export function ProjectSheet({
   morphId: string;
   sheet: ProjectSheetState;
 }) {
-  const { open, expanded } = sheet;
+  const { phase } = sheet;
 
   const trapRef = useRef<HTMLDivElement>(null);
-  useFocusTrap(open, trapRef);
+  useFocusTrap(phase === 'open', trapRef);
 
   const mounted = useMounted();
 
   const node = (
     <>
-      <AnimatePresence onExitComplete={sheet.onBackdropExitComplete}>
-        {open && (
+      <AnimatePresence onExitComplete={sheet.finishClosing}>
+        {phase === 'open' && (
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -47,18 +47,13 @@ export function ProjectSheet({
       </AnimatePresence>
 
       <div ref={trapRef}>
-        {open && (
+        {phase === 'open' && (
           <div className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto">
-            <ProjectPanel
-              project={project}
-              morphId={morphId}
-              expanded={expanded}
-              onMorphComplete={sheet.onMorphComplete}
-            />
+            <ProjectPanel project={project} morphId={morphId} />
           </div>
         )}
         <AnimatePresence>
-          {open && <SheetNav key="nav" close={sheet.close} />}
+          {phase === 'open' && <SheetNav key="nav" close={sheet.close} />}
         </AnimatePresence>
       </div>
     </>
@@ -72,14 +67,14 @@ export function ProjectSheet({
 function ProjectPanel({
   project,
   morphId,
-  expanded,
-  onMorphComplete,
 }: {
   project: Project;
   morphId: string;
-  expanded: boolean;
-  onMorphComplete: () => void;
 }) {
+  // 이미지 morph가 끝나면 본문을 페이드인한다. 패널은 'open'일 때만 마운트되므로
+  // 다시 열 때마다 자동으로 false에서 시작한다.
+  const [contentVisible, setContentVisible] = useState(false);
+
   return (
     <article
       role="dialog"
@@ -90,7 +85,7 @@ function ProjectPanel({
       <Container className="max-sm:px-0">
         <motion.div
           layoutId={`${morphId}-image`}
-          onLayoutAnimationComplete={onMorphComplete}
+          onLayoutAnimationComplete={() => setContentVisible(true)}
           style={{
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
@@ -112,7 +107,7 @@ function ProjectPanel({
       <Container>
         <motion.div
           initial={false}
-          animate={{ opacity: expanded ? 1 : 0 }}
+          animate={{ opacity: contentVisible ? 1 : 0 }}
           transition={{ duration: 0.25 }}
           className="divide-y divide-border space-y-4 [&>div]:py-8 [&>div]:first:pt-0 [&>div]:last:pb-0"
         >

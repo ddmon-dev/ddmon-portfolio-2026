@@ -2,35 +2,33 @@
 
 import { useEffect, useState } from 'react';
 
+export type SheetPhase = 'closed' | 'open' | 'closing';
+
 /**
- * 카드 한 장이 소유하는 상세 시트의 상태·타이밍.
+ * 카드 한 장이 소유하는 상세 시트의 생명주기.
  *
- * - open: 시트 표시 여부. scroll-lock/ESC의 기준.
- * - backdropVisible: 닫는 동안 카드를 backdrop 위로 승격해 morph를 디밍 없이 보이기 위한 플래그.
- * - expanded: 이미지 morph 완료 여부. true면 헤더/본문 페이드인.
+ * - closed:  그리드 카드만. 시트/백드롭 없음.
+ * - open:    시트 표시. 카드는 placeholder로 자리만 지키고 이미지 layoutId를 시트에 양보한다.
+ * - closing: 닫는 중. 시트는 사라지고 카드가 backdrop 위로 떠 이미지가 morph-back 한다.
+ *            백드롭 페이드아웃이 끝나면(finishClosing) closed로 돌아간다.
  */
 export function useProjectSheet() {
-  const [open, setOpen] = useState(false);
-  const [backdropVisible, setBackdropVisible] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [phase, setPhase] = useState<SheetPhase>('closed');
 
-  const openSheet = () => {
-    setExpanded(false);
-    setBackdropVisible(true);
-    setOpen(true);
-  };
+  const openSheet = () => setPhase('open');
+  const close = () => setPhase('closing');
+  const finishClosing = () =>
+    setPhase(current => (current === 'closing' ? 'closed' : current));
 
-  const close = () => setOpen(false);
-
-  // 시트가 열린 동안 body 스크롤 잠금 + ESC 닫기
+  // 시트가 떠 있는(open) 동안 body 스크롤 잠금 + ESC 닫기
   useEffect(() => {
-    if (!open) return;
+    if (phase !== 'open') return;
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') setPhase('closing');
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -38,19 +36,9 @@ export function useProjectSheet() {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open]);
+  }, [phase]);
 
-  return {
-    open,
-    backdropVisible,
-    expanded,
-    openSheet,
-    close,
-    /** backdrop 페이드아웃이 끝난 뒤 카드 z 승격을 원복. */
-    onBackdropExitComplete: () => setBackdropVisible(false),
-    /** 이미지 morph가 끝나면 헤더/본문 페이드인 트리거. */
-    onMorphComplete: () => setExpanded(true),
-  };
+  return { phase, openSheet, close, finishClosing };
 }
 
 export type ProjectSheetState = ReturnType<typeof useProjectSheet>;
