@@ -15,10 +15,10 @@ export function DetailSection({
 }) {
   return (
     <section className="space-y-2">
-      <h4 className="text-sm font-bold uppercase tracking-wide text-black/40">
+      <h4 className="text-sm font-bold uppercase tracking-wide text-muted-foreground/60">
         {title}
       </h4>
-      <div className="leading-relaxed text-black/80">{children}</div>
+      <div className="leading-relaxed text-foreground/80">{children}</div>
     </section>
   );
 }
