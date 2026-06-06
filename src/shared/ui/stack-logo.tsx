@@ -17,17 +17,21 @@ import {
   TailwindcssOriginal,
   TypescriptOriginal,
 } from 'devicons-react';
-import type { TechId } from '@/data/tech-stack.data';
 import { cn } from '@/shared/utils/classnames';
 
 type DeviconProps = { size?: number | string; className?: string };
 
-type TechLogoEntry = {
+type StackLogoEntry = {
   label: string;
   Icon?: ComponentType<DeviconProps>;
 };
 
-export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
+/**
+ * 기술 스택 → 로고/라벨 매핑 단일 레지스트리.
+ * devicons-react에 있는 스택은 컬러 아이콘을, 없는 스택은 범용 폴백을 쓴다.
+ * StackId는 이 레지스트리의 키에서 파생되므로 여기가 스택의 단일 소스다.
+ */
+export const STACK_LOGOS = {
   html: { label: 'HTML', Icon: Html5Original },
   css: { label: 'CSS', Icon: Css3Original },
   javascript: { label: 'JavaScript', Icon: JavascriptOriginal },
@@ -45,29 +49,33 @@ export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
   puppeteer: { label: 'Puppeteer', Icon: PuppeteerOriginal },
   framermotion: { label: 'Framer Motion', Icon: FramermotionOriginal },
   swiper: { label: 'Swiper', Icon: SwiperOriginal },
-};
+} satisfies Record<string, StackLogoEntry>;
+
+export type StackId = keyof typeof STACK_LOGOS;
 
 /**
- * 자유 문자열 스킬명을 TechId로 해석한다. 소문자+영숫자만 남겨 정규화하면
- * 'Next.js' → 'nextjs', 'Framer Motion' → 'framermotion'처럼 TechId와 맞아떨어진다.
+ * 자유 문자열 스킬명을 StackId로 해석한다. 소문자+영숫자만 남겨 정규화하면
+ * 'Next.js' → 'nextjs', 'Framer Motion' → 'framermotion'처럼 StackId와 맞아떨어진다.
  * 매칭되는 로고가 없으면 null(범용 폴백 글리프로 표기) 을 돌려준다.
  *
- * 전제: TechId는 이 정규화 키와 1:1이어야 한다(구분 문자를 모두 지우므로, 새 TechId 추가 시
- * 다른 기술과 정규화 결과가 겹치지 않는지 확인할 것).
+ * 전제: StackId는 이 정규화 키와 1:1이어야 한다(구분 문자를 모두 지우므로, 새 스택 추가 시
+ * 다른 스택과 정규화 결과가 겹치지 않는지 확인할 것).
  */
-export function resolveTechId(skill: string): TechId | null {
+export function resolveStackId(skill: string): StackId | null {
   const key = skill.toLowerCase().replace(/[^a-z0-9]/g, '');
-  return key in TECH_LOGOS ? (key as TechId) : null;
+  return key in STACK_LOGOS ? (key as StackId) : null;
 }
 
-export function TechLogo({
-  tech,
+export function StackLogo({
+  stack,
   className,
 }: {
-  tech: TechId | null;
+  stack: StackId | null;
   className?: string;
 }) {
-  const entry = tech ? TECH_LOGOS[tech] : undefined;
+  const entry: StackLogoEntry | undefined = stack
+    ? STACK_LOGOS[stack]
+    : undefined;
 
   if (entry?.Icon) {
     return <entry.Icon className={cn(className)} size="1em" />;

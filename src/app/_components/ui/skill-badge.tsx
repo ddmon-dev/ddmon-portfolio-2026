@@ -1,4 +1,4 @@
-import { TechLogo, resolveTechId } from '@/shared/ui/tech-logo';
+import { StackLogo, resolveStackId } from '@/shared/ui/stack-logo';
 import { HoverTooltip } from '@/shared/ui/tooltip';
 import { cn } from '@/shared/utils/classnames';
 
@@ -50,7 +50,7 @@ export function SkillChip({
       aria-label={tooltip ? undefined : skill}
       className={cn(className)}
     >
-      <TechLogo tech={resolveTechId(skill)} className="text-3xl" />
+      <StackLogo stack={resolveStackId(skill)} className="text-3xl" />
     </span>
   );
 
