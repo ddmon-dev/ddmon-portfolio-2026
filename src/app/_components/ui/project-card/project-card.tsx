@@ -4,13 +4,13 @@ import Image from 'next/image';
 import { type KeyboardEvent, useEffect, useId, useRef } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
-import { SkillBadges } from '../skill-badge';
+import { StackBadges } from '../stack-badges';
 import { ProjectSheet } from './project-sheet';
 import { useProjectSheet } from './use-project-sheet';
 import { type Project } from './types';
 
 export function ProjectCard({ project }: { project: Project }) {
-  const { title, category, image, skills } = project;
+  const { title, category, image, stacks } = project;
 
   const sheet = useProjectSheet();
   const { phase } = sheet;
@@ -82,7 +82,7 @@ export function ProjectCard({ project }: { project: Project }) {
             <h3 className="text-lg font-bold">{title}</h3>
             <p className="text-sm">{category}</p>
           </div>
-          <SkillBadges skills={skills} />
+          <StackBadges stacks={stacks} />
         </motion.div>
       </motion.div>
 

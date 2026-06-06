@@ -1,5 +1,5 @@
 import { Container } from '@/shared/ui/container';
-import { SkillChip } from './ui/skill-badge';
+import { StackChip } from './ui/stack-badges';
 
 export function About() {
   return (

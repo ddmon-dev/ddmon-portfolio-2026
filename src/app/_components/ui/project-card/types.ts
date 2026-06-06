@@ -11,6 +11,6 @@ export type Project = {
   title: string;
   category: string;
   image: ProjectImage;
-  skills: string[];
+  stacks: string[];
   content: ReactNode;
 };

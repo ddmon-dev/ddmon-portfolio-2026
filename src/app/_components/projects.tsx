@@ -9,7 +9,7 @@ import { ProjectGallery, DetailSection, type Project } from './ui/project-card';
  * NOTE: 카드/상세 콘텐츠는 일단 하드코딩한다. 이미지는 현재 panoramafilm.png 하나만
  * 확보되어 있어 공통 사용하며, 프로젝트별 스크린샷 확보 후 교체한다.
  *
- * 메타(title/category/image/skills)는 데이터로, 상세 본문(content)은 JSX로 작성한다.
+ * 메타(title/category/image/stacks)는 데이터로, 상세 본문(content)은 JSX로 작성한다.
  */
 
 const placeholderImage = {
@@ -24,7 +24,7 @@ const selectedProjects: Project[] = [
     title: '파노라마 필름',
     category: '홈페이지 / 웹앱',
     image: { ...placeholderImage, alt: '파노라마 필름 프로젝트' },
-    skills: [
+    stacks: [
       'Next.js',
       'Supabase',
       'Tailwind',
@@ -77,7 +77,7 @@ const selectedProjects: Project[] = [
     title: '백신정보포털',
     category: '데이터 포털 / CMS',
     image: { ...placeholderImage, alt: '백신정보포털 프로젝트' },
-    skills: ['Next.js', 'Supabase', 'Server Actions'],
+    stacks: ['Next.js', 'Supabase', 'Server Actions'],
     content: (
       <>
         <DetailSection title="Overview">
@@ -118,7 +118,7 @@ const selectedProjects: Project[] = [
     title: '엔젤로보틱스 홈페이지',
     category: '브랜드 / 제품 홈페이지',
     image: { ...placeholderImage, alt: '엔젤로보틱스 홈페이지 프로젝트' },
-    skills: ['Next.js', 'React', 'Supabase'],
+    stacks: ['Next.js', 'React', 'Supabase'],
     content: (
       <>
         <DetailSection title="Overview">
@@ -157,7 +157,7 @@ const selectedProjects: Project[] = [
     title: 'RGB Managers',
     category: '사내 운영 시스템',
     image: { ...placeholderImage, alt: 'RGB Managers 프로젝트' },
-    skills: ['Next.js', 'MongoDB', 'Puppeteer'],
+    stacks: ['Next.js', 'MongoDB', 'Puppeteer'],
     content: (
       <>
         <DetailSection title="Overview">
@@ -210,7 +210,7 @@ const systemsProjects: Project[] = [
     title: 'React 전자카탈로그 템플릿',
     category: '제작 템플릿',
     image: { ...placeholderImage, alt: 'React 전자카탈로그 템플릿' },
-    skills: ['React', 'Framer Motion', 'Swiper'],
+    stacks: ['React', 'Framer Motion', 'Swiper'],
     content: (
       <>
         <DetailSection title="Why">
@@ -240,7 +240,7 @@ const systemsProjects: Project[] = [
     title: '홈페이지 제작 템플릿',
     category: '제작 체계',
     image: { ...placeholderImage, alt: '홈페이지 제작 템플릿' },
-    skills: ['PHP', 'GnuBoard5', 'jQuery'],
+    stacks: ['PHP', 'GnuBoard5', 'jQuery'],
     content: (
       <>
         <DetailSection title="Why">

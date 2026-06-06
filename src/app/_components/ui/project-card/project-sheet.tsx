@@ -10,7 +10,7 @@ import { cn } from '@/shared/utils/classnames';
 import { useMounted } from '@/shared/hooks/use-mounted';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
-import { SkillBadges } from '../skill-badge';
+import { StackBadges } from '../stack-badges';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { type ProjectSheetState } from './use-project-sheet';
@@ -118,7 +118,7 @@ function ProjectPanel({
             </div>
             <div className="space-y-3">
               <h4 className="font-bold text-muted-foreground/60">USED STACK</h4>
-              <SkillBadges skills={project.skills} full />
+              <StackBadges stacks={project.stacks} full />
             </div>
           </SheetRow>
 

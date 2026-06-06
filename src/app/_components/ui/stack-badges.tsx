@@ -4,17 +4,17 @@ import { cn } from '@/shared/utils/classnames';
 
 export const TRUNCATE_COUNT = 5;
 
-export function SkillBadges({
-  skills,
+export function StackBadges({
+  stacks,
   full = false,
   className,
 }: {
-  skills: string[];
+  stacks: string[];
   full?: boolean;
   className?: string;
 }) {
-  const visible = full ? skills : skills.slice(0, TRUNCATE_COUNT);
-  const truncated = full ? 0 : skills.length - TRUNCATE_COUNT;
+  const visible = full ? stacks : stacks.slice(0, TRUNCATE_COUNT);
+  const truncated = full ? 0 : stacks.length - TRUNCATE_COUNT;
 
   return (
     <p
@@ -23,38 +23,38 @@ export function SkillBadges({
         className
       )}
     >
-      {visible.map(skill => (
-        <SkillChip key={skill} skill={skill} tooltip={full} />
+      {visible.map(stack => (
+        <StackChip key={stack} stack={stack} tooltip={full} />
       ))}
 
       <TruncatedChip
-        title={skills.slice(TRUNCATE_COUNT).join(', ')}
+        title={stacks.slice(TRUNCATE_COUNT).join(', ')}
         truncated={truncated}
       />
     </p>
   );
 }
 
-export function SkillChip({
-  skill,
+export function StackChip({
+  stack,
   tooltip,
   className,
 }: {
-  skill: string;
+  stack: string;
   tooltip?: boolean;
   className?: string;
 }) {
   const chip = (
     <span
-      title={tooltip ? undefined : skill}
-      aria-label={tooltip ? undefined : skill}
+      title={tooltip ? undefined : stack}
+      aria-label={tooltip ? undefined : stack}
       className={cn(className)}
     >
-      <StackLogo stack={resolveStackId(skill)} className="text-3xl" />
+      <StackLogo stack={resolveStackId(stack)} className="text-3xl" />
     </span>
   );
 
-  return tooltip ? <HoverTooltip label={skill}>{chip}</HoverTooltip> : chip;
+  return tooltip ? <HoverTooltip label={stack}>{chip}</HoverTooltip> : chip;
 }
 
 function TruncatedChip({
