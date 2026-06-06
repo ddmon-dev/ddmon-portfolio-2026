@@ -2,10 +2,6 @@ import { Container } from '@/shared/ui/container';
 import { ProjectCard } from './project-card';
 import { type Project } from './types';
 
-/**
- * 프로젝트 한 섹션 = 제목 + 카드 그리드.
- * 각 카드가 자기 상세 시트(body 포털)와 morph 상태를 독립적으로 소유한다.
- */
 export function ProjectGallery({
   title,
   projects,

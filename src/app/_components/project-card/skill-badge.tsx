@@ -1,7 +1,6 @@
 import { TechLogo, resolveTechId } from '@/shared/ui/tech-logo';
 import { cn } from '@/shared/utils/classnames';
 
-/** 헤더(카드)에 로고로 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
 export const MAX_HEADER_SKILLS = 5;
 
 export function SkillBadges({
