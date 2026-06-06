@@ -1,4 +1,4 @@
-import { ProjectGallery, DetailSection, type Project } from './project-card';
+import { ProjectGallery, DetailSection, type Project } from './ui/project-card';
 
 /**
  * 주요 프로젝트 섹션은 메이져 프로젝트만 보여줄 것
@@ -46,28 +46,28 @@ const selectedProjects: Project[] = [
         </DetailSection>
         <DetailSection title="Role">
           <p>
-            브랜드 사이트 반응형 구현부터 발주·어드민 화면 설계, DB 설계, 비즈니스
-            로직, 배포, 고객사 커뮤니케이션까지 단독으로 담당했습니다.
+            브랜드 사이트 반응형 구현부터 발주·어드민 화면 설계, DB 설계,
+            비즈니스 로직, 배포, 고객사 커뮤니케이션까지 단독으로 담당했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Problem">
           <p>
-            지역거점회원과 시공점회원으로 나뉘는 권한 구조와 발주·보증서 플로우를
-            데이터 모델로 풀어내야 했고, 카카오 알림톡 연동 이슈로 Vercel에서
-            self-hosting 환경으로 배포를 전환해야 했습니다.
+            지역거점회원과 시공점회원으로 나뉘는 권한 구조와 발주·보증서
+            플로우를 데이터 모델로 풀어내야 했고, 카카오 알림톡 연동 이슈로
+            Vercel에서 self-hosting 환경으로 배포를 전환해야 했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Solution">
           <p>
-            상품 발주, 장바구니, 발주 관리, 보증서 발급 및 PDF 출력, 브랜드 사이트
-            내 보증서 조회, 게시판, 매출 통계를 구현하고, 가비아 클라우드 서버에
-            Nginx 기반 self-hosting 환경을 구성해 운영했습니다.
+            상품 발주, 장바구니, 발주 관리, 보증서 발급 및 PDF 출력, 브랜드
+            사이트 내 보증서 조회, 게시판, 매출 통계를 구현하고, 가비아 클라우드
+            서버에 Nginx 기반 self-hosting 환경을 구성해 운영했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Tech Stack">
           <p>
-            Next.js 14, React, Supabase(Auth/DB/Storage/RPC), Tailwind CSS, Gabia
-            Cloud, Nginx, Kakao Alimtalk
+            Next.js 14, React, Supabase(Auth/DB/Storage/RPC), Tailwind CSS,
+            Gabia Cloud, Nginx, Kakao Alimtalk
           </p>
         </DetailSection>
       </>
@@ -88,26 +88,27 @@ const selectedProjects: Project[] = [
         </DetailSection>
         <DetailSection title="Role">
           <p>
-            PC 디자인을 제외한 반응형 UI 구현, 프론트엔드 개발, 관리자 CMS, DB 구조
-            설계와 데이터 정규화, 프로젝트 기획·관리를 담당했습니다.
+            PC 디자인을 제외한 반응형 UI 구현, 프론트엔드 개발, 관리자 CMS, DB
+            구조 설계와 데이터 정규화, 프로젝트 기획·관리를 담당했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Problem">
           <p>
             한 시설이 비임상·임상·위탁생산 등 여러 카테고리에 동시에 속하고,
-            카테고리마다 상세 속성과 필터 조건이 달라 단순 게시판이 아닌 복합 데이터
-            탐색 구조가 필요했습니다.
+            카테고리마다 상세 속성과 필터 조건이 달라 단순 게시판이 아닌 복합
+            데이터 탐색 구조가 필요했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Solution">
           <p>
-            지원시설 데이터를 정규화하고, 국내/해외·지역·구분·생물안전등급·인증 등
-            다양한 조건으로 탐색 가능한 정보 구조와 UI를 설계했습니다.
+            지원시설 데이터를 정규화하고, 국내/해외·지역·구분·생물안전등급·인증
+            등 다양한 조건으로 탐색 가능한 정보 구조와 UI를 설계했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Tech Stack">
           <p>
-            Next.js 14, React, Supabase, Server Actions, Tailwind CSS, Gabia Cloud
+            Next.js 14, React, Supabase, Server Actions, Tailwind CSS, Gabia
+            Cloud
           </p>
         </DetailSection>
       </>
@@ -122,8 +123,8 @@ const selectedProjects: Project[] = [
       <>
         <DetailSection title="Overview">
           <p>
-            웨어러블 로봇 기업의 브랜드·제품 홈페이지 구축 프로젝트입니다. 디자인을
-            제외한 개발 전반을 담당했습니다.
+            웨어러블 로봇 기업의 브랜드·제품 홈페이지 구축 프로젝트입니다.
+            디자인을 제외한 개발 전반을 담당했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Role">
@@ -135,13 +136,15 @@ const selectedProjects: Project[] = [
         <DetailSection title="Problem">
           <p>
             PC 중심 디자인에 일부 모바일 화면만 제공되어, 웹·스크롤 인터랙션에
-            최적화되지 않은 디자인을 실제 브라우저 환경에 맞게 재구성해야 했습니다.
+            최적화되지 않은 디자인을 실제 브라우저 환경에 맞게 재구성해야
+            했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Solution">
           <p>
             메인·제품 페이지의 스크롤 애니메이션과 섹션 전환을 구현하고, 태블릿·
-            모바일 반응형 화면을 직접 해석해 브랜드 감각과 사용성을 함께 살렸습니다.
+            모바일 반응형 화면을 직접 해석해 브랜드 감각과 사용성을 함께
+            살렸습니다.
           </p>
         </DetailSection>
         <DetailSection title="Tech Stack">
@@ -159,14 +162,15 @@ const selectedProjects: Project[] = [
       <>
         <DetailSection title="Overview">
           <p>
-            기존 PHP 기반 프로젝트 관리툴을 Next.js·MongoDB 기반 사내 운영 시스템으로
-            개편한 프로젝트입니다. 사내 20명 이내가 실제 업무에 사용했습니다.
+            기존 PHP 기반 프로젝트 관리툴을 Next.js·MongoDB 기반 사내 운영
+            시스템으로 개편한 프로젝트입니다. 사내 20명 이내가 실제 업무에
+            사용했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Role">
           <p>
-            별도 디자인 없이 업무 흐름을 직접 파악해 UI·기능을 설계하고, 기존 MySQL
-            데이터를 MongoDB로 마이그레이션했습니다.
+            별도 디자인 없이 업무 흐름을 직접 파악해 UI·기능을 설계하고, 기존
+            MySQL 데이터를 MongoDB로 마이그레이션했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Problem">
@@ -178,8 +182,8 @@ const selectedProjects: Project[] = [
         <DetailSection title="Solution">
           <p>
             프로젝트·구성원·포트폴리오·문의·고객·견적서 관리와 견적서 PDF 출력을
-            하나의 흐름으로 묶었습니다. v1(Next.js 13)으로 빠르게 도입 후 v2(Next.js
-            15)로 UI와 서버 로직을 개편하며 지속 확장했습니다.
+            하나의 흐름으로 묶었습니다. v1(Next.js 13)으로 빠르게 도입 후
+            v2(Next.js 15)로 UI와 서버 로직을 개편하며 지속 확장했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Tech Stack">
@@ -191,7 +195,9 @@ const selectedProjects: Project[] = [
 ];
 
 export function SelectedProjects() {
-  return <ProjectGallery title="Selected Projects" projects={selectedProjects} />;
+  return (
+    <ProjectGallery title="Selected Projects" projects={selectedProjects} />
+  );
 }
 
 /**
@@ -216,15 +222,15 @@ const systemsProjects: Project[] = [
         </DetailSection>
         <DetailSection title="How">
           <p>
-            페이지 전환, 애니메이션, 네비게이션, 다국어, 모바일 세로형 전환 등 반복
-            케이스를 패턴화하고, 템플릿 코어를 건드리지 않고 페이지 파일만 추가해
-            퍼블리싱할 수 있는 구조로 설계했습니다.
+            페이지 전환, 애니메이션, 네비게이션, 다국어, 모바일 세로형 전환 등
+            반복 케이스를 패턴화하고, 템플릿 코어를 건드리지 않고 페이지 파일만
+            추가해 퍼블리싱할 수 있는 구조로 설계했습니다.
           </p>
         </DetailSection>
         <DetailSection title="Result">
           <p>
-            React를 잘 모르는 후임도 사용할 수 있는 제작 구조가 되어, 후임 제작분
-            포함 50건 이상에 활용되었습니다.
+            React를 잘 모르는 후임도 사용할 수 있는 제작 구조가 되어, 후임
+            제작분 포함 50건 이상에 활용되었습니다.
           </p>
         </DetailSection>
       </>
@@ -252,8 +258,8 @@ const systemsProjects: Project[] = [
         </DetailSection>
         <DetailSection title="Result">
           <p>
-            개발 경험이 많지 않은 퍼블리셔도 작업 가능한 구조가 되어, 회사의 다수
-            홈페이지 제작에 기본 구조로 활용되었습니다.
+            개발 경험이 많지 않은 퍼블리셔도 작업 가능한 구조가 되어, 회사의
+            다수 홈페이지 제작에 기본 구조로 활용되었습니다.
           </p>
         </DetailSection>
       </>
