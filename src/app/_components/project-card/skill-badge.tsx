@@ -4,15 +4,7 @@ import { cn } from '@/shared/utils/classnames';
 /** 헤더(카드)에 로고로 노출할 최대 스킬 수. 초과분은 +N 칩으로 접는다. */
 export const MAX_HEADER_SKILLS = 5;
 
-const chipBase =
-  'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
-
-/**
- * 스킬 로고 칩들의 가로 줄.
- * - 기본(카드): MAX_HEADER_SKILLS까지만 보이고 나머지는 +N으로 접는다.
- * - full(시트): 전부 펼치고, 칩에 hover하면 스킬명을 툴팁으로 보여준다.
- */
-export function SkillBadgeRow({
+export function SkillBadges({
   skills,
   full = false,
   className,
@@ -25,31 +17,33 @@ export function SkillBadgeRow({
   const overflow = full ? 0 : skills.length - MAX_HEADER_SKILLS;
 
   return (
-    <p className={cn('flex w-fit flex-wrap items-center gap-1', className)}>
+    <p
+      className={cn(
+        'flex flex-wrap justify-center items-center gap-1',
+        className
+      )}
+    >
       {visible.map(skill => (
         <SkillChip key={skill} skill={skill} tooltip={full} />
       ))}
-      {overflow > 0 && (
-        <span
-          title={skills.slice(MAX_HEADER_SKILLS).join(', ')}
-          className={cn(
-            chipBase,
-            'bg-transparent text-sm font-semibold text-secondary-light/50'
-          )}
-        >
-          +{overflow}
-        </span>
-      )}
+
+      <TruncatedChip
+        title={skills.slice(MAX_HEADER_SKILLS).join(', ')}
+        overflow={overflow}
+      />
     </p>
   );
 }
+
+const chipBaseClassNames =
+  'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
 
 function SkillChip({ skill, tooltip }: { skill: string; tooltip: boolean }) {
   return (
     <span
       title={tooltip ? undefined : skill}
       aria-label={skill}
-      className={cn(chipBase, tooltip && 'group/skill relative')}
+      className={cn(chipBaseClassNames, tooltip && 'group/skill relative')}
     >
       <TechLogo tech={resolveTechId(skill)} size={24} />
       {tooltip && (
@@ -61,6 +55,28 @@ function SkillChip({ skill, tooltip }: { skill: string; tooltip: boolean }) {
           <span className="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 rounded-[2px] bg-secondary" />
         </span>
       )}
+    </span>
+  );
+}
+
+function TruncatedChip({
+  title,
+  overflow,
+}: {
+  title: string;
+  overflow: number;
+}) {
+  if (overflow === 0) return null;
+
+  return (
+    <span
+      title={title}
+      className={cn(
+        chipBaseClassNames,
+        'bg-transparent text-sm font-semibold text-secondary-light/50'
+      )}
+    >
+      +{overflow}
     </span>
   );
 }

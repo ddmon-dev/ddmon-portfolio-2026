@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { type KeyboardEvent, type Ref } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
-import { SkillBadgeRow } from './skill-badge';
+import { SkillBadges } from './skill-badge';
 import { type Project } from './types';
 
 export function ProjectCard({
@@ -73,15 +73,11 @@ export function ProjectCard({
         transition={{ duration: 0.4, delay: revealText ? 0.25 : 0 }}
         className="space-y-3"
       >
-        <div className="space-y-1 px-2">
-          <h3 className="mx-auto w-fit text-center text-lg leading-[1.3] font-bold">
-            {title}
-          </h3>
-          <p className="mx-auto w-fit text-center text-sm leading-normal">
-            {category}
-          </p>
+        <div className="space-y-1 px-2 text-center">
+          <h3 className="text-lg font-bold">{title}</h3>
+          <p className="text-sm">{category}</p>
         </div>
-        <SkillBadgeRow skills={skills} className="mx-auto" />
+        <SkillBadges skills={skills} />
       </motion.div>
     </motion.div>
   );

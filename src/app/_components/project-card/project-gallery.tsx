@@ -43,7 +43,6 @@ export function ProjectGallery({
         {projects.map((project, index) => {
           const isActive = activeIndex === index;
           const isPlaceholder = open && isActive;
-          // 닫는 중인 활성 카드: backdrop 위로 올려 이미지 morph를 깨끗하게 보이고 텍스트는 페이드인.
           const isReturning = !open && isActive && backdropVisible;
 
           return (
