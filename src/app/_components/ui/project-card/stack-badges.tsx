@@ -19,7 +19,8 @@ export function StackBadges({
   return (
     <p
       className={cn(
-        'flex flex-wrap justify-center items-center gap-3',
+        'flex flex-wrap justify-center items-center gap-3 text-3xl',
+        full && 'text-4xl gap-4',
         className
       )}
     >
@@ -50,7 +51,7 @@ export function StackChip({
       aria-label={tooltip ? undefined : stack}
       className={cn(className)}
     >
-      <StackLogo stack={resolveStackId(stack)} className="text-3xl" />
+      <StackLogo stack={resolveStackId(stack)} />
     </span>
   );
 

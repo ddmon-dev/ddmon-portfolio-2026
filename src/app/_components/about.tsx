@@ -1,5 +1,5 @@
 import { Container } from '@/shared/ui/container';
-import { StackChip } from './ui/stack-badges';
+import { STACK_LOGOS, StackLogo, type StackId } from '@/shared/ui/stack-logo';
 
 export function About() {
   return (
@@ -47,23 +47,29 @@ export function About() {
           </ul>
         </Article>
         <Article title="Skills">
-          <ul className="flex flex-wrap gap-4">
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>React</li>
-            <li>Next.js</li>
-            <li>TypeScript</li>
-            <li>Supabase</li>
-            <li>PHP</li>
-            <li>GnuBoard5</li>
-            <li>MongoDB</li>
-            <li>Apache</li>
-            <li>Nginx</li>
-            <li>AI-assisted development</li>
-            <li>Design-to-code</li>
-            <li>Responsive UI</li>
-            <li>Interaction implementation</li>
-            <li>Template and workflow system building</li>
+          <ul className="grid grid-cols-5 gap-1 gap-y-6 border border-border p-4 py-8">
+            {(
+              [
+                'html',
+                'css',
+                'js',
+                'react',
+                'nextjs',
+                'ts',
+                'php',
+                'g5',
+                'mongodb',
+                'apache',
+                'nginx',
+              ] as StackId[]
+            ).map(stack => (
+              <li key={stack} className="flex flex-col items-center gap-3">
+                <StackLogo stack={stack} className="text-4xl" />
+                <span className="text-sm font-medium text-muted-foreground">
+                  {STACK_LOGOS[stack].label}
+                </span>
+              </li>
+            ))}
           </ul>
         </Article>
         <Article title="Experience">

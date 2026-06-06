@@ -10,7 +10,7 @@ import { cn } from '@/shared/utils/classnames';
 import { useMounted } from '@/shared/hooks/use-mounted';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
-import { StackBadges } from '../stack-badges';
+import { StackBadges } from './stack-badges';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { type ProjectSheetState } from './use-project-sheet';
