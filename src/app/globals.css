@@ -60,7 +60,7 @@ body {
   font-family: var(--font-primary);
 }
 
-@media (min-width: 96rem) {
+@media (min-width: 58rem) {
   .container {
     max-width: 58rem;
   }
