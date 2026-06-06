@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useSyncExternalStore } from 'react';
+import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HouseIcon, GithubLogoIcon, ListIcon } from '@phosphor-icons/react';
 import { cn } from '@/shared/utils/classnames';
+import { useMounted } from '@/shared/hooks/use-mounted';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
 import { SkillBadges } from './skill-badge';
@@ -64,6 +65,7 @@ export function ProjectSheet({
   );
 
   if (!mounted) return null;
+
   return createPortal(node, document.body);
 }
 
@@ -182,14 +184,4 @@ function SheetRow({
   children: React.ReactNode;
 }) {
   return <div className={cn('px-6 max-sm:px-0', className)}>{children}</div>;
-}
-
-/** 클라이언트 마운트 후 true. createPortal을 SSR에서 호출하지 않도록 가드한다. */
-const emptySubscribe = () => () => {};
-function useMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
 }
