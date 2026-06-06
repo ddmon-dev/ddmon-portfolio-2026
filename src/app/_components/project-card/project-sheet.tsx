@@ -12,25 +12,27 @@ import { Button } from '@/shared/ui/button';
 import { SkillBadges } from './skill-badge';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
-import { type ProjectGallery } from './use-project-gallery';
+import { type ProjectSheetState } from './use-project-sheet';
 
 export function ProjectSheet({
-  gallery,
-  projects,
+  project,
+  morphId,
+  sheet,
 }: {
-  gallery: ProjectGallery;
-  projects: Project[];
+  project: Project;
+  morphId: string;
+  sheet: ProjectSheetState;
 }) {
-  const { open, activeIndex, expanded, idBase } = gallery;
+  const { open, expanded } = sheet;
 
   const trapRef = useRef<HTMLDivElement>(null);
   useFocusTrap(open, trapRef);
 
   const mounted = useMounted();
 
-  const sheet = (
+  const node = (
     <>
-      <AnimatePresence onExitComplete={gallery.onBackdropExitComplete}>
+      <AnimatePresence onExitComplete={sheet.onBackdropExitComplete}>
         {open && (
           <motion.div
             key="backdrop"
@@ -47,22 +49,22 @@ export function ProjectSheet({
         {open && (
           <div className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto">
             <ProjectPanel
-              project={projects[activeIndex]}
-              morphId={`${idBase}-${activeIndex}`}
+              project={project}
+              morphId={morphId}
               expanded={expanded}
-              onMorphComplete={gallery.onMorphComplete}
+              onMorphComplete={sheet.onMorphComplete}
             />
           </div>
         )}
         <AnimatePresence>
-          {open && <SheetNav key="nav" gallery={gallery} />}
+          {open && <SheetNav key="nav" close={sheet.close} />}
         </AnimatePresence>
       </div>
     </>
   );
 
   if (!mounted) return null;
-  return createPortal(sheet, document.body);
+  return createPortal(node, document.body);
 }
 
 function ProjectPanel({
@@ -132,7 +134,7 @@ function ProjectPanel({
   );
 }
 
-function SheetNav({ gallery }: { gallery: ProjectGallery }) {
+function SheetNav({ close }: { close: () => void }) {
   return (
     <motion.nav
       initial={{ opacity: 0, y: '100%' }}
@@ -146,7 +148,7 @@ function SheetNav({ gallery }: { gallery: ProjectGallery }) {
           <Button
             aria-label="시트 닫기"
             data-autofocus
-            onClick={gallery.close}
+            onClick={close}
             size="sm"
             shape="pill"
             variant="secondary"
