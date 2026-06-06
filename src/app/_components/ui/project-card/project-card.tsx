@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { type KeyboardEvent, useEffect, useId, useRef } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
-import { SkillBadges } from './skill-badge';
+import { SkillBadges } from '../skill-badge';
 import { ProjectSheet } from './project-sheet';
 import { useProjectSheet } from './use-project-sheet';
 import { type Project } from './types';

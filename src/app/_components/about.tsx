@@ -1,4 +1,5 @@
 import { Container } from '@/shared/ui/container';
+import { SkillChip } from './ui/skill-badge';
 
 export function About() {
   return (
@@ -14,16 +15,39 @@ export function About() {
           개발자입니다.
         </p>
         <Article title="Highlight">
-          <ul className="space-y-2">
-            <li>5년+ 웹 개발 및 퍼블리싱 경험</li>
-            <li>150+ 웹 프로젝트 제작</li>
-            <li>100+ 홈페이지 제작</li>
-            <li>50+ 전자카탈로그 제작</li>
+          <ul className="grid grid-cols-3 divide-x divide-border border border-border">
+            {[
+              {
+                count: 5,
+                tag: '년+',
+                label: '웹 개발 경력',
+              },
+              {
+                count: 150,
+                tag: '건+',
+                label: '프로젝트',
+              },
+              {
+                count: 100,
+                tag: '%',
+                label: '완료율',
+              },
+            ].map((item, index) => (
+              <li
+                key={index}
+                className="flex flex-col text-center px-3 py-6 space-y-1"
+              >
+                <span className="text-4xl space-x-1">
+                  <strong>{item.count}</strong>
+                  <small className="text-[0.5em]">{item.tag}</small>
+                </span>
+                <span className="text-muted-foreground">{item.label}</span>
+              </li>
+            ))}
           </ul>
         </Article>
         <Article title="Skills">
-          <ul className="grid grid-cols-3 gap-1">
-            <li>HTML</li>
+          <ul className="flex flex-wrap gap-4">
             <li>CSS</li>
             <li>JavaScript</li>
             <li>React</li>

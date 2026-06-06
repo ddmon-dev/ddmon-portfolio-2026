@@ -20,19 +20,13 @@ import {
 import type { TechId } from '@/data/tech-stack.data';
 import { cn } from '@/shared/utils/classnames';
 
-type DeviconProps = { size?: number | string };
+type DeviconProps = { size?: number | string; className?: string };
 
 type TechLogoEntry = {
-  /** 표시 라벨 */
   label: string;
-  /** devicons-react 컬러 아이콘 컴포넌트. 없으면 범용 폴백 아이콘을 쓴다. */
   Icon?: ComponentType<DeviconProps>;
 };
 
-/**
- * tech id → 로고 매핑 단일 레지스트리.
- * devicons-react에 존재하는 기술은 컬러 아이콘을, 없는 기술은 범용 폴백을 쓴다.
- */
 export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
   html: { label: 'HTML', Icon: Html5Original },
   css: { label: 'CSS', Icon: Css3Original },
@@ -42,7 +36,6 @@ export const TECH_LOGOS: Record<TechId, TechLogoEntry> = {
   typescript: { label: 'TypeScript', Icon: TypescriptOriginal },
   supabase: { label: 'Supabase', Icon: SupabaseOriginal },
   php: { label: 'PHP', Icon: PhpOriginal },
-  // GnuBoard5는 devicon에 없어 범용 폴백 아이콘으로 표기한다.
   gnuboard5: { label: 'GnuBoard5' },
   mongodb: { label: 'MongoDB', Icon: MongodbOriginal },
   apache: { label: 'Apache', Icon: ApacheOriginal },
@@ -69,54 +62,46 @@ export function resolveTechId(skill: string): TechId | null {
 
 export function TechLogo({
   tech,
-  size = 48,
   className,
 }: {
-  /** null이면(해석 실패) 범용 폴백 글리프를 그린다. */
   tech: TechId | null;
-  size?: number;
   className?: string;
 }) {
   const entry = tech ? TECH_LOGOS[tech] : undefined;
 
   if (entry?.Icon) {
-    return (
-      <span
-        className={cn('inline-flex shrink-0', className)}
-        style={{ width: size, height: size }}
-      >
-        <entry.Icon size={size} />
-      </span>
-    );
+    return <entry.Icon className={cn(className)} size="1em" />;
   }
 
   return (
     <span
       className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-full',
+        'inline-flex shrink-0 items-center justify-center rounded-full size-[1em]',
         'bg-secondary-dark text-on-secondary',
         className
       )}
-      style={{ width: size, height: size }}
       aria-hidden
     >
-      <CodeBracketIcon size={Math.round(size * 0.56)} />
+      <CodeBracketIcon size="0.56em" />
     </span>
   );
 }
 
-/**
- * 공식 로고가 없는 기술을 위한 범용 폴백 글리프(code-bracket).
- * 외부 아이콘 의존 없이 인라인 SVG로 두어 서버 컴포넌트에서도 쓴다.
- */
-function CodeBracketIcon({ size }: { size: number }) {
+function CodeBracketIcon({
+  size,
+  className,
+}: {
+  size?: string | number;
+  className?: string;
+}) {
   return (
     <svg
-      width={size}
-      height={size}
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden
+      width={size}
+      height={size}
+      className={className}
     >
       <path
         fillRule="evenodd"

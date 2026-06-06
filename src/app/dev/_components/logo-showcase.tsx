@@ -9,19 +9,19 @@ export function LogoShowcase() {
       description="devicons-react 컬러 아이콘 · 숙련도 티어별 정리"
     >
       <div className="flex flex-col gap-10">
-        {TECH_STACK.map((tier) => (
+        {TECH_STACK.map(tier => (
           <div key={tier.id}>
             <h3 className="mb-4 text-sm font-semibold tracking-wide text-muted-foreground uppercase">
               {tier.label}
             </h3>
 
             <ul className="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-3">
-              {tier.techs.map((tech) => (
+              {tier.techs.map(tech => (
                 <li
                   key={tech}
                   className="flex flex-col items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-6"
                 >
-                  <TechLogo tech={tech} size={48} />
+                  <TechLogo tech={tech} className="text-4xl" />
                   <span className="text-sm font-medium text-foreground">
                     {TECH_LOGOS[tech].label}
                   </span>
