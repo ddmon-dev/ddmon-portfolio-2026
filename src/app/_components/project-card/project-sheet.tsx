@@ -27,14 +27,14 @@ export function ProjectSheet({
   const { phase } = sheet;
 
   const trapRef = useRef<HTMLDivElement>(null);
-  useFocusTrap(phase === 'open', trapRef);
+  useFocusTrap(phase === 'opened', trapRef);
 
   const mounted = useMounted();
 
   const node = (
     <>
       <AnimatePresence onExitComplete={sheet.finishClosing}>
-        {phase === 'open' && (
+        {phase === 'opened' && (
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -47,13 +47,13 @@ export function ProjectSheet({
       </AnimatePresence>
 
       <div ref={trapRef}>
-        {phase === 'open' && (
+        {phase === 'opened' && (
           <div className="fixed inset-x-0 top-0 z-50 h-dvh overflow-x-clip overflow-y-auto">
             <ProjectPanel project={project} morphId={morphId} />
           </div>
         )}
         <AnimatePresence>
-          {phase === 'open' && <SheetNav key="nav" close={sheet.close} />}
+          {phase === 'opened' && <SheetNav key="nav" close={sheet.close} />}
         </AnimatePresence>
       </div>
     </>
@@ -71,9 +71,7 @@ function ProjectPanel({
   project: Project;
   morphId: string;
 }) {
-  // 이미지 morph가 끝나면 본문을 페이드인한다. 패널은 'open'일 때만 마운트되므로
-  // 다시 열 때마다 자동으로 false에서 시작한다.
-  const [contentVisible, setContentVisible] = useState(false);
+  const [morphEnded, setMorphEnded] = useState(false);
 
   return (
     <article
@@ -85,7 +83,7 @@ function ProjectPanel({
       <Container className="max-sm:px-0">
         <motion.div
           layoutId={`${morphId}-image`}
-          onLayoutAnimationComplete={() => setContentVisible(true)}
+          onLayoutAnimationComplete={() => setMorphEnded(true)}
           style={{
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
@@ -107,7 +105,7 @@ function ProjectPanel({
       <Container>
         <motion.div
           initial={false}
-          animate={{ opacity: contentVisible ? 1 : 0 }}
+          animate={{ opacity: morphEnded ? 1 : 0 }}
           transition={{ duration: 0.25 }}
           className="divide-y divide-border space-y-4 [&>div]:py-8 [&>div]:first:pt-0 [&>div]:last:pb-0"
         >

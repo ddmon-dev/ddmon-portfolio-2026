@@ -16,20 +16,20 @@ export function ProjectCard({ project }: { project: Project }) {
   const { phase } = sheet;
   const morphId = useId();
 
-  // open: 카드는 자리만 지키는 placeholder가 되고 이미지 layoutId를 시트에 양보한다.
+  // opened: 카드는 자리만 지키는 placeholder가 되고 이미지 layoutId를 시트에 양보한다.
   // closing: backdrop 위로 승격(z-50)돼 이미지가 디밍 없이 morph-back 하고, 카드 텍스트는 이때 페이드인.
-  const isPlaceholder = phase === 'open';
+  const isPlaceholder = phase === 'opened';
   const isReturning = phase === 'closing';
 
-  // 'open'을 벗어나는 순간(닫기 시작) 트리거 카드로 포커스를 되돌린다. placeholder 전환으로
+  // 'opened'를 벗어나는 순간(닫기 시작) 트리거 카드로 포커스를 되돌린다. placeholder 전환으로
   // 카드가 remount되므로, 현재 살아있는 트리거 노드를 ref로 잡아 직접 focus한다.
   const triggerRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
   useEffect(() => {
-    if (wasOpen.current && phase !== 'open') {
+    if (wasOpen.current && phase !== 'opened') {
       triggerRef.current?.focus({ preventScroll: true });
     }
-    wasOpen.current = phase === 'open';
+    wasOpen.current = phase === 'opened';
   }, [phase]);
 
   return (
