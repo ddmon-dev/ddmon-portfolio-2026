@@ -1,4 +1,5 @@
 import { TechLogo, resolveTechId } from '@/shared/ui/tech-logo';
+import { HoverTooltip } from '@/shared/ui/tooltip';
 import { cn } from '@/shared/utils/classnames';
 
 export const MAX_HEADER_SKILLS = 5;
@@ -38,24 +39,17 @@ const chipBaseClassNames =
   'inline-flex shrink-0 items-center justify-center rounded-full bg-muted size-9';
 
 function SkillChip({ skill, tooltip }: { skill: string; tooltip: boolean }) {
-  return (
+  const chip = (
     <span
       title={tooltip ? undefined : skill}
       aria-label={skill}
-      className={cn(chipBaseClassNames, tooltip && 'group/skill relative')}
+      className={chipBaseClassNames}
     >
       <TechLogo tech={resolveTechId(skill)} size={24} />
-      {tooltip && (
-        <span
-          role="tooltip"
-          className="pointer-events-none absolute top-full left-1/2 z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-full bg-secondary px-3 py-1 text-xs text-on-secondary opacity-0 transition-opacity group-hover/skill:opacity-100"
-        >
-          {skill}
-          <span className="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45 rounded-[2px] bg-secondary" />
-        </span>
-      )}
     </span>
   );
+
+  return tooltip ? <HoverTooltip label={skill}>{chip}</HoverTooltip> : chip;
 }
 
 function TruncatedChip({
