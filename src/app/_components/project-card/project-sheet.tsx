@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HouseIcon, GithubLogoIcon, ListIcon } from '@phosphor-icons/react';
 import { cn } from '@/shared/utils/classnames';
@@ -25,7 +26,9 @@ export function ProjectSheet({
   const trapRef = useRef<HTMLDivElement>(null);
   useFocusTrap(open, trapRef);
 
-  return (
+  const mounted = useMounted();
+
+  const sheet = (
     <>
       <AnimatePresence onExitComplete={gallery.onBackdropExitComplete}>
         {open && (
@@ -57,6 +60,9 @@ export function ProjectSheet({
       </div>
     </>
   );
+
+  if (!mounted) return null;
+  return createPortal(sheet, document.body);
 }
 
 function ProjectPanel({
@@ -174,4 +180,14 @@ function SheetRow({
   children: React.ReactNode;
 }) {
   return <div className={cn('px-6 max-sm:px-0', className)}>{children}</div>;
+}
+
+/** 클라이언트 마운트 후 true. createPortal을 SSR에서 호출하지 않도록 가드한다. */
+const emptySubscribe = () => () => {};
+function useMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 }
