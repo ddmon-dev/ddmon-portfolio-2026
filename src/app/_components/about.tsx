@@ -1,6 +1,44 @@
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo, type StackId } from '@/shared/ui/stack-logo';
 
+type Experience = {
+  company: string;
+  start: string;
+  end: string;
+  role?: string;
+  points: string[];
+};
+
+const EXPERIENCES: Experience[] = [
+  {
+    company: '프리랜스 웹 개발',
+    start: '2025.06',
+    end: '현재',
+    points: [
+      '골프존 클라우드 · 스마트캐디 홈페이지/어드민 개발',
+      '솔라가드 건축용 필름 보증서 관리 서비스 개발',
+      '웹 프로젝트 유지보수 및 고객사 기술 커뮤니케이션 지원',
+      '서버 침해 사고 원인 분석 및 서버 이전 대응',
+    ],
+  },
+  {
+    company: '알지비커뮤니케이션즈',
+    start: '2020.02',
+    end: '2025.05',
+    role: '웹/멀티미디어팀 · 사원 → 대리 → 과장',
+    points: [
+      '고객사 웹 프로젝트 개발 및 유지보수',
+      '홈페이지 개발 및 제작 템플릿 구축',
+      '전자카탈로그 개발 및 제작 템플릿 구축',
+      '웹 제작 · 개발 프로세스 표준화',
+      '자사 백오피스(사내 운영 도구) 개발 및 유지보수',
+      '자사 홈페이지 개발 및 운영 · 유지보수',
+      '자사 웹 인프라(호스팅 · 도메인 · 서버) 구축 및 운영',
+      '고객사 프로젝트 매니지먼트 · 고객사 커뮤니케이션',
+    ],
+  },
+];
+
 export function About() {
   return (
     <Container as="section" className="grid grid-cols-2">
@@ -73,39 +111,33 @@ export function About() {
           </ul>
         </Article>
         <Article title="Experience">
-          <ul>
-            <li>
-              <h4>프리랜스 웹 개발</h4>
-              <ul>
-                <li>2025.06 - 현재</li>
-              </ul>
-              <ul>
-                <li>
-                  골프존 클라우드 &middot; 골프존 스마트캐디 홈페이지/어드민 개발
-                </li>
-                <li>솔라가드 건축용 필름 보증서 관리 서비스 개발</li>
-                <li>웹 프로젝트 유지보수 및 고객사 기술 커뮤니케이션 지원</li>
-                <li>서버 침해 사고 원인 분석 및 서버 이전 대응</li>
-              </ul>
-            </li>
-            <li>
-              <h4>알지비커뮤니케이션즈</h4>
-              <ul>
-                <li>2020.02 - 2025.05</li>
-                <li>웹/멀티미디어팀 &middot; 사원 → 대리 → 과장</li>
-              </ul>
-              <ul>
-                <li>고객사 웹 프로젝트 개발 및 유지보수</li>
-                <li>홈페이지 개발 및 제작 템플릿 구축</li>
-                <li>전자카탈로그 개발 및 제작 템플릿 구축</li>
-                <li>웹 제작 &middot; 개발 프로세스 표준화</li>
-                <li>자사 백오피스(사내 운영 도구) 개발 및 유지보수</li>
-                <li>자사 홈페이지 개발 및 운영 &middot; 유지보수</li>
-                <li>자사 웹 인프라(호스팅 &middot; 도메인 &middot; 서버) 구축 및 운영</li>
-                <li>고객사 프로젝트 매니지먼트 &middot; 고객사 커뮤니케이션</li>
-              </ul>
-            </li>
-          </ul>
+          <div className="space-y-8">
+            {EXPERIENCES.map(exp => (
+              <article key={exp.company} className="space-y-3">
+                <header className="space-y-0.5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h4 className="font-bold">{exp.company}</h4>
+                    <span className="shrink-0 text-sm text-muted-foreground">
+                      {exp.start} – {exp.end}
+                    </span>
+                  </div>
+                  {exp.role && (
+                    <p className="text-sm text-muted-foreground">{exp.role}</p>
+                  )}
+                </header>
+                <ul className="space-y-1.5 border-t border-border pt-3 text-sm text-foreground/80">
+                  {exp.points.map(point => (
+                    <li key={point} className="flex gap-2">
+                      <span aria-hidden className="text-primary">
+                        ·
+                      </span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
         </Article>
       </div>
     </Container>
