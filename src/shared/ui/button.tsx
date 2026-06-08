@@ -24,17 +24,20 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         // 컬러 토큰 기반 솔리드 (default = primary)
-        default: 'bg-primary text-white hover:bg-primary-light',
-        'primary-light': 'bg-primary-light text-on-primary hover:bg-primary',
-        'primary-dark': 'bg-primary-dark text-white hover:bg-primary',
-        secondary: 'bg-secondary text-on-secondary hover:bg-secondary-light',
+        default: 'bg-primary text-primary-foreground hover:bg-primary-light',
+        'primary-light':
+          'bg-primary-light text-primary-foreground hover:bg-primary',
+        'primary-dark':
+          'bg-primary-dark text-primary-foreground hover:bg-primary',
+        secondary:
+          'bg-secondary text-secondary-foreground hover:bg-secondary-light',
         'secondary-light':
-          'bg-secondary-light text-on-secondary hover:bg-secondary',
+          'bg-secondary-light text-secondary-foreground hover:bg-secondary',
         'secondary-dark':
-          'bg-secondary-dark text-on-secondary hover:bg-secondary',
+          'bg-secondary-dark text-secondary-foreground hover:bg-secondary',
         destructive: 'bg-red-500 text-white hover:bg-red-600',
         // 중립/비채움
-        neutral: 'bg-foreground/10 text-foreground hover:bg-foreground/15',
+        ash: 'bg-ash-lighter text-ash-darker hover:bg-ash-light',
         outline:
           'border border-border bg-transparent text-foreground hover:bg-foreground/5',
         ghost: 'bg-transparent text-foreground hover:bg-foreground/5',

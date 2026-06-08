@@ -19,7 +19,7 @@ const GROUPS: SwatchGroup[] = [
       { name: 'primary', bg: 'bg-primary' },
       { name: 'primary-light', bg: 'bg-primary-light' },
       { name: 'primary-dark', bg: 'bg-primary-dark' },
-      { name: 'on-primary', bg: 'bg-on-primary' },
+      { name: 'primary-foreground', bg: 'bg-primary-foreground', needsBorder: true },
     ],
   },
   {
@@ -28,7 +28,21 @@ const GROUPS: SwatchGroup[] = [
       { name: 'secondary', bg: 'bg-secondary' },
       { name: 'secondary-light', bg: 'bg-secondary-light' },
       { name: 'secondary-dark', bg: 'bg-secondary-dark' },
-      { name: 'on-secondary', bg: 'bg-on-secondary', needsBorder: true },
+      {
+        name: 'secondary-foreground',
+        bg: 'bg-secondary-foreground',
+        needsBorder: true,
+      },
+    ],
+  },
+  {
+    label: 'Ash (gray)',
+    swatches: [
+      { name: 'ash-lighter', bg: 'bg-ash-lighter', needsBorder: true },
+      { name: 'ash-light', bg: 'bg-ash-light', needsBorder: true },
+      { name: 'ash', bg: 'bg-ash' },
+      { name: 'ash-dark', bg: 'bg-ash-dark' },
+      { name: 'ash-darker', bg: 'bg-ash-darker' },
     ],
   },
   {

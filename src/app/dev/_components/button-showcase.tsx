@@ -10,7 +10,7 @@ const COLOR_VARIANTS = [
   'secondary-light',
   'secondary-dark',
   'destructive',
-  'neutral',
+  'ash',
 ] as const;
 
 const STYLE_VARIANTS = ['outline', 'ghost', 'link'] as const;

@@ -95,7 +95,7 @@ export function StackLogo({
     <span
       className={cn(
         'inline-flex shrink-0 items-center justify-center rounded-full size-[1em]',
-        'bg-secondary-dark text-on-secondary',
+        'bg-secondary-dark text-secondary-foreground',
         className
       )}
       aria-hidden

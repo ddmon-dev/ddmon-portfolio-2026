@@ -4,33 +4,56 @@
   --font-primary: var(--font-pretendard);
   --font-secondary: var(--font-poppins);
 
+  /* zinc — 회색 원시 팔레트 (single source of truth).
+     아래 secondary/surface/ash 토큰은 모두 이 값을 참조한다. */
+  --zinc-50: #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
+
   /* brand — primary (orange) */
-  --primary: #f26619;       /* 채움 배경/포커스: 위에 on-primary를 올린다 */
+  --primary: #f26619;       /* 채움 배경/포커스: 위에 primary-foreground를 올린다 */
   --primary-light: #ff9a4d; /* hover, 연한 강조 배경 */
-  --primary-dark: #c24e12;  /* 텍스트/링크 오렌지(흰 배경 대비 5.8:1), pressed */
-  --on-primary: #1a1208;    /* 오렌지 위 글자(먹색) */
+  --primary-dark: #ea580c;  /* 쨍한 오렌지 — 대형/굵은 텍스트·아이콘·보더, pressed */
+  --primary-foreground: #ffffff; /* 오렌지 위 글자(흰색, 대비 3.1:1 — 대형/굵게용) */
 
-  /* brand — secondary (warm near-black) */
-  --secondary: #1c1917;       /* 메인 중립, 제목 */
-  --secondary-light: #57534e; /* 보조 텍스트, 아웃라인 버튼 */
-  --secondary-dark: #0c0a09;  /* 가장 진한 먹 */
-  --on-secondary: #fafaf9;    /* 먹색 위 글자 */
+  /* secondary — 잉크 UI 표면 (zinc 기반) */
+  --secondary: var(--zinc-900);            /* 먹색 버튼/뱃지/툴팁 표면 */
+  --secondary-light: var(--zinc-600);      /* 보조, hover */
+  --secondary-dark: var(--zinc-950);       /* 가장 진한 먹 */
+  --secondary-foreground: var(--zinc-50);  /* 먹색 위 글자 */
 
-  /* surface (warm neutral) */
+  /* ash — 회색 주력 5단계 (zinc 별칭, 일상 사용 API).
+     primary/secondary와 동일한 base + light/lighter/dark/darker 컨벤션.
+     그 외 명도가 필요하면 zinc-* 원시 팔레트를 직접 쓴다. */
+  --ash-lighter: var(--zinc-100); /* 옅은 배경·채움 */
+  --ash-light: var(--zinc-200);   /* 구분선·테두리 */
+  --ash: var(--zinc-500);         /* 캡션·날짜·메타(보조 텍스트) */
+  --ash-dark: var(--zinc-700);    /* 긴 본문 */
+  --ash-darker: var(--zinc-900);  /* 제목·강조·잉크 */
+
+  /* surface (zinc 기반) */
   --background: #ffffff;
-  --foreground: #1c1917;
-  --muted: #f5f5f4;
-  --muted-foreground: #78716c;
-  --border: #e7e5e4;
+  --foreground: var(--zinc-900);
+  --muted: var(--zinc-100);
+  --muted-foreground: var(--zinc-500);
+  --border: var(--zinc-200);
   --ring: var(--primary-light);
 }
 
 @media (prefers-color-scheme: dark) {
   /* 다크 모드: 라이트 우선 정책상 구조만 잡아둔다.
-     활성화 시 아래 토큰을 오버라이드한다 (권장 출발값).
-     - background: #0c0a09  /  foreground: #fafaf9
-     - muted: #292524       /  muted-foreground: #a8a29e
-     - border: #292524
+     활성화 시 아래 토큰을 오버라이드한다 (권장 출발값, zinc 기준).
+     - background: var(--zinc-950)  /  foreground: var(--zinc-50)
+     - muted: var(--zinc-800)       /  muted-foreground: var(--zinc-400)
+     - border: var(--zinc-800)
      - primary: #ff8a47     (어두운 배경에서 대비 확보 위해 밝은 톤으로) */
   :root {}
 }
@@ -42,11 +65,17 @@
   --color-primary: var(--primary);
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
-  --color-on-primary: var(--on-primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-light: var(--secondary-light);
   --color-secondary-dark: var(--secondary-dark);
-  --color-on-secondary: var(--on-secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-ash-lighter: var(--ash-lighter);
+  --color-ash-light: var(--ash-light);
+  --color-ash: var(--ash);
+  --color-ash-dark: var(--ash-dark);
+  --color-ash-darker: var(--ash-darker);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

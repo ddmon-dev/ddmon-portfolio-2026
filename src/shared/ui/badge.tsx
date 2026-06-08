@@ -21,17 +21,19 @@ export const badgeVariants = cva(
     variants: {
       variant: {
         // 컬러 토큰 기반 솔리드 (default = primary)
-        default: 'border-transparent bg-primary text-white',
-        'primary-light': 'border-transparent bg-primary-light text-on-primary',
-        'primary-dark': 'border-transparent bg-primary-dark text-white',
-        secondary: 'border-transparent bg-secondary text-on-secondary',
+        default: 'border-transparent bg-primary text-primary-foreground',
+        'primary-light':
+          'border-transparent bg-primary-light text-primary-foreground',
+        'primary-dark':
+          'border-transparent bg-primary-dark text-primary-foreground',
+        secondary: 'border-transparent bg-secondary text-secondary-foreground',
         'secondary-light':
-          'border-transparent bg-secondary-light text-on-secondary',
+          'border-transparent bg-secondary-light text-secondary-foreground',
         'secondary-dark':
-          'border-transparent bg-secondary-dark text-on-secondary',
+          'border-transparent bg-secondary-dark text-secondary-foreground',
         destructive: 'border-transparent bg-red-500 text-white',
         // 중립/아웃라인
-        neutral: 'border-transparent bg-foreground/10 text-foreground',
+        ash: 'border-transparent bg-ash-lighter text-ash-darker',
         outline: 'border-border text-foreground',
       },
       shape: {
