@@ -11,9 +11,9 @@ type Experience = {
 
 const EXPERIENCES: Experience[] = [
   {
-    company: '프리랜스 웹 개발',
+    company: '프리랜서',
     start: '2025.06',
-    end: '현재',
+    end: 'Current',
     points: [
       '골프존 클라우드 · 스마트캐디 홈페이지/어드민 개발',
       '솔라가드 건축용 필름 보증서 관리 서비스 개발',
@@ -25,7 +25,7 @@ const EXPERIENCES: Experience[] = [
     company: '알지비커뮤니케이션즈',
     start: '2020.02',
     end: '2025.05',
-    role: '웹/멀티미디어팀 · 사원 → 대리 → 과장',
+    role: '웹팀 · 과장',
     points: [
       '고객사 웹 프로젝트 개발 및 유지보수',
       '홈페이지 개발 및 제작 템플릿 구축',
@@ -115,52 +115,44 @@ export function About() {
           </ul>
         </Article>
         <Article title="Experience">
-          <div className="space-y-10">
-            {EXPERIENCES.map(exp => {
-              const isCurrent = exp.end === '현재';
-              return (
-                <article key={exp.company} className="space-y-3">
-                  <header className="space-y-1">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <h4 className="font-bold">{exp.company}</h4>
-                      <span className="flex shrink-0 items-center gap-1.5 text-sm tabular-nums">
-                        {isCurrent && (
-                          <span
-                            aria-hidden
-                            className="size-1.5 rounded-full bg-primary"
-                          />
-                        )}
-                        <span
-                          className={
-                            isCurrent
-                              ? 'text-primary-dark'
-                              : 'text-muted-foreground'
-                          }
-                        >
-                          {exp.start} – {exp.end}
-                        </span>
-                      </span>
-                    </div>
-                    {exp.role && (
-                      <p className="text-sm text-muted-foreground">
-                        {exp.role}
-                      </p>
-                    )}
-                  </header>
-                  <ul className="space-y-2 border-t border-border pt-3 text-sm text-foreground/80">
-                    {exp.points.map(point => (
-                      <li key={point} className="flex gap-2.5">
-                        <span
-                          aria-hidden
-                          className="mt-[0.5em] size-1 shrink-0 rounded-full bg-primary"
-                        />
-                        <span className="leading-relaxed">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              );
-            })}
+          <div>
+            {EXPERIENCES.map(exp => (
+              <article
+                key={exp.company}
+                className="group relative space-y-3.5 pl-8 pb-10 last:pb-0"
+              >
+                <div
+                  aria-hidden
+                  className="absolute size-[15px] rounded-full border-4 border-secondary-light top-1 left-0 bg-background z-1 group-first:border-primary"
+                />
+                <div
+                  aria-hidden
+                  className="absolute top-1 left-[7px] w-px h-full bg-border z-0 group-last:hidden"
+                />
+                <header className="space-y-0.5 border-b border-border pb-2">
+                  <div className="flex justify-between items-center gap-3">
+                    <h4 className="font-bold">{exp.company}</h4>
+                    <span className="shrink-0 tabular-nums font-secondary text-sm text-muted-foreground">
+                      {exp.start} – {exp.end}
+                    </span>
+                  </div>
+                  {exp.role && (
+                    <p className="text-sm text-muted-foreground">{exp.role}</p>
+                  )}
+                </header>
+                <ul className="space-y-2 text-sm text-foreground/80 pl-0.5">
+                  {exp.points.map(point => (
+                    <li key={point} className="flex gap-2.5 relative">
+                      <span
+                        aria-hidden
+                        className="absolute top-[0.75em] right-full -translate-x-1.5 -translate-y-1/2 size-1 shrink-0 rounded-full bg-secondary-light/50"
+                      />
+                      <span className="leading-relaxed">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </Article>
       </div>
@@ -169,14 +161,16 @@ export function About() {
 }
 
 type ArticleProps = {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 };
 
 function Article({ title, children }: ArticleProps) {
   return (
     <article className="space-y-4">
-      <h3 className="text-2xl font-medium font-secondary">{title}</h3>
+      {title && (
+        <h3 className="text-2xl font-medium font-secondary">{title}</h3>
+      )}
       {children}
     </article>
   );
