@@ -45,7 +45,7 @@ export function About() {
       <div>
         <h2 className="text-4xl font-bold">About Me</h2>
       </div>
-      <div className="space-y-8">
+      <div className="space-y-14">
         <p>
           안녕하세요, 저는 이동희입니다. 저는 프론트엔드 개발자로, 주도적 문제
           해결사입니다. 저는 회사의 목표와 운영 맥락을 이해하고, 기능의
@@ -53,7 +53,7 @@ export function About() {
           개발자입니다.
         </p>
         <Article title="Highlight">
-          <ul className="grid grid-cols-3 divide-x divide-border border border-border">
+          <ul className="grid grid-cols-3 divide-x divide-border border border-border rounded-2xl">
             {[
               {
                 count: 5,
@@ -75,9 +75,13 @@ export function About() {
                 key={index}
                 className="flex flex-col text-center px-3 py-6 space-y-1"
               >
-                <span className="text-4xl space-x-1">
-                  <strong>{item.count}</strong>
-                  <small className="text-[0.5em]">{item.tag}</small>
+                <span className="text-4xl space-x-0.5">
+                  <strong className="inline-block font-secondary font-semibold">
+                    {item.count}
+                  </strong>
+                  <small className="inline-block text-[0.5em] font-semibold translate-y-[-0.1em]">
+                    {item.tag}
+                  </small>
                 </span>
                 <span className="text-muted-foreground">{item.label}</span>
               </li>
@@ -85,7 +89,7 @@ export function About() {
           </ul>
         </Article>
         <Article title="Skills">
-          <ul className="grid grid-cols-5 gap-1 gap-y-6 border border-border p-4 py-8">
+          <ul className="grid grid-cols-5 gap-1 gap-y-6 border border-border p-4 py-8 rounded-2xl">
             {(
               [
                 'html',
@@ -103,7 +107,7 @@ export function About() {
             ).map(stack => (
               <li key={stack} className="flex flex-col items-center gap-3">
                 <StackLogo stack={stack} className="text-4xl" />
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-sm font-secondary">
                   {STACK_LOGOS[stack].label}
                 </span>
               </li>
@@ -111,32 +115,52 @@ export function About() {
           </ul>
         </Article>
         <Article title="Experience">
-          <div className="space-y-8">
-            {EXPERIENCES.map(exp => (
-              <article key={exp.company} className="space-y-3">
-                <header className="space-y-0.5">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h4 className="font-bold">{exp.company}</h4>
-                    <span className="shrink-0 text-sm text-muted-foreground">
-                      {exp.start} – {exp.end}
-                    </span>
-                  </div>
-                  {exp.role && (
-                    <p className="text-sm text-muted-foreground">{exp.role}</p>
-                  )}
-                </header>
-                <ul className="space-y-1.5 border-t border-border pt-3 text-sm text-foreground/80">
-                  {exp.points.map(point => (
-                    <li key={point} className="flex gap-2">
-                      <span aria-hidden className="text-primary">
-                        ·
+          <div className="space-y-10">
+            {EXPERIENCES.map(exp => {
+              const isCurrent = exp.end === '현재';
+              return (
+                <article key={exp.company} className="space-y-3">
+                  <header className="space-y-1">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <h4 className="font-bold">{exp.company}</h4>
+                      <span className="flex shrink-0 items-center gap-1.5 text-sm tabular-nums">
+                        {isCurrent && (
+                          <span
+                            aria-hidden
+                            className="size-1.5 rounded-full bg-primary"
+                          />
+                        )}
+                        <span
+                          className={
+                            isCurrent
+                              ? 'text-primary-dark'
+                              : 'text-muted-foreground'
+                          }
+                        >
+                          {exp.start} – {exp.end}
+                        </span>
                       </span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
+                    </div>
+                    {exp.role && (
+                      <p className="text-sm text-muted-foreground">
+                        {exp.role}
+                      </p>
+                    )}
+                  </header>
+                  <ul className="space-y-2 border-t border-border pt-3 text-sm text-foreground/80">
+                    {exp.points.map(point => (
+                      <li key={point} className="flex gap-2.5">
+                        <span
+                          aria-hidden
+                          className="mt-[0.5em] size-1 shrink-0 rounded-full bg-primary"
+                        />
+                        <span className="leading-relaxed">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
           </div>
         </Article>
       </div>
@@ -152,7 +176,7 @@ type ArticleProps = {
 function Article({ title, children }: ArticleProps) {
   return (
     <article className="space-y-4">
-      <h3 className="text-2xl font-bold font-secondary">{title}</h3>
+      <h3 className="text-2xl font-medium font-secondary">{title}</h3>
       {children}
     </article>
   );
