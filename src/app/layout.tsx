@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { suit, pretendard } from '@/fonts';
+import { poppins, pretendard } from '@/fonts';
 import './globals.css';
 
+import { cn } from '@/shared/utils/classnames';
 import { Header } from '@/shared/ui/header';
 import { Footer } from '@/shared/ui/footer';
 
@@ -18,7 +19,11 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${suit.variable} ${pretendard.variable} h-full antialiased`}
+      className={cn(
+        poppins.variable,
+        pretendard.variable,
+        'h-full antialiased'
+      )}
     >
       <body className="min-h-full flex flex-col">
         <Header />

@@ -2,6 +2,7 @@
 
 :root {
   --font-primary: var(--font-pretendard);
+  --font-secondary: var(--font-poppins);
 
   /* brand — primary (orange) */
   --primary: #f26619;       /* 채움 배경/포커스: 위에 on-primary를 올린다 */
@@ -36,6 +37,7 @@
 
 @theme inline {
   --font-primary: var(--font-primary);
+  --font-secondary: var(--font-secondary);
 
   --color-primary: var(--primary);
   --color-primary-light: var(--primary-light);
