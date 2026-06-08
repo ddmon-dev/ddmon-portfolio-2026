@@ -4,7 +4,7 @@ import { Poppins } from 'next/font/google';
 export const poppins = Poppins({
   variable: '--font-poppins',
   display: 'swap',
-  weight: ['100', '200', '300', '400', '500', '600'],
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
 });
 
 export const pretendard = localFont({
