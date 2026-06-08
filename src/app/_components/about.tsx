@@ -11,9 +11,10 @@ type Experience = {
 
 const EXPERIENCES: Experience[] = [
   {
-    company: '프리랜서',
+    company: '프리랜서', // 프리랜서... 라는 표현 말고 다른 표현 없을까..
     start: '2025.06',
     end: 'Current',
+    // 내용 보완
     points: [
       '골프존 클라우드 · 스마트캐디 홈페이지/어드민 개발',
       '솔라가드 건축용 필름 보증서 관리 서비스 개발',
@@ -46,14 +47,16 @@ export function About() {
         <h2 className="text-4xl font-bold">About Me</h2>
       </div>
       <div className="space-y-14">
+        {/* 소개문은 재작성 */}
         <p>
           안녕하세요, 저는 이동희입니다. 저는 프론트엔드 개발자로, 주도적 문제
           해결사입니다. 저는 회사의 목표와 운영 맥락을 이해하고, 기능의
           우선순위와 구현 방식을 현실적으로 판단할 수 있는 프론트엔드
           개발자입니다.
         </p>
+        {/* Highlight 섹션의 실효성에 대해 고민해볼 것. 다른 컨텐츠를 고려해야 할 수 있음. */}
         <Article title="Highlight">
-          <ul className="grid grid-cols-3 divide-x divide-border border border-border rounded-2xl">
+          <ul className="grid grid-cols-3 divide-x divide-ash-lighter border border-ash-lighter rounded-xl bg-ash-50">
             {[
               {
                 count: 5,
@@ -75,7 +78,7 @@ export function About() {
                 key={index}
                 className="flex flex-col text-center px-3 py-6 space-y-1"
               >
-                <span className="text-4xl space-x-0.5">
+                <span className="text-4xl text-ash-dark space-x-0.5">
                   <strong className="inline-block font-secondary font-semibold">
                     {item.count}
                   </strong>
@@ -83,13 +86,15 @@ export function About() {
                     {item.tag}
                   </small>
                 </span>
-                <span className="text-muted-foreground">{item.label}</span>
+                <span className="text-ash-dark text-sm font-medium">
+                  {item.label}
+                </span>
               </li>
             ))}
           </ul>
         </Article>
-        <Article title="Skills">
-          <ul className="grid grid-cols-5 gap-1 gap-y-6 border border-border p-4 py-8 rounded-2xl">
+        <Article title="기술스택" subtitle="Tech stacks">
+          <ul className="grid grid-cols-5 gap-1.5">
             {(
               [
                 'html',
@@ -105,47 +110,52 @@ export function About() {
                 'nginx',
               ] as StackId[]
             ).map(stack => (
-              <li key={stack} className="flex flex-col items-center gap-3">
-                <StackLogo stack={stack} className="text-4xl" />
-                <span className="text-sm font-secondary">
+              <li
+                key={stack}
+                className="flex flex-col items-center gap-2 pt-5 pb-3 rounded-xl bg-ash-50 border border-ash-lighter"
+              >
+                <StackLogo stack={stack} className="text-3xl" />
+                <span className="text-xs font-secondary text-center text-ash">
                   {STACK_LOGOS[stack].label}
                 </span>
               </li>
             ))}
           </ul>
         </Article>
-        <Article title="Experience">
-          <div>
+        <Article title="경력사항" subtitle="Experience">
+          <div className="pt-1">
             {EXPERIENCES.map(exp => (
               <article
                 key={exp.company}
                 className="group relative space-y-3.5 pl-8 pb-10 last:pb-0"
               >
-                <div
+                <i
                   aria-hidden
                   className="absolute size-[15px] rounded-full border-4 border-secondary-light top-1 left-0 bg-background z-1 group-first:border-primary"
                 />
-                <div
+                <i
                   aria-hidden
                   className="absolute top-1 left-[7px] w-px h-full bg-border z-0 group-last:hidden"
                 />
-                <header className="space-y-0.5 border-b border-border pb-2">
-                  <div className="flex justify-between items-center gap-3">
-                    <h4 className="font-bold">{exp.company}</h4>
-                    <span className="shrink-0 tabular-nums font-secondary text-sm text-muted-foreground">
-                      {exp.start} – {exp.end}
-                    </span>
-                  </div>
-                  {exp.role && (
-                    <p className="text-sm text-muted-foreground">{exp.role}</p>
-                  )}
-                </header>
-                <ul className="space-y-2 text-sm text-foreground/80 pl-0.5">
+                <div className="border-b border-border pb-2 flex justify-between items-center gap-3">
+                  <h4>
+                    <span className="block font-bold">{exp.company}</span>
+                    {exp.role && (
+                      <span className="block text-sm text-muted-foreground font-normal">
+                        {exp.role}
+                      </span>
+                    )}
+                  </h4>
+                  <span className="shrink-0 tabular-nums font-secondary text-sm text-muted-foreground">
+                    {exp.start} – {exp.end}
+                  </span>
+                </div>
+                <ul className="space-y-2 text-sm text-foreground/80 pl-3.5">
                   {exp.points.map(point => (
                     <li key={point} className="flex gap-2.5 relative">
                       <span
                         aria-hidden
-                        className="absolute top-[0.75em] right-full -translate-x-1.5 -translate-y-1/2 size-1 shrink-0 rounded-full bg-secondary-light/50"
+                        className="absolute top-[0.75em] right-full -translate-x-2 -translate-y-1/2 size-1 shrink-0 rounded-full bg-ash/70"
                       />
                       <span className="leading-relaxed">{point}</span>
                     </li>
@@ -155,6 +165,9 @@ export function About() {
             ))}
           </div>
         </Article>
+        <Article title="학력 및 교육 사항" subtitle="Study & Education">
+          ...
+        </Article>
       </div>
     </Container>
   );
@@ -162,14 +175,22 @@ export function About() {
 
 type ArticleProps = {
   title?: string;
+  subtitle?: string;
   children: React.ReactNode;
 };
 
-function Article({ title, children }: ArticleProps) {
+function Article({ title, subtitle, children }: ArticleProps) {
   return (
     <article className="space-y-4">
       {title && (
-        <h3 className="text-2xl font-medium font-secondary">{title}</h3>
+        <h3 className="text-2xl font-medium font-secondary text-ash-dark">
+          {title}
+          {subtitle && (
+            <small className="ml-[0.5em] text-ash font-normal text-[0.6em]">
+              {subtitle}
+            </small>
+          )}
+        </h3>
       )}
       {children}
     </article>
