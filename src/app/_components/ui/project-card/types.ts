@@ -8,6 +8,7 @@ export type ProjectImage = {
 };
 
 export type Project = {
+  slug?: string;
   title: string;
   category: string;
   image: ProjectImage;

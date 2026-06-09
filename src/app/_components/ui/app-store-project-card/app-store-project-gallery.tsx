@@ -1,19 +1,20 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   type KeyboardEvent,
   type MouseEvent,
+  useCallback,
   useEffect,
   useRef,
   useState,
 } from 'react';
-import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { XIcon } from '@phosphor-icons/react';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
-import { useMounted } from '@/shared/hooks/use-mounted';
 import { StackBadges } from '../project-card/stack-badges';
 import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
@@ -42,6 +43,8 @@ type ActiveCard = {
   expanded: boolean;
 };
 
+const rectStorageKey = 'dd-portfolio:app-store-card-rect';
+
 export function AppStoreProjectGallery({
   title,
   projects,
@@ -49,37 +52,6 @@ export function AppStoreProjectGallery({
   title: string;
   projects: Project[];
 }) {
-  const [activeCard, setActiveCard] = useState<ActiveCard | null>(null);
-  const mounted = useMounted();
-
-  const closeActiveCard = () => {
-    setActiveCard((current) => {
-      if (!current) return current;
-      return { ...current, expanded: false };
-    });
-
-    window.setTimeout(() => {
-      setActiveCard(null);
-    }, layoutDuration * 1000);
-  };
-
-  useEffect(() => {
-    if (!activeCard) return;
-
-    const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') closeActiveCard();
-    };
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [activeCard]);
-
   return (
     <Container as="section" className="space-y-8">
       <div className="space-y-2">
@@ -95,38 +67,10 @@ export function AppStoreProjectGallery({
             <AppStoreProjectCard
               project={project}
               index={index}
-              isActive={activeCard?.project.title === project.title}
-              onOpen={(rect) => {
-                setActiveCard({
-                  project,
-                  rect,
-                  target: getModalTarget(),
-                  expanded: false,
-                });
-
-                window.setTimeout(() => {
-                  setActiveCard((current) => {
-                    if (current?.project.title !== project.title) return current;
-                    return { ...current, expanded: true };
-                  });
-                }, 50);
-              }}
             />
           </li>
         ))}
       </ul>
-
-      {mounted &&
-        createPortal(
-          activeCard && (
-            <AppStoreProjectModal
-              key="app-store-project-modal"
-              activeCard={activeCard}
-              onClose={closeActiveCard}
-            />
-          ),
-          document.body
-        )}
     </Container>
   );
 }
@@ -134,53 +78,53 @@ export function AppStoreProjectGallery({
 function AppStoreProjectCard({
   project,
   index,
-  isActive,
-  onOpen,
 }: {
   project: Project;
   index: number;
-  isActive: boolean;
-  onOpen: (rect: CardRect) => void;
 }) {
   const cardRef = useRef<HTMLElement>(null);
+  const href = `/projects/${project.slug}`;
 
-  const open = (element: HTMLElement | null) => {
+  const storeRect = (element: HTMLElement | null) => {
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
-    onOpen({
+    window.sessionStorage.setItem(rectStorageKey, JSON.stringify({
+      slug: project.slug,
       top: rect.top,
       left: rect.left,
       width: rect.width,
       height: rect.height,
-    });
+    }));
   };
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
-    event.preventDefault();
-    open(cardRef.current);
+    storeRect(cardRef.current);
   };
 
   const onClick = (event: MouseEvent<HTMLElement>) => {
-    open(event.currentTarget);
+    storeRect(event.currentTarget);
   };
 
   return (
     <motion.article
       ref={cardRef}
-      role="button"
-      tabIndex={0}
-      aria-label={`${project.title} 상세 보기`}
-      onClick={onClick}
-      onKeyDown={onKeyDown}
       style={{ borderRadius: 28 }}
       className={cn(
         'group relative min-h-[28rem] cursor-pointer overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
-        'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        isActive && 'invisible'
+        'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background'
       )}
     >
+      <Link
+        href={href}
+        aria-label={`${project.title} 상세 보기`}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+        className="absolute inset-0 z-10"
+      >
+        <span className="sr-only">{project.title} 상세 보기</span>
+      </Link>
       <div className="absolute inset-0">
         <Image
           src={project.image.src}
@@ -212,18 +156,59 @@ function AppStoreProjectCard({
   );
 }
 
-function AppStoreProjectModal({
-  activeCard,
-  onClose,
+export function AppStoreProjectModal({
+  project,
 }: {
-  activeCard: ActiveCard;
-  onClose: () => void;
+  project: Project;
 }) {
   const trapRef = useRef<HTMLElement>(null);
+  const router = useRouter();
+  const [activeCard, setActiveCard] = useState<ActiveCard>(() => {
+    const target = getModalTarget();
+
+    return {
+      project,
+      rect: readStoredRect(project.slug) ?? {
+        top: target.top,
+        left: target.left,
+        width: target.width,
+        height: target.height,
+      },
+      target,
+      expanded: false,
+    };
+  });
   useFocusTrap(true, trapRef);
 
-  const { project, rect, target, expanded } = activeCard;
-  const currentRect = expanded ? target : { ...rect, borderRadius: 28 };
+  const { rect, expanded } = activeCard;
+  const currentRect = expanded ? activeCard.target : { ...rect, borderRadius: 28 };
+
+  const close = useCallback(() => {
+    setActiveCard((current) => ({ ...current, expanded: false }));
+    window.setTimeout(() => {
+      router.back();
+    }, layoutDuration * 1000);
+  }, [router]);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setActiveCard((current) => ({ ...current, expanded: true }));
+    });
+
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') close();
+    };
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [close]);
 
   return (
     <div className="fixed inset-0 z-80">
@@ -234,7 +219,7 @@ function AppStoreProjectModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: expanded ? 1 : 0 }}
         transition={{ duration: 0.18 }}
-        onClick={onClose}
+        onClick={close}
       />
       <article
         ref={trapRef}
@@ -265,7 +250,7 @@ function AppStoreProjectModal({
             type="button"
             data-autofocus
             aria-label="모달 닫기"
-            onClick={onClose}
+            onClick={close}
             className="absolute top-4 right-4 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <XIcon aria-hidden size={18} weight="bold" />
@@ -305,6 +290,75 @@ function AppStoreProjectModal({
       </article>
     </div>
   );
+}
+
+export function AppStoreProjectPage({ project }: { project: Project }) {
+  return (
+    <Container as="main" className="space-y-12 pt-32 pb-32">
+      <article className="overflow-hidden rounded-[2rem] bg-background shadow-sm ring-1 ring-border">
+        <div className="relative h-[32rem] overflow-hidden max-sm:h-[58vh]">
+          <Image
+            src={project.image.src}
+            alt={project.image.alt}
+            width={project.image.width}
+            height={project.image.height}
+            priority
+            sizes="(max-width: 640px) 100vw, 48rem"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-black/18 via-black/8 to-black/82" />
+          <div className="absolute inset-x-0 bottom-0 space-y-5 p-6 text-white">
+            <p className="font-secondary text-[0.72rem] font-semibold tracking-[0.18em] text-white/72 uppercase">
+              Featured Project
+            </p>
+            <div className="space-y-2">
+              <h1 className="max-w-2xl text-5xl leading-[1.03] font-bold max-sm:text-4xl">
+                {project.title}
+              </h1>
+              <p className="text-base text-white/76">{project.category}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-8 p-6 max-sm:p-5">
+          <div className="space-y-3">
+            <h2 className="font-secondary text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+              Used stack
+            </h2>
+            <StackBadges stacks={project.stacks} full />
+          </div>
+
+          <div className="divide-y divide-border text-ash-dark [&>section]:py-6 [&>section]:first:pt-0 [&>section]:last:pb-0">
+            {project.content}
+          </div>
+        </div>
+      </article>
+    </Container>
+  );
+}
+
+function readStoredRect(slug: string | undefined): CardRect | null {
+  if (typeof window === 'undefined') return null;
+  if (!slug) return null;
+
+  try {
+    const raw = window.sessionStorage.getItem(rectStorageKey);
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw) as CardRect & { slug?: string };
+    if (parsed.slug !== slug) return null;
+
+    window.sessionStorage.removeItem(rectStorageKey);
+
+    return {
+      top: parsed.top,
+      left: parsed.left,
+      width: parsed.width,
+      height: parsed.height,
+    };
+  } catch {
+    return null;
+  }
 }
 
 function getModalTarget() {

@@ -20,8 +20,9 @@ const placeholderImage = {
   height: 809,
 };
 
-const selectedProjects: Project[] = [
+export const selectedProjects: Project[] = [
   {
+    slug: 'panorama-film',
     title: '파노라마 필름',
     category: '홈페이지 / 웹앱',
     image: { ...placeholderImage, alt: '파노라마 필름 프로젝트' },
@@ -75,6 +76,7 @@ const selectedProjects: Project[] = [
     ),
   },
   {
+    slug: 'vaccine-portal',
     title: '백신정보포털',
     category: '데이터 포털 / CMS',
     image: { ...placeholderImage, alt: '백신정보포털 프로젝트' },
@@ -116,6 +118,7 @@ const selectedProjects: Project[] = [
     ),
   },
   {
+    slug: 'angel-robotics',
     title: '엔젤로보틱스 홈페이지',
     category: '브랜드 / 제품 홈페이지',
     image: { ...placeholderImage, alt: '엔젤로보틱스 홈페이지 프로젝트' },
@@ -155,6 +158,7 @@ const selectedProjects: Project[] = [
     ),
   },
   {
+    slug: 'rgb-managers',
     title: 'RGB Managers',
     category: '사내 운영 시스템',
     image: { ...placeholderImage, alt: 'RGB Managers 프로젝트' },
@@ -194,6 +198,16 @@ const selectedProjects: Project[] = [
     ),
   },
 ];
+
+export function getSelectedProject(slug: string) {
+  return selectedProjects.find((project) => project.slug === slug);
+}
+
+export function getSelectedProjectSlugs() {
+  return selectedProjects
+    .map((project) => project.slug)
+    .filter((slug): slug is string => Boolean(slug));
+}
 
 export function SelectedProjectsSection() {
   return (
