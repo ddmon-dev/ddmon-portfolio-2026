@@ -10,6 +10,7 @@ import { cn } from '@/shared/utils/classnames';
 import { useMounted } from '@/shared/hooks/use-mounted';
 import { Container } from '@/shared/ui/container';
 import { Button } from '@/shared/ui/button';
+import { LiquidGlass } from '@/shared/ui/liquid-glass';
 import { StackBadges } from './stack-badges';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
@@ -139,7 +140,7 @@ function SheetNav({ close }: { close: () => void }) {
       className="fixed bottom-0 inset-x-0 z-70 flex gap-2 items-center pointer-events-none"
     >
       <Container className="flex justify-center py-4">
-        <div className="flex justify-center gap-1 pointer-events-auto">
+        <LiquidGlass className="flex justify-center gap-1 rounded-full p-3 pointer-events-auto">
           <Button
             aria-label="시트 닫기"
             data-autofocus
@@ -163,7 +164,7 @@ function SheetNav({ close }: { close: () => void }) {
               Visit Repo
             </Link>
           </Button>
-        </div>
+        </LiquidGlass>
       </Container>
     </motion.nav>
   );

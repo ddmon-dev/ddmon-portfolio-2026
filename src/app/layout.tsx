@@ -5,6 +5,7 @@ import './globals.css';
 import { cn } from '@/shared/utils/classnames';
 import { Header } from '@/shared/ui/header';
 import { Footer } from '@/shared/ui/footer';
+import { LiquidGlassFilter } from '@/shared/ui/liquid-glass';
 
 export const metadata: Metadata = {
   title: 'DDmon Portfolio',
@@ -26,6 +27,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
+        <LiquidGlassFilter />
         <Header />
         {children}
         <Footer />
