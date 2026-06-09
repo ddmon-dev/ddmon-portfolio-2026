@@ -10,7 +10,7 @@ import { buildThumbnails } from './project-thumbnail-wall.data';
 
 const items = buildThumbnails(HOMEPAGE_PROJECTS, ECATALOG_PROJECTS);
 
-export function ProjectArchive() {
+export function ProjectArchiveSection() {
   return (
     <Container as="section" className="space-y-8">
       <h2 className="text-4xl font-bold">Project Archive</h2>

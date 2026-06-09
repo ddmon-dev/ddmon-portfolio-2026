@@ -194,7 +194,7 @@ const selectedProjects: Project[] = [
   },
 ];
 
-export function SelectedProjects() {
+export function SelectedProjectsSection() {
   return (
     <ProjectGallery title="Selected Projects" projects={selectedProjects} />
   );
@@ -267,7 +267,7 @@ const systemsProjects: Project[] = [
   },
 ];
 
-export function SystemsAndTemplates() {
+export function SystemsAndTemplatesSection() {
   return (
     <ProjectGallery title="Systems & Templates" projects={systemsProjects} />
   );

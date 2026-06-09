@@ -1,52 +1,19 @@
 import { Container } from '@/shared/ui/container';
-import { STACK_LOGOS, StackLogo, type StackId } from '@/shared/ui/stack-logo';
+import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
+import { CARREERS, HIGHLIGHTS, TECH_STACKS } from './profile.data';
 
-type Experience = {
-  company: string;
-  start: string;
-  end: string;
-  role?: string;
-  points: string[];
-};
-
-const EXPERIENCES: Experience[] = [
-  {
-    company: '프리랜서', // 프리랜서... 라는 표현 말고 다른 표현 없을까..
-    start: '2025.06',
-    end: 'Current',
-    // 내용 보완
-    points: [
-      '골프존 클라우드 · 스마트캐디 홈페이지/어드민 개발',
-      '솔라가드 건축용 필름 보증서 관리 서비스 개발',
-      '웹 프로젝트 유지보수 및 고객사 기술 커뮤니케이션 지원',
-      '서버 침해 사고 원인 분석 및 서버 이전 대응',
-    ],
-  },
-  {
-    company: '알지비커뮤니케이션즈',
-    start: '2020.02',
-    end: '2025.05',
-    role: '웹팀 · 과장',
-    points: [
-      '고객사 웹 프로젝트 개발 및 유지보수',
-      '홈페이지 개발 및 제작 템플릿 구축',
-      '전자카탈로그 개발 및 제작 템플릿 구축',
-      '웹 제작 · 개발 프로세스 표준화',
-      '자사 백오피스(사내 운영 도구) 개발 및 유지보수',
-      '자사 홈페이지 개발 및 운영 · 유지보수',
-      '자사 웹 인프라(호스팅 · 도메인 · 서버) 구축 및 운영',
-      '고객사 프로젝트 매니지먼트 · 고객사 커뮤니케이션',
-    ],
-  },
-];
-
-export function About() {
+export function ProfileSection() {
   return (
     <Container as="section" className="grid grid-cols-2">
-      <div>
-        <h2 className="text-4xl font-bold">About Me</h2>
-      </div>
+      <div></div>
       <div className="space-y-14">
+        <h1 className="text-5xl/14 [&>b]:text-orange-500">
+          안녕하세요 <br />
+          <b>주도적</b> 문제<b>해결사</b> <br />
+          <b>FE</b> 개발자 <br />
+          <b>이동희</b>입니다.
+        </h1>
+
         {/* 소개문은 재작성 */}
         <p>
           안녕하세요, 저는 이동희입니다. 저는 프론트엔드 개발자로, 주도적 문제
@@ -54,29 +21,14 @@ export function About() {
           우선순위와 구현 방식을 현실적으로 판단할 수 있는 프론트엔드
           개발자입니다.
         </p>
+
         {/* Highlight 섹션의 실효성에 대해 고민해볼 것. 다른 컨텐츠를 고려해야 할 수 있음. */}
         <Article title="Highlight">
-          <ul className="grid grid-cols-3 divide-x divide-ash-lighter border border-ash-lighter rounded-xl bg-ash-50">
-            {[
-              {
-                count: 5,
-                tag: '년+',
-                label: '웹 개발 경력',
-              },
-              {
-                count: 150,
-                tag: '건+',
-                label: '프로젝트',
-              },
-              {
-                count: 100,
-                tag: '%',
-                label: '완료율',
-              },
-            ].map((item, index) => (
+          <ul className="grid grid-cols-3 border border-ash-lighter rounded-xl bg-ash-50">
+            {HIGHLIGHTS.map((item, index) => (
               <li
                 key={index}
-                className="flex flex-col text-center px-3 py-6 space-y-1"
+                className="group relative flex flex-col text-center px-3 pt-6 pb-5"
               >
                 <span className="text-4xl text-ash-dark space-x-0.5">
                   <strong className="inline-block font-secondary font-semibold">
@@ -86,30 +38,21 @@ export function About() {
                     {item.tag}
                   </small>
                 </span>
-                <span className="text-ash-dark text-sm font-medium">
+                <span className="text-ash-dark text-sm font-medium mt-1">
                   {item.label}
                 </span>
+                <i
+                  aria-hidden
+                  className="absolute top-1/2 right-0 -translate-y-1/2 w-px h-2/3 bg-ash-light group-last:hidden"
+                />
               </li>
             ))}
           </ul>
         </Article>
+
         <Article title="기술스택" subtitle="Tech stacks">
           <ul className="grid grid-cols-5 gap-1.5">
-            {(
-              [
-                'html',
-                'css',
-                'js',
-                'react',
-                'nextjs',
-                'ts',
-                'php',
-                'g5',
-                'mongodb',
-                'apache',
-                'nginx',
-              ] as StackId[]
-            ).map(stack => (
+            {TECH_STACKS.map(stack => (
               <li
                 key={stack}
                 className="flex flex-col items-center gap-2 pt-5 pb-3 rounded-xl bg-ash-50 border border-ash-lighter"
@@ -122,11 +65,12 @@ export function About() {
             ))}
           </ul>
         </Article>
-        <Article title="경력사항" subtitle="Experience">
+
+        <Article title="경력사항" subtitle="Carreer">
           <div className="pt-1">
-            {EXPERIENCES.map(exp => (
+            {CARREERS.map(carreer => (
               <article
-                key={exp.company}
+                key={carreer.company}
                 className="group relative space-y-3.5 pl-8 pb-10 last:pb-0"
               >
                 <i
@@ -139,19 +83,19 @@ export function About() {
                 />
                 <div className="border-b border-border pb-2 flex justify-between items-center gap-3">
                   <h4>
-                    <span className="block font-bold">{exp.company}</span>
-                    {exp.role && (
+                    <span className="block font-bold">{carreer.company}</span>
+                    {carreer.role && (
                       <span className="block text-sm text-muted-foreground font-normal">
-                        {exp.role}
+                        {carreer.role}
                       </span>
                     )}
                   </h4>
                   <span className="shrink-0 tabular-nums font-secondary text-sm text-muted-foreground">
-                    {exp.start} – {exp.end}
+                    {carreer.start} – {carreer.end}
                   </span>
                 </div>
                 <ul className="space-y-2 text-sm text-foreground/80 pl-3.5">
-                  {exp.points.map(point => (
+                  {carreer.points.map(point => (
                     <li key={point} className="flex gap-2.5 relative">
                       <span
                         aria-hidden
@@ -164,9 +108,6 @@ export function About() {
               </article>
             ))}
           </div>
-        </Article>
-        <Article title="학력 및 교육 사항" subtitle="Study & Education">
-          ...
         </Article>
       </div>
     </Container>

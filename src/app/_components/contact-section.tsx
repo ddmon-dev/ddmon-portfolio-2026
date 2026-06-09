@@ -1,5 +1,5 @@
 import { Container } from '@/shared/ui/container';
 
-export function Contact() {
+export function ContactSection() {
   return <Container>Contact</Container>;
 }
