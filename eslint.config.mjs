@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // git worktrees — 내부 빌드 산출물 등을 루트 lint가 스캔하지 않도록 제외
+    ".worktrees/**",
   ]),
 ]);
 
