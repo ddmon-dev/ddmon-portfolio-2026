@@ -36,6 +36,18 @@ export const TECH_STACKS: StackId[] = [
   'mongodb',
   'apache',
   'nginx',
+  'claudecode',
+  'tailwind',
+  'shadcn',
+  'git',
+  'github',
+  'tanstackquery',
+  'hono',
+  'prisma',
+  'drizzle',
+  'aws',
+  'xd',
+  'figma',
 ];
 
 type Carreer = {

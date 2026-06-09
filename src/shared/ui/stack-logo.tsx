@@ -2,21 +2,34 @@ import type { ComponentType } from 'react';
 import {
   ApacheOriginal,
   Css3Original,
+  FigmaOriginal,
   FramermotionOriginal,
+  GitOriginal,
+  GithubOriginal,
   Html5Original,
   JavascriptOriginal,
-  JqueryOriginal,
   MongodbOriginal,
   NextjsOriginal,
   NginxOriginal,
   PhpOriginal,
+  PostcssOriginal,
+  PrismaOriginal,
   PuppeteerOriginal,
   ReactOriginal,
   SupabaseOriginal,
-  SwiperOriginal,
   TailwindcssOriginal,
   TypescriptOriginal,
+  XdOriginal,
+  ZustandOriginal,
 } from 'devicons-react';
+import {
+  AwsIcon,
+  ClaudeIcon,
+  DrizzleIcon,
+  HonoIcon,
+  ShadcnIcon,
+  TanstackQueryIcon,
+} from '@/shared/ui/brand-icons';
 import { cn } from '@/shared/utils/classnames';
 
 type DeviconProps = { size?: number | string; className?: string };
@@ -45,10 +58,21 @@ export const STACK_LOGOS = {
   apache: { label: 'Apache', Icon: ApacheOriginal },
   nginx: { label: 'Nginx', Icon: NginxOriginal },
   tailwind: { label: 'Tailwind CSS', Icon: TailwindcssOriginal },
-  jquery: { label: 'jQuery', Icon: JqueryOriginal },
   puppeteer: { label: 'Puppeteer', Icon: PuppeteerOriginal },
   framermotion: { label: 'Framer Motion', Icon: FramermotionOriginal },
-  swiper: { label: 'Swiper', Icon: SwiperOriginal },
+  git: { label: 'Git', Icon: GitOriginal },
+  github: { label: 'GitHub', Icon: GithubOriginal },
+  zustand: { label: 'Zustand', Icon: ZustandOriginal },
+  tanstackquery: { label: 'TanStack Query', Icon: TanstackQueryIcon },
+  postcss: { label: 'PostCSS', Icon: PostcssOriginal },
+  hono: { label: 'Hono', Icon: HonoIcon },
+  claudecode: { label: 'Claude Code', Icon: ClaudeIcon },
+  shadcn: { label: 'shadcn/ui', Icon: ShadcnIcon },
+  figma: { label: 'Figma', Icon: FigmaOriginal },
+  xd: { label: 'Adobe XD', Icon: XdOriginal },
+  prisma: { label: 'Prisma', Icon: PrismaOriginal },
+  drizzle: { label: 'Drizzle', Icon: DrizzleIcon },
+  aws: { label: 'AWS', Icon: AwsIcon },
 } satisfies Record<string, StackLogoEntry>;
 
 export type StackId = keyof typeof STACK_LOGOS;
@@ -62,6 +86,10 @@ const STACK_ALIASES: Record<string, StackId> = {
   typescript: 'ts',
   gnuboard5: 'g5',
   tailwindcss: 'tailwind',
+  reactquery: 'tanstackquery',
+  shadcnui: 'shadcn',
+  adobexd: 'xd',
+  drizzleorm: 'drizzle',
 };
 
 /**
