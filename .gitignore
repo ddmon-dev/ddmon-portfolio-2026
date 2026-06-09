@@ -45,3 +45,6 @@ next-env.d.ts
 
 # superpowers brainstorm companion
 .superpowers/
+
+# git worktrees
+.worktrees/
