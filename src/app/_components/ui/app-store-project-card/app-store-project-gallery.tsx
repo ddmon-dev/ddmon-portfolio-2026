@@ -12,14 +12,14 @@ import {
 } from 'react';
 import { motion } from 'motion/react';
 import { XIcon } from '@phosphor-icons/react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { StackBadges } from '../project-card/stack-badges';
 import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
 
-const layoutDuration = 0.7;
+const layoutDuration = 0.5;
 const layoutEase = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const layoutTransition = [
   `top ${layoutDuration}s ${layoutEase}`,
@@ -41,6 +41,12 @@ type ActiveCard = {
   rect: CardRect;
   target: CardRect & { borderRadius: number };
   expanded: boolean;
+  originScrollY: number;
+};
+
+type StoredCardState = CardRect & {
+  slug?: string;
+  scrollY?: number;
 };
 
 const rectStorageKey = 'dd-portfolio:app-store-card-rect';
@@ -83,7 +89,9 @@ function AppStoreProjectCard({
   index: number;
 }) {
   const cardRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
   const href = `/projects/${project.slug}`;
+  const isActive = pathname === href;
 
   const storeRect = (element: HTMLElement | null) => {
     if (!element) return;
@@ -91,6 +99,7 @@ function AppStoreProjectCard({
     const rect = element.getBoundingClientRect();
     window.sessionStorage.setItem(rectStorageKey, JSON.stringify({
       slug: project.slug,
+      scrollY: window.scrollY,
       top: rect.top,
       left: rect.left,
       width: rect.width,
@@ -113,11 +122,13 @@ function AppStoreProjectCard({
       style={{ borderRadius: 28 }}
       className={cn(
         'group relative min-h-[28rem] cursor-pointer overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
-        'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background'
+        'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background',
+        isActive && 'invisible'
       )}
     >
       <Link
         href={href}
+        scroll={false}
         aria-label={`${project.title} 상세 보기`}
         onClick={onClick}
         onKeyDown={onKeyDown}
@@ -165,10 +176,11 @@ export function AppStoreProjectModal({
   const router = useRouter();
   const [activeCard, setActiveCard] = useState<ActiveCard>(() => {
     const target = getModalTarget();
+    const storedState = readStoredCardState(project.slug);
 
     return {
       project,
-      rect: readStoredRect(project.slug) ?? {
+      rect: storedState?.rect ?? {
         top: target.top,
         left: target.left,
         width: target.width,
@@ -176,6 +188,7 @@ export function AppStoreProjectModal({
       },
       target,
       expanded: false,
+      originScrollY: storedState?.scrollY ?? window.scrollY,
     };
   });
   useFocusTrap(true, trapRef);
@@ -187,8 +200,11 @@ export function AppStoreProjectModal({
     setActiveCard((current) => ({ ...current, expanded: false }));
     window.setTimeout(() => {
       router.back();
+      window.setTimeout(() => {
+        window.scrollTo({ top: activeCard.originScrollY, behavior: 'instant' });
+      }, 0);
     }, layoutDuration * 1000);
-  }, [router]);
+  }, [activeCard.originScrollY, router]);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -200,12 +216,16 @@ export function AppStoreProjectModal({
     };
 
     const previousOverflow = document.body.style.overflow;
+    const previousScrollRestoration = window.history.scrollRestoration;
+
     document.body.style.overflow = 'hidden';
+    window.history.scrollRestoration = 'manual';
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
       cancelAnimationFrame(frame);
       document.body.style.overflow = previousOverflow;
+      window.history.scrollRestoration = previousScrollRestoration;
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [close]);
@@ -337,7 +357,9 @@ export function AppStoreProjectPage({ project }: { project: Project }) {
   );
 }
 
-function readStoredRect(slug: string | undefined): CardRect | null {
+function readStoredCardState(
+  slug: string | undefined
+): { rect: CardRect; scrollY: number } | null {
   if (typeof window === 'undefined') return null;
   if (!slug) return null;
 
@@ -345,16 +367,19 @@ function readStoredRect(slug: string | undefined): CardRect | null {
     const raw = window.sessionStorage.getItem(rectStorageKey);
     if (!raw) return null;
 
-    const parsed = JSON.parse(raw) as CardRect & { slug?: string };
+    const parsed = JSON.parse(raw) as StoredCardState;
     if (parsed.slug !== slug) return null;
 
     window.sessionStorage.removeItem(rectStorageKey);
 
     return {
-      top: parsed.top,
-      left: parsed.left,
-      width: parsed.width,
-      height: parsed.height,
+      rect: {
+        top: parsed.top,
+        left: parsed.left,
+        width: parsed.width,
+        height: parsed.height,
+      },
+      scrollY: parsed.scrollY ?? window.scrollY,
     };
   } catch {
     return null;
