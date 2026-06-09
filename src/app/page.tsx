@@ -1,5 +1,6 @@
 import { ProfileSection } from './_components/profile-section';
 import {
+  AppStoreProjectModalSection,
   SelectedProjectsSection,
   SystemsAndTemplatesSection,
 } from './_components/projects-section';
@@ -11,6 +12,7 @@ export default function Home() {
     <main className="space-y-40 pt-40 pb-40">
       <ProfileSection />
       <SelectedProjectsSection />
+      <AppStoreProjectModalSection />
       <SystemsAndTemplatesSection />
       <ProjectArchiveSection />
       <ContactSection />
