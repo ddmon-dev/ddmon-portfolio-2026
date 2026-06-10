@@ -76,7 +76,6 @@ function AppStoreProjectCard({
         style={{ borderRadius: 28 }}
         className={cn(
           'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
-          'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background',
           isActive && 'invisible'
         )}
       >
@@ -99,7 +98,15 @@ function AppStoreProjectCard({
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-[28px] backdrop-blur-md"
+        />
         <AppStoreHeroFace project={project} index={index} />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_0_24px_rgba(0,0,0,0.45)]"
+        />
       </motion.article>
 
       {isActive && (

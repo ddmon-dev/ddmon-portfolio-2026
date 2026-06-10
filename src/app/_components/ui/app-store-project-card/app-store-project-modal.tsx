@@ -119,7 +119,26 @@ export function AppStoreProjectModal({
             />
           </div>
 
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backdropFilter: `blur(${expanded ? 0 : 12}px)`,
+              WebkitBackdropFilter: `blur(${expanded ? 0 : 12}px)`,
+              transition: `backdrop-filter ${layoutDuration}s ${layoutEase}, -webkit-backdrop-filter ${layoutDuration}s ${layoutEase}`,
+            }}
+          />
+
           <AppStoreHeroFace project={project} index={index} />
+
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              boxShadow: `inset 0 0 24px rgba(0,0,0,${expanded ? 0 : 0.45})`,
+              transition: `box-shadow ${layoutDuration}s ${layoutEase}`,
+            }}
+          />
 
           <button
             type="button"
