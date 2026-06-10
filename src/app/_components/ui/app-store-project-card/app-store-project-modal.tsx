@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
@@ -8,173 +7,109 @@ import { useMounted } from '@/shared/hooks/use-mounted';
 import { StackBadges } from '../project-card/stack-badges';
 import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
-import { AppStoreHeroFace } from './app-store-hero-face';
+import { AppStoreHero } from './app-store-hero';
 import { AppStoreModalNav } from './modal-nav';
-
-const layoutDuration = 0.7;
-// 초반 천천히 → 중반 급가속(팍) → 후반 부드럽게 안착 (easeInOutExpo)
-const layoutEase = 'cubic-bezier(0.87, 0, 0.13, 1)';
-// 이전 이징: 빠르게 출발 → 느리게 도착 (easeOutQuint)
-// const layoutEase = 'cubic-bezier(0.22, 1, 0.36, 1)';
-const layoutTransition = [
-  `top ${layoutDuration}s ${layoutEase}`,
-  `left ${layoutDuration}s ${layoutEase}`,
-  `width ${layoutDuration}s ${layoutEase}`,
-  `height ${layoutDuration}s ${layoutEase}`,
-  `border-radius ${layoutDuration}s ${layoutEase}`,
-].join(', ');
-
-export type CardRect = {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-};
+import {
+  APP_STORE_LAYOUT_TRANSITION,
+  appStoreLayoutId,
+  type AppStoreId,
+} from './app-store-motion';
 
 /**
- * 카드에서 즉석 측정한 `startRect`에서 화면 중앙 모달로 확장되는 App Store 스타일 모달.
- * 라우팅 없이 카드가 소유한 클라이언트 상태로만 동작하며, 닫힘 수축이 끝나면
- * `onClosed`로 부모(카드)에게 언마운트를 위임한다.
+ * 카드와 같은 `layoutId`(frame)를 공유해, 카드 → 화면 중앙 모달로 모핑되는
+ * App Store 스타일 모달.
+ *
+ * 위치/크기는 CSS(중앙 정렬 flex + padding)로만 정의하고, 카드와의 차이는 motion의
+ * `layout` projection(transform 기반 FLIP)이 자동 측정·보간한다. 덕분에 기존의
+ * top/left/width/height 수동 측정·리사이즈 추적 로직이 전부 사라졌고, 모핑이 리플로우
+ * 없이 GPU 가속 transform으로 처리된다.
+ *
+ * 부모(카드)가 `AnimatePresence`로 이 컴포넌트를 감싸므로, 언마운트 시 motion이
+ * 카드로 되돌아가는 수축 모핑과 오버레이 페이드아웃을 자동 재생한다.
  */
 export function AppStoreProjectModal({
   project,
   index,
-  startRect,
-  measureCard,
-  onClosed,
+  id,
+  onClose,
 }: {
   project: Project;
   index: number;
-  startRect: CardRect;
-  measureCard: () => CardRect | null;
-  onClosed: () => void;
+  id: AppStoreId;
+  onClose: () => void;
 }) {
   const trapRef = useRef<HTMLElement>(null);
-  const resizeTimer = useRef<number>(0);
   const mounted = useMounted();
-  const [expanded, setExpanded] = useState(false);
-  const [target, setTarget] = useState(getModalTarget);
-  const [collapsedRect, setCollapsedRect] = useState(startRect);
-  const [isResizing, setIsResizing] = useState(false);
+  const [radius, setRadius] = useState(() =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(width < 40rem)').matches
+      ? 0
+      : 32
+  );
   useFocusTrap(true, trapRef);
 
-  const close = () => {
-    // 스크롤이 내려가 있어도 카드(히어로)로 매끄럽게 수축하도록 상단으로 원복
-    trapRef.current?.scrollTo({ top: 0 });
-    // 리사이즈 등으로 카드가 움직였을 수 있으니 닫는 시점의 실제 위치로 수축
-    const fresh = measureCard();
-    if (fresh) setCollapsedRect(fresh);
-    setExpanded(false);
-    window.setTimeout(onClosed, layoutDuration * 1000);
-  };
-
-  // 마운트 시 1회: 펼침 시작 + body 스크롤 잠금
+  // 모바일(Tailwind max-sm = width < 40rem)에서는 풀스크린(반경 0), 그 외 카드형(반경 32).
+  // 풀스크린 padding(max-sm:p-0)과 같은 분기점을 써서 정확히 일치시킨다.
   useEffect(() => {
-    const frame = requestAnimationFrame(() => setExpanded(true));
+    const mq = window.matchMedia('(width < 40rem)');
+    const sync = () => setRadius(mq.matches ? 0 : 32);
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
+  // 마운트 동안 body 스크롤 잠금 (수축 모핑이 끝나는 언마운트 시점에 원복).
+  useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-
     return () => {
-      cancelAnimationFrame(frame);
       document.body.style.overflow = previousOverflow;
     };
   }, []);
 
-  // 열린 상태에서 브라우저 리사이즈 시 모달 위치/크기를 즉시 따라가게 갱신
-  // (리사이즈 동안은 transition을 끊어 커서를 지연 없이 추종)
-  useEffect(() => {
-    const onResize = () => {
-      setTarget(getModalTarget());
-      setIsResizing(true);
-      window.clearTimeout(resizeTimer.current);
-      resizeTimer.current = window.setTimeout(() => setIsResizing(false), 140);
-    };
+  const close = () => {
+    // 스크롤이 내려가 있어도 카드(히어로)로 매끄럽게 수축하도록 상단으로 원복
+    trapRef.current?.scrollTo({ top: 0 });
+    onClose();
+  };
 
-    window.addEventListener('resize', onResize);
-    return () => {
-      window.removeEventListener('resize', onResize);
-      window.clearTimeout(resizeTimer.current);
-    };
-  }, []);
-
-  // Escape 닫기 (effect는 불안정한 close 대신 실제 참조하는 prop에만 의존)
+  // Escape 닫기
   useEffect(() => {
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       trapRef.current?.scrollTo({ top: 0 });
-      const fresh = measureCard();
-      if (fresh) setCollapsedRect(fresh);
-      setExpanded(false);
-      window.setTimeout(onClosed, layoutDuration * 1000);
+      onClose();
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [measureCard, onClosed]);
+  }, [onClose]);
 
   if (!mounted) return null;
 
-  const currentRect = expanded
-    ? target
-    : { ...collapsedRect, borderRadius: 28 };
-
   const node = (
-    <div className="fixed inset-0 z-80">
+    <div className="fixed inset-0 z-80 flex justify-center p-6 max-sm:p-0">
       <motion.button
         type="button"
         aria-label="모달 닫기 배경"
         className="fixed inset-0 h-full w-full bg-black/42 backdrop-blur-md"
         initial={{ opacity: 0 }}
-        animate={{ opacity: expanded ? 1 : 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         transition={{ duration: 0.18 }}
         onClick={close}
       />
-      <article
+
+      <motion.article
         ref={trapRef}
+        layoutId={appStoreLayoutId.frame(id)}
+        transition={APP_STORE_LAYOUT_TRANSITION}
         role="dialog"
         aria-modal="true"
         aria-label={project.title}
-        style={{
-          ...currentRect,
-          transition: isResizing ? 'none' : layoutTransition,
-        }}
-        className="fixed overflow-y-auto bg-background text-foreground shadow-2xl"
+        style={{ borderRadius: radius }}
+        className="relative z-10 h-full w-full max-w-3xl overflow-y-auto bg-background text-foreground shadow-2xl"
       >
-        <div className="relative h-80 overflow-hidden">
-          <div className="absolute inset-0">
-            <Image
-              src={project.image.src}
-              alt={project.image.alt}
-              width={project.image.width}
-              height={project.image.height}
-              priority
-              sizes="(max-width: 640px) 100vw, 48rem"
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backdropFilter: `blur(${expanded ? 0 : 12}px)`,
-              WebkitBackdropFilter: `blur(${expanded ? 0 : 12}px)`,
-              transition: `backdrop-filter ${layoutDuration}s ${layoutEase}, -webkit-backdrop-filter ${layoutDuration}s ${layoutEase}`,
-            }}
-          />
-
-          <AppStoreHeroFace project={project} index={index} />
-
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              boxShadow: `inset 0 0 24px rgba(0,0,0,${expanded ? 0 : 0.45})`,
-              transition: `box-shadow ${layoutDuration}s ${layoutEase}`,
-            }}
-          />
-        </div>
+        <AppStoreHero variant="modal" project={project} index={index} id={id} />
 
         <div className="space-y-8 p-6 max-sm:p-5">
           <div className="space-y-3">
@@ -195,35 +130,10 @@ export function AppStoreProjectModal({
           </motion.div>
         </div>
 
-        <AppStoreModalNav expanded={expanded} onClose={close} />
-      </article>
+        <AppStoreModalNav onClose={close} />
+      </motion.article>
     </div>
   );
 
   return createPortal(node, document.body);
-}
-
-function getModalTarget() {
-  const isMobile = window.matchMedia('(max-width: 640px)').matches;
-
-  if (isMobile) {
-    return {
-      top: 0,
-      left: 0,
-      width: window.innerWidth,
-      height: window.innerHeight,
-      borderRadius: 0,
-    };
-  }
-
-  const margin = 24;
-  const width = Math.min(768, window.innerWidth - margin * 2);
-
-  return {
-    top: margin,
-    left: (window.innerWidth - width) / 2,
-    width,
-    height: window.innerHeight - margin * 2,
-    borderRadius: 32,
-  };
 }

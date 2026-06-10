@@ -1,13 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { type Project } from '../project-card/types';
-import { AppStoreHeroFace } from './app-store-hero-face';
-import { AppStoreProjectModal, type CardRect } from './app-store-project-modal';
+import { AppStoreHero } from './app-store-hero';
+import { AppStoreProjectModal } from './app-store-project-modal';
+import { APP_STORE_LAYOUT_TRANSITION, appStoreLayoutId } from './app-store-motion';
 
 export function AppStoreProjectGallery({
   title,
@@ -27,7 +27,7 @@ export function AppStoreProjectGallery({
 
       <ul className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
         {projects.map((project, index) => (
-          <li key={project.title}>
+          <li key={project.slug ?? project.title}>
             <AppStoreProjectCard project={project} index={index} />
           </li>
         ))}
@@ -43,86 +43,60 @@ function AppStoreProjectCard({
   project: Project;
   index: number;
 }) {
-  const cardRef = useRef<HTMLElement>(null);
+  const id = project.slug ?? index;
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const [startRect, setStartRect] = useState<CardRect | null>(null);
+  const [open, setOpen] = useState(false);
   const wasOpen = useRef(false);
-  const isActive = startRect !== null;
 
+  // 모달이 닫혀 카드로 수축이 끝나면 트리거로 포커스를 돌려준다.
   useEffect(() => {
-    if (wasOpen.current && !isActive) {
+    if (wasOpen.current && !open) {
       triggerRef.current?.focus({ preventScroll: true });
     }
-    wasOpen.current = isActive;
-  }, [isActive]);
-
-  const measureCard = (): CardRect | null => {
-    const element = cardRef.current;
-    if (!element) return null;
-
-    const rect = element.getBoundingClientRect();
-    return {
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height,
-    };
-  };
-
-  const open = () => {
-    const rect = measureCard();
-    if (rect) setStartRect(rect);
-  };
+    wasOpen.current = open;
+  }, [open]);
 
   return (
     <>
+      {/*
+        카드와 모달은 같은 `layoutId`(frame)를 공유한다. 모달이 마운트되면 motion이
+        두 article을 하나의 연속된 박스로 보고 transform 기반으로 모핑한다(리플로우 없음).
+        열린 동안 카드 article은 motion이 자동으로 opacity 0 처리하지만, 그리드 공간은
+        그대로 차지하므로 레이아웃이 흔들리지 않는다.
+      */}
       <motion.article
-        ref={cardRef}
+        layoutId={appStoreLayoutId.frame(id)}
+        transition={APP_STORE_LAYOUT_TRANSITION}
         style={{ borderRadius: 28 }}
         className={cn(
           'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
-          isActive && 'invisible'
+          open && 'pointer-events-none'
         )}
       >
         <button
           ref={triggerRef}
           type="button"
           aria-label={`${project.title} 상세 보기`}
-          onClick={open}
+          onClick={() => setOpen(true)}
           className="absolute inset-0 z-10 cursor-pointer"
         >
           <span className="sr-only">{project.title} 상세 보기</span>
         </button>
-        <div className="absolute inset-0">
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            width={project.image.width}
-            height={project.image.height}
-            sizes="(max-width: 640px) 100vw, 29rem"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[28px] backdrop-blur-md"
-        />
-        <AppStoreHeroFace project={project} index={index} />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[28px] shadow-[inset_0_0_24px_rgba(0,0,0,0.45)]"
-        />
+
+        <AppStoreHero variant="card" project={project} index={index} id={id} />
       </motion.article>
 
-      {isActive && (
-        <AppStoreProjectModal
-          project={project}
-          index={index}
-          startRect={startRect}
-          measureCard={measureCard}
-          onClosed={() => setStartRect(null)}
-        />
-      )}
+      <AnimatePresence>
+        {open && (
+          <AppStoreProjectModal
+            key="modal"
+            project={project}
+            index={index}
+            id={id}
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
