@@ -6,10 +6,8 @@ import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { type Project } from '../project-card/types';
-import {
-  AppStoreProjectModal,
-  type CardRect,
-} from './app-store-project-modal';
+import { AppStoreHeroFace } from './app-store-hero-face';
+import { AppStoreProjectModal, type CardRect } from './app-store-project-modal';
 
 export function AppStoreProjectGallery({
   title,
@@ -27,7 +25,7 @@ export function AppStoreProjectGallery({
         <h2 className="text-4xl font-bold">{title}</h2>
       </div>
 
-      <ul className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+      <ul className="grid grid-cols-3 gap-4 max-sm:grid-cols-1">
         {projects.map((project, index) => (
           <li key={project.title}>
             <AppStoreProjectCard project={project} index={index} />
@@ -77,7 +75,7 @@ function AppStoreProjectCard({
         ref={cardRef}
         style={{ borderRadius: 28 }}
         className={cn(
-          'group relative min-h-[28rem] overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
+          'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
           'focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background',
           isActive && 'invisible'
         )}
@@ -101,49 +99,17 @@ function AppStoreProjectCard({
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="absolute inset-0 bg-linear-to-b from-black/15 via-black/10 to-black/78" />
-
-        <div className="relative flex h-full min-h-[28rem] flex-col justify-between p-5">
-          <div className="font-secondary text-[0.7rem] font-semibold tracking-[0.18em] text-white/78 uppercase">
-            {String(index + 1).padStart(2, '0')} Featured Project
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h3 className="text-3xl leading-tight font-bold">
-                {project.title}
-              </h3>
-              <p className="text-sm text-white/78">{project.category}</p>
-            </div>
-            <div>
-              <CompactStackList stacks={project.stacks.slice(0, 4)} />
-            </div>
-          </div>
-        </div>
+        <AppStoreHeroFace project={project} index={index} />
       </motion.article>
 
       {isActive && (
         <AppStoreProjectModal
           project={project}
+          index={index}
           startRect={startRect}
           onClosed={() => setStartRect(null)}
         />
       )}
     </>
-  );
-}
-
-function CompactStackList({ stacks }: { stacks: string[] }) {
-  return (
-    <ul className="flex flex-wrap gap-2">
-      {stacks.map((stack) => (
-        <li
-          key={stack}
-          className="rounded-full border border-white/18 bg-white/14 px-3 py-1 text-xs font-semibold text-white/88 backdrop-blur-sm"
-        >
-          {stack}
-        </li>
-      ))}
-    </ul>
   );
 }

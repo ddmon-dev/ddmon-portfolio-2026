@@ -9,6 +9,7 @@ import { useMounted } from '@/shared/hooks/use-mounted';
 import { StackBadges } from '../project-card/stack-badges';
 import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
+import { AppStoreHeroFace } from './app-store-hero-face';
 
 const layoutDuration = 0.5;
 const layoutEase = 'cubic-bezier(0.22, 1, 0.36, 1)';
@@ -34,10 +35,12 @@ export type CardRect = {
  */
 export function AppStoreProjectModal({
   project,
+  index,
   startRect,
   onClosed,
 }: {
   project: Project;
+  index: number;
   startRect: CardRect;
   onClosed: () => void;
 }) {
@@ -79,9 +82,7 @@ export function AppStoreProjectModal({
 
   if (!mounted) return null;
 
-  const currentRect = expanded
-    ? target
-    : { ...startRect, borderRadius: 28 };
+  const currentRect = expanded ? target : { ...startRect, borderRadius: 28 };
 
   const node = (
     <div className="fixed inset-0 z-80">
@@ -105,7 +106,7 @@ export function AppStoreProjectModal({
         }}
         className="fixed overflow-y-auto bg-background text-foreground shadow-2xl"
       >
-        <div className="relative h-[27rem] overflow-hidden max-sm:h-[58vh]">
+        <div className="relative h-80 overflow-hidden">
           <div className="absolute inset-0">
             <Image
               src={project.image.src}
@@ -117,29 +118,18 @@ export function AppStoreProjectModal({
               className="h-full w-full object-cover"
             />
           </div>
-          <div className="absolute inset-0 bg-linear-to-b from-black/18 via-black/8 to-black/82" />
+
+          <AppStoreHeroFace project={project} index={index} />
 
           <button
             type="button"
             data-autofocus
             aria-label="모달 닫기"
             onClick={close}
-            className="absolute top-4 right-4 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <XIcon aria-hidden size={18} weight="bold" />
           </button>
-
-          <div className="absolute inset-x-0 bottom-0 space-y-5 p-6 text-white">
-            <div className="font-secondary text-[0.72rem] font-semibold tracking-[0.18em] text-white/72 uppercase">
-              Featured Project
-            </div>
-            <div className="space-y-2">
-              <h3 className="max-w-2xl text-5xl leading-[1.03] font-bold max-sm:text-4xl">
-                {project.title}
-              </h3>
-              <p className="text-base text-white/76">{project.category}</p>
-            </div>
-          </div>
         </div>
 
         <div className="space-y-8 p-6 max-sm:p-5">
