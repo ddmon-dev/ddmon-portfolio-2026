@@ -11,8 +11,11 @@ import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
 import { AppStoreHeroFace } from './app-store-hero-face';
 
-const layoutDuration = 0.5;
-const layoutEase = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const layoutDuration = 0.7;
+// 초반 천천히 → 중반 급가속(팍) → 후반 부드럽게 안착 (easeInOutExpo)
+const layoutEase = 'cubic-bezier(0.87, 0, 0.13, 1)';
+// 이전 이징: 빠르게 출발 → 느리게 도착 (easeOutQuint)
+// const layoutEase = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const layoutTransition = [
   `top ${layoutDuration}s ${layoutEase}`,
   `left ${layoutDuration}s ${layoutEase}`,
@@ -37,20 +40,30 @@ export function AppStoreProjectModal({
   project,
   index,
   startRect,
+  measureCard,
   onClosed,
 }: {
   project: Project;
   index: number;
   startRect: CardRect;
+  measureCard: () => CardRect | null;
   onClosed: () => void;
 }) {
   const trapRef = useRef<HTMLElement>(null);
+  const resizeTimer = useRef<number>(0);
   const mounted = useMounted();
   const [expanded, setExpanded] = useState(false);
-  const [target] = useState(getModalTarget);
+  const [target, setTarget] = useState(getModalTarget);
+  const [collapsedRect, setCollapsedRect] = useState(startRect);
+  const [isResizing, setIsResizing] = useState(false);
   useFocusTrap(true, trapRef);
 
   const close = () => {
+    // 스크롤이 내려가 있어도 카드(히어로)로 매끄럽게 수축하도록 상단으로 원복
+    trapRef.current?.scrollTo({ top: 0 });
+    // 리사이즈 등으로 카드가 움직였을 수 있으니 닫는 시점의 실제 위치로 수축
+    const fresh = measureCard();
+    if (fresh) setCollapsedRect(fresh);
     setExpanded(false);
     window.setTimeout(onClosed, layoutDuration * 1000);
   };
@@ -68,21 +81,43 @@ export function AppStoreProjectModal({
     };
   }, []);
 
-  // Escape 닫기 (effect는 불안정한 close 대신 실제 참조하는 onClosed에만 의존)
+  // 열린 상태에서 브라우저 리사이즈 시 모달 위치/크기를 즉시 따라가게 갱신
+  // (리사이즈 동안은 transition을 끊어 커서를 지연 없이 추종)
+  useEffect(() => {
+    const onResize = () => {
+      setTarget(getModalTarget());
+      setIsResizing(true);
+      window.clearTimeout(resizeTimer.current);
+      resizeTimer.current = window.setTimeout(() => setIsResizing(false), 140);
+    };
+
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.clearTimeout(resizeTimer.current);
+    };
+  }, []);
+
+  // Escape 닫기 (effect는 불안정한 close 대신 실제 참조하는 prop에만 의존)
   useEffect(() => {
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key !== 'Escape') return;
+      trapRef.current?.scrollTo({ top: 0 });
+      const fresh = measureCard();
+      if (fresh) setCollapsedRect(fresh);
       setExpanded(false);
       window.setTimeout(onClosed, layoutDuration * 1000);
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onClosed]);
+  }, [measureCard, onClosed]);
 
   if (!mounted) return null;
 
-  const currentRect = expanded ? target : { ...startRect, borderRadius: 28 };
+  const currentRect = expanded
+    ? target
+    : { ...collapsedRect, borderRadius: 28 };
 
   const node = (
     <div className="fixed inset-0 z-80">
@@ -102,7 +137,7 @@ export function AppStoreProjectModal({
         aria-label={project.title}
         style={{
           ...currentRect,
-          transition: layoutTransition,
+          transition: isResizing ? 'none' : layoutTransition,
         }}
         className="fixed overflow-y-auto bg-background text-foreground shadow-2xl"
       >
@@ -140,15 +175,19 @@ export function AppStoreProjectModal({
             }}
           />
 
-          <button
+          <motion.button
             type="button"
             data-autofocus
             aria-label="모달 닫기"
             onClick={close}
-            className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: expanded ? 1 : 0 }}
+            transition={{ duration: 0.2, delay: expanded ? 0.18 : 0 }}
+            style={{ pointerEvents: expanded ? 'auto' : 'none' }}
+            className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition-colors hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
           >
             <XIcon aria-hidden size={18} weight="bold" />
-          </button>
+          </motion.button>
         </div>
 
         <div className="space-y-8 p-6 max-sm:p-5">

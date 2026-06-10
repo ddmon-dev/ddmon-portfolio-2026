@@ -56,17 +56,22 @@ function AppStoreProjectCard({
     wasOpen.current = isActive;
   }, [isActive]);
 
-  const open = () => {
+  const measureCard = (): CardRect | null => {
     const element = cardRef.current;
-    if (!element) return;
+    if (!element) return null;
 
     const rect = element.getBoundingClientRect();
-    setStartRect({
+    return {
       top: rect.top,
       left: rect.left,
       width: rect.width,
       height: rect.height,
-    });
+    };
+  };
+
+  const open = () => {
+    const rect = measureCard();
+    if (rect) setStartRect(rect);
   };
 
   return (
@@ -114,6 +119,7 @@ function AppStoreProjectCard({
           project={project}
           index={index}
           startRect={startRect}
+          measureCard={measureCard}
           onClosed={() => setStartRect(null)}
         />
       )}
