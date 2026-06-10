@@ -199,16 +199,6 @@ export const selectedProjects: Project[] = [
   },
 ];
 
-export function getSelectedProject(slug: string) {
-  return selectedProjects.find((project) => project.slug === slug);
-}
-
-export function getSelectedProjectSlugs() {
-  return selectedProjects
-    .map((project) => project.slug)
-    .filter((slug): slug is string => Boolean(slug));
-}
-
 export function SelectedProjectsSection() {
   return (
     <ProjectGallery title="Selected Projects" projects={selectedProjects} />

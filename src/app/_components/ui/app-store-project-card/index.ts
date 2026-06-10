@@ -1,5 +1,1 @@
-export {
-  AppStoreProjectGallery,
-  AppStoreProjectModal,
-  AppStoreProjectPage,
-} from './app-store-project-gallery';
+export { AppStoreProjectGallery } from './app-store-project-gallery';
