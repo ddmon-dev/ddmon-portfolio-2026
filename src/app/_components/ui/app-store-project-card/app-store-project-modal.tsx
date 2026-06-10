@@ -4,12 +4,12 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
-import { XIcon } from '@phosphor-icons/react';
 import { useMounted } from '@/shared/hooks/use-mounted';
 import { StackBadges } from '../project-card/stack-badges';
 import { useFocusTrap } from '../project-card/use-focus-trap';
 import { type Project } from '../project-card/types';
 import { AppStoreHeroFace } from './app-store-hero-face';
+import { AppStoreModalNav } from './modal-nav';
 
 const layoutDuration = 0.7;
 // 초반 천천히 → 중반 급가속(팍) → 후반 부드럽게 안착 (easeInOutExpo)
@@ -174,20 +174,6 @@ export function AppStoreProjectModal({
               transition: `box-shadow ${layoutDuration}s ${layoutEase}`,
             }}
           />
-
-          <motion.button
-            type="button"
-            data-autofocus
-            aria-label="모달 닫기"
-            onClick={close}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: expanded ? 1 : 0 }}
-            transition={{ duration: 0.2, delay: expanded ? 0.18 : 0 }}
-            style={{ pointerEvents: expanded ? 'auto' : 'none' }}
-            className="absolute top-4 right-4 z-10 grid size-10 place-items-center rounded-full bg-black/36 text-white backdrop-blur-md transition-colors hover:bg-black/52 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-          >
-            <XIcon aria-hidden size={18} weight="bold" />
-          </motion.button>
         </div>
 
         <div className="space-y-8 p-6 max-sm:p-5">
@@ -208,6 +194,8 @@ export function AppStoreProjectModal({
             {project.content}
           </motion.div>
         </div>
+
+        <AppStoreModalNav expanded={expanded} onClose={close} />
       </article>
     </div>
   );
