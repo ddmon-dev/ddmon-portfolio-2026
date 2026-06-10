@@ -44,13 +44,20 @@ export function AppStoreHero({
     <motion.div
       layoutId={appStoreLayoutId.hero(id)}
       transition={APP_STORE_LAYOUT_TRANSITION}
-      className="relative h-80 overflow-hidden"
+      // 모달에서는 히어로를 콘텐츠(z-auto)보다 위로 올린다(모핑 중 콘텐츠가 히어로를
+      // 덮지 않도록). sticky 내비(z-10)보다는 낮게 둔다. 카드에서는 트리거 버튼
+      // (absolute inset-0 z-10)을 가리지 않도록 z를 주지 않는다.
+      className={cn('relative h-80 overflow-hidden', !isCard && 'z-[1]')}
     >
       <motion.div
         layoutId={appStoreLayoutId.image(id)}
         layout="position"
         transition={APP_STORE_LAYOUT_TRANSITION}
-        className="absolute inset-0"
+        // 윈도우 폭(inset-0)에 맞추면 layout="position"이 좌상단 앵커라 모핑 중 좌측
+        // 클리핑이 된다. 대신 모달 최대폭(48rem) 고정 박스를 윈도우 중앙에 정렬하면,
+        // 박스 크기가 두 상태 모두 동일해(왜곡·size-snap 0) 윈도우 중심을 추종 →
+        // 카드·모달·모핑 전 구간에서 중앙 기준 대칭 클리핑이 된다.
+        className="absolute top-0 left-[calc(50%_-_24rem)] h-full w-[48rem] max-w-none"
       >
         <Image
           src={project.image.src}
@@ -58,7 +65,7 @@ export function AppStoreHero({
           width={project.image.width}
           height={project.image.height}
           priority={!isCard}
-          sizes={isCard ? '(max-width: 640px) 100vw, 29rem' : '(max-width: 640px) 100vw, 48rem'}
+          sizes="(max-width: 640px) 100vw, 48rem"
           className={cn(
             'h-full w-full object-cover',
             isCard && 'transition-transform duration-500 group-hover:scale-105'
