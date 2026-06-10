@@ -4,20 +4,20 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { useMounted } from '@/shared/hooks/use-mounted';
-import { StackBadges } from '../project-card/stack-badges';
-import { useFocusTrap } from '../project-card/use-focus-trap';
-import { type Project } from '../project-card/types';
-import { AppStoreHero } from './app-store-hero';
-import { AppStoreModalNav } from './modal-nav';
+import { StackBadges } from './stack-badges';
+import { useFocusTrap } from './use-focus-trap';
+import { type Project } from './types';
+import { ProjectHero } from './project-hero';
+import { ProjectDialogNav } from './project-dialog-nav';
 import {
-  APP_STORE_LAYOUT_TRANSITION,
-  appStoreLayoutId,
-  type AppStoreId,
-} from './app-store-motion';
+  PROJECT_MORPH_TRANSITION,
+  projectMorphId,
+  type ProjectId,
+} from './morph';
 
 /**
- * 카드와 같은 `layoutId`(frame)를 공유해, 카드 → 화면 중앙 모달로 모핑되는
- * App Store 스타일 모달.
+ * 카드와 같은 `layoutId`(frame)를 공유해, 카드 → 화면 중앙 다이얼로그로 모핑되는
+ * 프로젝트 상세 다이얼로그.
  *
  * 위치/크기는 CSS(중앙 정렬 flex + padding)로만 정의하고, 카드와의 차이는 motion의
  * `layout` projection(transform 기반 FLIP)이 자동 측정·보간한다. 덕분에 기존의
@@ -27,7 +27,7 @@ import {
  * 부모(카드)가 `AnimatePresence`로 이 컴포넌트를 감싸므로, 언마운트 시 motion이
  * 카드로 되돌아가는 수축 모핑과 오버레이 페이드아웃을 자동 재생한다.
  */
-export function AppStoreProjectModal({
+export function ProjectDialog({
   project,
   index,
   id,
@@ -35,7 +35,7 @@ export function AppStoreProjectModal({
 }: {
   project: Project;
   index: number;
-  id: AppStoreId;
+  id: ProjectId;
   onClose: () => void;
 }) {
   const trapRef = useRef<HTMLElement>(null);
@@ -90,7 +90,7 @@ export function AppStoreProjectModal({
     <div className="fixed inset-0 z-80 flex justify-center p-6 max-sm:p-0">
       <motion.button
         type="button"
-        aria-label="모달 닫기 배경"
+        aria-label="다이얼로그 닫기 배경"
         className="fixed inset-0 h-full w-full bg-black/42 backdrop-blur-md"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -101,15 +101,15 @@ export function AppStoreProjectModal({
 
       <motion.article
         ref={trapRef}
-        layoutId={appStoreLayoutId.frame(id)}
-        transition={APP_STORE_LAYOUT_TRANSITION}
+        layoutId={projectMorphId.frame(id)}
+        transition={PROJECT_MORPH_TRANSITION}
         role="dialog"
         aria-modal="true"
         aria-label={project.title}
         style={{ borderRadius: radius }}
         className="relative z-10 h-full w-full max-w-3xl overflow-y-auto bg-background text-foreground shadow-2xl"
       >
-        <AppStoreHero variant="modal" project={project} index={index} id={id} />
+        <ProjectHero variant="dialog" project={project} index={index} id={id} />
 
         <div className="space-y-8 p-6 max-sm:p-5">
           <div className="space-y-3">
@@ -130,7 +130,7 @@ export function AppStoreProjectModal({
           </motion.div>
         </div>
 
-        <AppStoreModalNav onClose={close} />
+        <ProjectDialogNav onClose={close} />
       </motion.article>
     </div>
   );

@@ -1,5 +1,4 @@
-import { ProjectGallery, DetailSection, type Project } from './ui/project-card';
-import { AppStoreProjectGallery } from './ui/app-store-project-card';
+import { ProjectGallery, DetailSection, type Project } from './ui/project-gallery';
 
 /**
  * 주요 프로젝트 섹션은 메이져 프로젝트만 보여줄 것
@@ -202,15 +201,6 @@ export const selectedProjects: Project[] = [
 export function SelectedProjectsSection() {
   return (
     <ProjectGallery title="Selected Projects" projects={selectedProjects} />
-  );
-}
-
-export function AppStoreProjectModalSection() {
-  return (
-    <AppStoreProjectGallery
-      title="App Store Modal Test"
-      projects={selectedProjects}
-    />
   );
 }
 

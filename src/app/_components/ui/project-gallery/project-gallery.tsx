@@ -13,9 +13,9 @@ export function ProjectGallery({
     <Container as="section" className="space-y-8">
       <h2 className="text-4xl font-bold">{title}</h2>
       <ul className="grid grid-cols-3 gap-x-4 gap-y-8 max-sm:grid-cols-1">
-        {projects.map(project => (
+        {projects.map((project, index) => (
           <li key={project.title}>
-            <ProjectCard project={project} />
+            <ProjectCard project={project} index={index} />
           </li>
         ))}
       </ul>
