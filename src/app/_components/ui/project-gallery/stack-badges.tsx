@@ -68,10 +68,7 @@ function TruncatedChip({
   if (truncated <= 0) return null;
 
   return (
-    <span
-      title={title}
-      className="text-sm font-semibold text-secondary-light/50"
-    >
+    <span title={title} className="text-sm font-semibold text-white/90">
       +{truncated}
     </span>
   );

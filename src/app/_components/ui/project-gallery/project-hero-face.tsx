@@ -30,7 +30,7 @@ export function ProjectHeroFace({
 }) {
   return (
     <>
-      <div className="absolute inset-0 bg-linear-to-b from-black/15 via-black/10 to-black/78" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/0 to-black/90" />
       <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
         <motion.div
           layoutId={projectMorphId.eyebrow(id)}
@@ -47,7 +47,7 @@ export function ProjectHeroFace({
           transition={PROJECT_MORPH_TRANSITION}
           className="space-y-4"
         >
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <h3 className="text-2xl leading-tight font-bold">
               {project.title}
             </h3>

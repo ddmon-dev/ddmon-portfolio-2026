@@ -19,22 +19,17 @@ import {
  *   폭만 변하므로 motion은 가로 방향으로만 스케일한다.
  * - 이미지(`layoutId` image, `layout="position"`): 종횡비가 바뀌는 박스에서도
  *   motion이 부모 스케일을 역보정하고 위치만 애니메이트한다. 크기는 snap되지만
- *   카드 이미지가 블러 처리되어 있고 공유 요소 opacity 크로스페이드로 가려지므로,
+ *   카드가 블러 레이어로 덮여 있고 공유 요소 opacity 크로스페이드로 가려지므로,
  *   object-cover 프레이밍 차이는 자연스럽게 흡수된다.
  *
- * 카드 히어로는 흐릿한 미리보기(정적 blur 12px + inset 그림자)이고,
- * 다이얼로그 히어로는 마운트되며 blur 12→0 / inset-shadow 0.45→0 을 모핑과 같은 곡선으로
- * 디샤프닝한다(닫힐 때 `exit`로 역재생). filter / box-shadow 는 비레이아웃 속성이라
- * transform projection과 충돌 없이 안전하게 트윈된다.
- *
- * 블러는 backdrop-filter 커버가 아니라 이미지 자체의 filter로 건다. 히어로 안에서
- * backdrop이 샘플링하는 대상이 사실상 이미지뿐이라 시각 결과는 같지만,
- * - backdrop-filter는 매 프레임 뒤 레이어를 재샘플링해 카드 6장 상시 합성 비용이 컸고,
- * - 모핑 중 GPU가 밀리면 프레임의 둥근 클립 갱신(메인 스레드)과 transform(컴포지터)이
- *   어긋나 히어로가 한 프레임 클립 밖으로 삐져나오는 깜빡임을 유발했다.
- * filter는 정적이면 1회 래스터로 끝나 두 문제가 모두 사라진다. 블러 엣지의 반투명 번짐
- * (반경 12px)은 이미지 박스를 윈도우보다 사방 1rem(16px) 오버사이즈해 전부 클립 밖으로
- * 보낸다. 박스는 두 상태에서 여전히 동일 크기라 모핑 불변식(왜곡 0)은 유지된다.
+ * 흐릿한 미리보기는 CSS blur 필터가 아니라 사전 블러 자산(blurSrc) 레이어다.
+ * WebKit(iOS/Safari)은 합성 단계에서 filter 출력을 조상 overflow 클립 밖으로
+ * 흘리는 버그가 있고, 이 출력은 조상/자신의 clip-path·mask로도 다시 잘리지 않는다
+ * (필터 제거만이 유일하게 깨끗했음 — WebKit 실측). 그래서:
+ * - 카드: 선명한 이미지 위에 블러 레이어를 불투명하게 덮는다(정적, 합성 비용 0).
+ * - 다이얼로그: 같은 블러 레이어를 모핑과 같은 곡선으로 opacity 1→0 크로스페이드해
+ *   디샤프닝한다(닫힐 때 `exit`로 역재생). opacity는 컴포지터 전용 속성이라
+ *   모핑 중 GPU 부하도 기존 filter 트윈보다 훨씬 가볍다.
  */
 export function ProjectHero({
   project,
@@ -49,21 +44,33 @@ export function ProjectHero({
 }) {
   const isCard = variant === 'card';
 
+  // 다이얼로그 이미지는 클릭 후 마운트라 preload가 나가지 않고 카드 로드분이
+  // 캐시로 뜨므로 priority가 무의미하다. LCP 후보인 그리드 첫 행 카드에만 준다.
+  // 카드에서 선명한 원본은 블러 레이어에 가려 보이지 않지만, 다이얼로그가 열릴 때
+  // 디코딩 지연 없이 크로스페이드되도록 미리 깔아 캐시를 데워 둔다.
   const image = (
     <Image
       src={project.image.src}
       alt={project.image.alt}
       width={project.image.width}
       height={project.image.height}
-      // 다이얼로그 이미지는 클릭 후 마운트라 preload가 나가지 않고 카드 로드분이
-      // 캐시로 뜨므로 priority가 무의미하다. LCP 후보인 그리드 첫 행 카드에만 준다.
       priority={isCard && index < 3}
       sizes="(max-width: 640px) 100vw, 50rem"
-      className={cn(
-        'size-full object-cover',
-        isCard &&
-          'blur-md transition-transform duration-500 group-hover:scale-105'
-      )}
+      className="size-full object-cover"
+    />
+  );
+
+  // 사전 블러 썸네일(폭 240px, scripts/blur-project-images.mjs가 원본 옆에 생성)을
+  // 같은 프레이밍(object-cover)으로 덮는 레이어.
+  // 이미 충분히 작아 최적화 파이프라인을 거칠 이유가 없다(unoptimized).
+  const blurImage = (
+    <Image
+      src={project.image.src.replace(/\.[^.]+$/, '.blur.webp')}
+      alt=""
+      width={240}
+      height={Math.round((240 * project.image.height) / project.image.width)}
+      unoptimized
+      className="size-full object-cover"
     />
   );
 
@@ -84,23 +91,29 @@ export function ProjectHero({
         // 클리핑이 된다. 대신 고정 크기 박스를 윈도우 중앙에 정렬하면, 박스 크기가
         // 두 상태 모두 동일해(왜곡·size-snap 0) 윈도우 중심을 추종 →
         // 카드·다이얼로그·모핑 전 구간에서 중앙 기준 대칭 클리핑이 된다.
-        // 크기는 다이얼로그 최대폭(48rem)+사방 1rem — blur(12px) 엣지 번짐을 클립 밖으로.
-        className="absolute -top-4 left-[calc(50%-25rem)] h-[calc(100%+2rem)] w-[50rem] max-w-none"
+        // 크기는 다이얼로그 최대폭(48rem)+사방 1rem 여유.
+        className="absolute top-0 left-[calc(50%-24rem)] h-full w-[48rem] max-w-none"
       >
-        {/* 카드는 정적 blur-md, 다이얼로그는 펼침과 동기로 12→0 디샤프닝. */}
-        {isCard ? (
-          image
-        ) : (
-          <motion.div
-            className="size-full"
-            initial={{ filter: 'blur(12px)' }}
-            animate={{ filter: 'blur(0px)' }}
-            exit={{ filter: 'blur(12px)' }}
-            transition={PROJECT_MORPH_TRANSITION}
-          >
-            {image}
-          </motion.div>
-        )}
+        <div className={cn('relative size-full')}>
+          {image}
+          {/* 카드는 정적 블러 레이어, 다이얼로그는 펼침과 동기로 1→0 크로스페이드. */}
+          {isCard ? (
+            <div aria-hidden className="absolute inset-0">
+              {blurImage}
+            </div>
+          ) : (
+            <motion.div
+              aria-hidden
+              className="absolute inset-0"
+              initial={{ opacity: 1 }}
+              animate={{ opacity: 0 }}
+              exit={{ opacity: 1 }}
+              transition={PROJECT_MORPH_TRANSITION}
+            >
+              {blurImage}
+            </motion.div>
+          )}
+        </div>
       </motion.div>
 
       <ProjectHeroFace project={project} index={index} id={id} />

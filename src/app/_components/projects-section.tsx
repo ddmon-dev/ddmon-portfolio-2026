@@ -18,7 +18,7 @@ import {
  */
 
 const placeholderImage = {
-  src: '/panoramafilm.png',
+  src: '/projects/panoramafilm.png',
   alt: '',
   width: 1438,
   height: 809,
