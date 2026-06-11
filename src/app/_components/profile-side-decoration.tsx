@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { cn } from '@/shared/utils/classnames';
 
 /**
  * 프로필 좌측 장식 — 초저대비 도트 텍스처. 좌측으로 갈수록 옅어진다.
@@ -21,7 +22,7 @@ const CFG = {
   scrollIdleMs: 60, // ms — 이 시간 동안 스크롤이 없으면 효과를 거둔다
 };
 
-export function ProfileSideDecoration() {
+export function ProfileSideDecoration({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -45,7 +46,8 @@ export function ProfileSideDecoration() {
         cfg.fallbackColor;
       const { y, strength } = focus;
       for (let yy = cfg.dotGap / 2; yy < cssH; yy += cfg.dotGap) {
-        for (let xx = cfg.dotGap / 2; xx < cssW; xx += cfg.dotGap) {
+        // 우측 변에 딱 붙여 시작 — 너비가 간격의 배수가 아니어도 오른쪽 라인이 맞는다
+        for (let xx = cssW - cfg.dotRadius; xx > 0; xx -= cfg.dotGap) {
           const fade = xx / cssW; // 좌측으로 갈수록 페이드
           let radius = cfg.dotRadius;
           let alpha = cfg.dotOpacity * fade;
@@ -135,11 +137,6 @@ export function ProfileSideDecoration() {
   }, []);
 
   return (
-    <div aria-hidden className="relative w-full">
-      {/* 우측 패딩으로 본문과 간격 확보. 캔버스는 콘텐츠 박스를 채운다. */}
-      <div className="absolute inset-0 pr-5">
-        <canvas ref={canvasRef} className="block size-full" />
-      </div>
-    </div>
+    <canvas ref={canvasRef} className={cn('block size-full', className)} />
   );
 }

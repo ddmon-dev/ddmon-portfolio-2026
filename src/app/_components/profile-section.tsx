@@ -1,3 +1,5 @@
+import Image from 'next/image';
+import ProfileImage from '@/assets/profile-img-2.png';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from './profile-side-decoration';
@@ -6,7 +8,18 @@ import { CARREERS, HIGHLIGHTS, TECH_STACKS } from './profile.data';
 export function ProfileSection() {
   return (
     <Container as="section" className="grid grid-cols-2">
-      <ProfileSideDecoration />
+      <div className="relative pr-6">
+        <div className="absolute size-full pr-6">
+          <ProfileSideDecoration />
+        </div>
+        <div className="px-10">
+          <Image
+            src={ProfileImage}
+            alt=""
+            className="relative z-10 w-full rounded-bl-[100px] rounded-tr-[100px]"
+          />
+        </div>
+      </div>
       <div className="space-y-14">
         <h1 className="text-5xl/14 [&>b]:text-primary">
           안녕하세요 <br />
