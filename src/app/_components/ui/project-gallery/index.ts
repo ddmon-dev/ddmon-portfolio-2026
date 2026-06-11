@@ -1,3 +1,3 @@
 export { ProjectGallery } from './project-gallery';
-export { DetailSection } from './detail-section';
+export { ProjectDetail } from './project-detail';
 export type { Project, ProjectImage } from './types';
