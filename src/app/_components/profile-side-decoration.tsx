@@ -8,7 +8,7 @@ import { cn } from '@/shared/utils/classnames';
  * 스크롤 중에는 화면 세로 중앙 높이의 캔버스 우측 변을 중심으로
  * 도트가 반원형으로 은은하게 커졌다가, 멈추면 서서히 가라앉는다.
  * 색은 --primary 토큰을 단일 출처로 사용하고, 우측 패딩으로 본문과 간격을 둔다.
- * 순수 장식이라 aria-hidden, prefers-reduced-motion이면 정적으로 유지.
+ * 순수 장식이라 aria-hidden.
  */
 const CFG = {
   fallbackColor: '#f26619', // --primary 토큰을 못 읽을 때 폴백
@@ -136,12 +136,7 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (!reduceMotion) {
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     return () => {
       ro.disconnect();
