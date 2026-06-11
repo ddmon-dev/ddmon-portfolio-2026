@@ -2,7 +2,8 @@
 
 :root {
   --font-primary: var(--font-pretendard);
-  --font-secondary: var(--font-poppins);
+  /* Poppins에는 한글 글리프가 없으므로 한글은 Pretendard 체인으로 떨어진다 */
+  --font-secondary: var(--font-poppins), var(--font-pretendard);
 
   /* ash — 회색 원시 팔레트 (single source of truth).
      아래 secondary/surface/ash 토큰은 모두 이 값을 참조한다. */
