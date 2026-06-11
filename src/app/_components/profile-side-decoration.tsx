@@ -15,6 +15,8 @@ const CFG = {
   dotGap: 16, // px — 도트 간격
   dotRadius: 1.2, // px — 도트 반지름
   dotOpacity: 0.32, // 도트 기본 불투명도. 좌→우로 추가 페이드
+  fadeWobble: 1.6, // 행마다 페이드 깊이에 더해지는 최대 지수. 0이면 균일한 페이드
+  fadeWidth: 0.6, // 캔버스 너비 대비 페이드 구간 비율. 우측 나머지는 온전한 농도
   influence: 180, // px — 반원 효과 반경
   growScale: 2.2, // 중심에서 도트 반지름 최대 배율
   opacityBoost: 0.2, // 중심에서 더해지는 불투명도
@@ -46,9 +48,22 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
         cfg.fallbackColor;
       const { y, strength } = focus;
       for (let yy = cfg.dotGap / 2; yy < cssH; yy += cfg.dotGap) {
+        // 행마다 페이드 깊이를 불규칙하게 — 주기가 다른 사인 합성 노이즈(0~1).
+        // y좌표 기반 결정적 값이라 매 프레임 동일하게 그려진다
+        const noise =
+          0.5 +
+          0.5 *
+            (Math.sin(yy * 0.021) * 0.5 +
+              Math.sin(yy * 0.047 + 1.7) * 0.3 +
+              Math.sin(yy * 0.083 + 4.2) * 0.2);
+        const depth = 1 + cfg.fadeWobble * noise; // 페이드 곡선 지수
         // 우측 변에 딱 붙여 시작 — 너비가 간격의 배수가 아니어도 오른쪽 라인이 맞는다
         for (let xx = cssW - cfg.dotRadius; xx > 0; xx -= cfg.dotGap) {
-          const fade = xx / cssW; // 좌측으로 갈수록 페이드
+          // 좌측 fadeWidth 구간에서만 페이드, 그 오른쪽은 온전한 농도(1)
+          const fade = Math.pow(
+            Math.min(1, xx / (cssW * cfg.fadeWidth)),
+            depth
+          );
           let radius = cfg.dotRadius;
           let alpha = cfg.dotOpacity * fade;
           if (strength > 0.001) {

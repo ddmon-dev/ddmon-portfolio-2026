@@ -8,7 +8,7 @@ import { ContactSection } from './_components/contact-section';
 
 export default function Home() {
   return (
-    <main className="space-y-40 pt-40 pb-40">
+    <main className="space-y-40">
       <ProfileSection />
       <SelectedProjectsSection />
       <SystemsAndTemplatesSection />
