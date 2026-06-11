@@ -96,6 +96,12 @@
   --color-ring: var(--ring);
 }
 
+html {
+  /* 다이얼로그가 body 스크롤을 잠글 때 스크롤바가 사라지며 페이지 폭이 변하면,
+     모핑 시작 시점에 측정한 카드 좌표가 어긋난다. 거터를 상시 확보해 시프트를 막는다. */
+  scrollbar-gutter: stable;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

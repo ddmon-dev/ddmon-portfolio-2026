@@ -64,7 +64,9 @@ export function ProjectHero({
           alt={project.image.alt}
           width={project.image.width}
           height={project.image.height}
-          priority={!isCard}
+          // 다이얼로그 이미지는 클릭 후 마운트라 preload가 나가지 않고 카드 로드분이
+          // 캐시로 뜨므로 priority가 무의미하다. LCP 후보인 그리드 첫 행 카드에만 준다.
+          priority={isCard && index < 3}
           sizes="(max-width: 640px) 100vw, 48rem"
           className={cn(
             'h-full w-full object-cover',

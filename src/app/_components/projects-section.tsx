@@ -211,6 +211,7 @@ export function SelectedProjectsSection() {
 
 const systemsProjects: Project[] = [
   {
+    slug: 'react-ecatalog-template',
     title: 'React 전자카탈로그 템플릿',
     category: '제작 템플릿',
     image: { ...placeholderImage, alt: 'React 전자카탈로그 템플릿' },
@@ -241,6 +242,7 @@ const systemsProjects: Project[] = [
     ),
   },
   {
+    slug: 'homepage-template',
     title: '홈페이지 제작 템플릿',
     category: '제작 체계',
     image: { ...placeholderImage, alt: '홈페이지 제작 템플릿' },

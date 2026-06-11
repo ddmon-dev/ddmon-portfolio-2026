@@ -91,11 +91,11 @@ export function ProjectDialog({
       <motion.button
         type="button"
         aria-label="다이얼로그 닫기 배경"
-        className="fixed inset-0 h-full w-full bg-black/42 backdrop-blur-md"
+        className="fixed inset-0 h-full w-full bg-black/60"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.18 }}
+        transition={{ duration: 0.5 }}
         onClick={close}
       />
 
@@ -119,15 +119,9 @@ export function ProjectDialog({
             <StackBadges stacks={project.stacks} full />
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.22, delay: 0.08 }}
-            className="divide-y divide-border text-ash-dark [&>section]:py-6 [&>section]:first:pt-0 [&>section]:last:pb-0"
-          >
+          <div className="divide-y divide-border text-ash-dark [&>section]:py-6 [&>section]:first:pt-0 [&>section]:last:pb-0">
             {project.content}
-          </motion.div>
+          </div>
         </div>
 
         <ProjectDialogNav onClose={close} />

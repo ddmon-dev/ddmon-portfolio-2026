@@ -9,14 +9,11 @@ import { type Transition } from 'motion/react';
  * 트랜지션이며, 타이밍/이징은 여기 한 곳에서 조정한다.
  */
 export const PROJECT_MORPH_TRANSITION: Transition = {
-  // 빠르게 출발 → 느리게 도착 (easeOutQuint)
-  duration: 0.6,
+  duration: 0.7,
   ease: [0.22, 1, 0.36, 1],
-  // 이전: easeInOutExpo (초반 천천히 → 중반 급가속 → 후반 안착)
-  // ease: [0.87, 0, 0.13, 1],
 };
 
-export type ProjectId = string | number;
+export type ProjectId = string;
 
 /**
  * 카드와 다이얼로그가 공유하는 layoutId 모음.

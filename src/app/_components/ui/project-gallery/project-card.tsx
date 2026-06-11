@@ -22,7 +22,7 @@ export function ProjectCard({
   project: Project;
   index: number;
 }) {
-  const id = project.slug ?? index;
+  const id = project.slug;
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const wasOpen = useRef(false);
