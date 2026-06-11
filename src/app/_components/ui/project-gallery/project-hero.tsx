@@ -74,7 +74,7 @@ export function ProjectHero({
       // 다이얼로그에서는 히어로를 콘텐츠(z-auto)보다 위로 올린다(모핑 중 콘텐츠가 히어로를
       // 덮지 않도록). sticky 내비(z-10)보다는 낮게 둔다. 카드에서는 트리거 버튼
       // (absolute inset-0 z-10)을 가리지 않도록 z를 주지 않는다.
-      className={cn('relative h-80 overflow-hidden', !isCard && 'z-[1]')}
+      className={cn('relative h-80 overflow-hidden', !isCard && 'z-1')}
     >
       <motion.div
         layoutId={projectMorphId.image(id)}
@@ -85,7 +85,7 @@ export function ProjectHero({
         // 두 상태 모두 동일해(왜곡·size-snap 0) 윈도우 중심을 추종 →
         // 카드·다이얼로그·모핑 전 구간에서 중앙 기준 대칭 클리핑이 된다.
         // 크기는 다이얼로그 최대폭(48rem)+사방 1rem — blur(12px) 엣지 번짐을 클립 밖으로.
-        className="absolute -top-4 left-[calc(50%_-_25rem)] h-[calc(100%+2rem)] w-[50rem] max-w-none"
+        className="absolute -top-4 left-[calc(50%-25rem)] h-[calc(100%+2rem)] w-[50rem] max-w-none"
       >
         {/* 카드는 정적 blur-md, 다이얼로그는 펼침과 동기로 12→0 디샤프닝. */}
         {isCard ? (
@@ -109,7 +109,7 @@ export function ProjectHero({
       {isCard ? (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 shadow-[inset_0_0_24px_rgba(0,0,0,0.45)]"
+          className="pointer-events-none absolute inset-0 inset-shadow-[0_0_24px_rgba(0,0,0,0.45)]"
         />
       ) : (
         <motion.div
