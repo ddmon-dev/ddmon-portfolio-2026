@@ -25,6 +25,10 @@ export function ProjectCard({
   const id = project.slug;
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  // 모핑 중 카드를 이웃 카드(z-auto)·헤더(z-50) 위로 올리는 플래그. `open`과 분리한
+  // 이유: 닫힘은 open=false 즉시가 아니라 수축 모핑(exit)이 끝나는 onExitComplete까지
+  // z가 유지되어야 이웃 카드 아래로 파고드는 충돌이 없다.
+  const [elevated, setElevated] = useState(false);
   const wasOpen = useRef(false);
 
   // 다이얼로그가 닫혀 카드로 수축이 끝나면 트리거로 포커스를 돌려준다.
@@ -43,14 +47,19 @@ export function ProjectCard({
         style={{ borderRadius: 28 }}
         className={cn(
           'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
-          open && 'pointer-events-none'
+          open && 'pointer-events-none',
+          // 다이얼로그(z-80)보다는 낮게 — 열린 동안 카드는 그 아래 opacity 0으로 따라간다.
+          elevated && 'z-60'
         )}
       >
         <button
           ref={triggerRef}
           type="button"
           aria-label={`${project.title} 상세 보기`}
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            setElevated(true);
+          }}
           className="absolute inset-0 z-10 cursor-pointer"
         >
           <span className="sr-only">{project.title} 상세 보기</span>
@@ -59,7 +68,7 @@ export function ProjectCard({
         <ProjectHero variant="card" project={project} index={index} id={id} />
       </motion.article>
 
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={() => setElevated(false)}>
         {open && (
           <ProjectDialog
             key="dialog"

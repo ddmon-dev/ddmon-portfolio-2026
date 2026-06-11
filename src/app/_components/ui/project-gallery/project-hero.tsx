@@ -24,8 +24,17 @@ import {
  *
  * 카드 히어로는 흐릿한 미리보기(정적 blur 12px + inset 그림자)이고,
  * 다이얼로그 히어로는 마운트되며 blur 12→0 / inset-shadow 0.45→0 을 모핑과 같은 곡선으로
- * 디샤프닝한다(닫힐 때 `exit`로 역재생). backdrop-filter / box-shadow 는 비레이아웃
- * 속성이라 transform projection과 충돌 없이 안전하게 트윈된다.
+ * 디샤프닝한다(닫힐 때 `exit`로 역재생). filter / box-shadow 는 비레이아웃 속성이라
+ * transform projection과 충돌 없이 안전하게 트윈된다.
+ *
+ * 블러는 backdrop-filter 커버가 아니라 이미지 자체의 filter로 건다. 히어로 안에서
+ * backdrop이 샘플링하는 대상이 사실상 이미지뿐이라 시각 결과는 같지만,
+ * - backdrop-filter는 매 프레임 뒤 레이어를 재샘플링해 카드 6장 상시 합성 비용이 컸고,
+ * - 모핑 중 GPU가 밀리면 프레임의 둥근 클립 갱신(메인 스레드)과 transform(컴포지터)이
+ *   어긋나 히어로가 한 프레임 클립 밖으로 삐져나오는 깜빡임을 유발했다.
+ * filter는 정적이면 1회 래스터로 끝나 두 문제가 모두 사라진다. 블러 엣지의 반투명 번짐
+ * (반경 12px)은 이미지 박스를 윈도우보다 사방 1rem(16px) 오버사이즈해 전부 클립 밖으로
+ * 보낸다. 박스는 두 상태에서 여전히 동일 크기라 모핑 불변식(왜곡 0)은 유지된다.
  */
 export function ProjectHero({
   project,
@@ -39,6 +48,24 @@ export function ProjectHero({
   variant: 'card' | 'dialog';
 }) {
   const isCard = variant === 'card';
+
+  const image = (
+    <Image
+      src={project.image.src}
+      alt={project.image.alt}
+      width={project.image.width}
+      height={project.image.height}
+      // 다이얼로그 이미지는 클릭 후 마운트라 preload가 나가지 않고 카드 로드분이
+      // 캐시로 뜨므로 priority가 무의미하다. LCP 후보인 그리드 첫 행 카드에만 준다.
+      priority={isCard && index < 3}
+      sizes="(max-width: 640px) 100vw, 50rem"
+      className={cn(
+        'h-full w-full object-cover',
+        isCard &&
+          'blur-md transition-transform duration-500 group-hover:scale-105'
+      )}
+    />
+  );
 
   return (
     <motion.div
@@ -54,50 +81,27 @@ export function ProjectHero({
         layout="position"
         transition={PROJECT_MORPH_TRANSITION}
         // 윈도우 폭(inset-0)에 맞추면 layout="position"이 좌상단 앵커라 모핑 중 좌측
-        // 클리핑이 된다. 대신 다이얼로그 최대폭(48rem) 고정 박스를 윈도우 중앙에 정렬하면,
-        // 박스 크기가 두 상태 모두 동일해(왜곡·size-snap 0) 윈도우 중심을 추종 →
+        // 클리핑이 된다. 대신 고정 크기 박스를 윈도우 중앙에 정렬하면, 박스 크기가
+        // 두 상태 모두 동일해(왜곡·size-snap 0) 윈도우 중심을 추종 →
         // 카드·다이얼로그·모핑 전 구간에서 중앙 기준 대칭 클리핑이 된다.
-        className="absolute top-0 left-[calc(50%_-_24rem)] h-full w-[48rem] max-w-none"
+        // 크기는 다이얼로그 최대폭(48rem)+사방 1rem — blur(12px) 엣지 번짐을 클립 밖으로.
+        className="absolute -top-4 left-[calc(50%_-_25rem)] h-[calc(100%+2rem)] w-[50rem] max-w-none"
       >
-        <Image
-          src={project.image.src}
-          alt={project.image.alt}
-          width={project.image.width}
-          height={project.image.height}
-          // 다이얼로그 이미지는 클릭 후 마운트라 preload가 나가지 않고 카드 로드분이
-          // 캐시로 뜨므로 priority가 무의미하다. LCP 후보인 그리드 첫 행 카드에만 준다.
-          priority={isCard && index < 3}
-          sizes="(max-width: 640px) 100vw, 48rem"
-          className={cn(
-            'h-full w-full object-cover',
-            isCard && 'transition-transform duration-500 group-hover:scale-105'
-          )}
-        />
+        {/* 카드는 정적 blur-md, 다이얼로그는 펼침과 동기로 12→0 디샤프닝. */}
+        {isCard ? (
+          image
+        ) : (
+          <motion.div
+            className="h-full w-full"
+            initial={{ filter: 'blur(12px)' }}
+            animate={{ filter: 'blur(0px)' }}
+            exit={{ filter: 'blur(12px)' }}
+            transition={PROJECT_MORPH_TRANSITION}
+          >
+            {image}
+          </motion.div>
+        )}
       </motion.div>
-
-      {/* 흐릿한 미리보기 블러. 카드는 정적, 다이얼로그는 펼침과 동기로 12→0 디샤프닝. */}
-      {isCard ? (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 backdrop-blur-md"
-        />
-      ) : (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          // backdrop-filter는 motion의 명시 value-type 매핑(filter 전용)이 없고 webkit
-          // 프리픽스 키도 keyframe 타입에 없으므로, CSS 변수를 트윈해 양쪽 프리픽스를
-          // 한 번에 구동한다. (기존 backdrop-filter 메커니즘 그대로 — 엣지 아티팩트 없음)
-          style={{
-            backdropFilter: 'blur(var(--project-hero-blur))',
-            WebkitBackdropFilter: 'blur(var(--project-hero-blur))',
-          }}
-          initial={{ '--project-hero-blur': '12px' }}
-          animate={{ '--project-hero-blur': '0px' }}
-          exit={{ '--project-hero-blur': '12px' }}
-          transition={PROJECT_MORPH_TRANSITION}
-        />
-      )}
 
       <ProjectHeroFace project={project} index={index} id={id} />
 
