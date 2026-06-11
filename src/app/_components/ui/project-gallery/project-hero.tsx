@@ -60,7 +60,7 @@ export function ProjectHero({
       priority={isCard && index < 3}
       sizes="(max-width: 640px) 100vw, 50rem"
       className={cn(
-        'h-full w-full object-cover',
+        'size-full object-cover',
         isCard &&
           'blur-md transition-transform duration-500 group-hover:scale-105'
       )}
@@ -92,7 +92,7 @@ export function ProjectHero({
           image
         ) : (
           <motion.div
-            className="h-full w-full"
+            className="size-full"
             initial={{ filter: 'blur(12px)' }}
             animate={{ filter: 'blur(0px)' }}
             exit={{ filter: 'blur(12px)' }}

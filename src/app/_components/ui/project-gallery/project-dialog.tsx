@@ -91,7 +91,7 @@ export function ProjectDialog({
       <motion.button
         type="button"
         aria-label="다이얼로그 닫기 배경"
-        className="fixed inset-0 h-full w-full bg-black/60"
+        className="fixed inset-0 size-full bg-black/60"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -107,7 +107,7 @@ export function ProjectDialog({
         aria-modal="true"
         aria-label={project.title}
         style={{ borderRadius: radius }}
-        className="relative z-10 h-full w-full max-w-3xl overflow-y-auto bg-background text-foreground shadow-2xl"
+        className="relative z-10 size-full max-w-3xl overflow-y-auto bg-background text-foreground shadow-2xl"
       >
         <ProjectHero variant="dialog" project={project} index={index} id={id} />
 

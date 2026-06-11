@@ -17,7 +17,7 @@ export const buttonVariants = cva(
     'inline-flex items-center justify-center gap-1.5 font-medium whitespace-nowrap',
     'transition-colors cursor-pointer select-none',
     '[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-[1.2em]',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+    'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring',
     'disabled:pointer-events-none disabled:opacity-50'
   ),
   {
@@ -35,7 +35,8 @@ export const buttonVariants = cva(
           'bg-secondary-light text-secondary-foreground hover:bg-secondary',
         'secondary-dark':
           'bg-secondary-dark text-secondary-foreground hover:bg-secondary',
-        destructive: 'bg-red-500 text-white hover:bg-red-600',
+        destructive:
+          'bg-destructive text-destructive-foreground hover:bg-destructive-dark',
         // 중립/비채움
         ash: 'bg-ash-lighter text-ash-darker hover:bg-ash-light',
         outline:
@@ -48,9 +49,9 @@ export const buttonVariants = cva(
         sm: 'h-9 px-3 text-sm',
         default: 'h-10 px-4 text-sm',
         lg: 'h-11 px-6',
-        'icon-sm': 'h-9 w-9',
-        icon: 'h-10 w-10',
-        'icon-lg': 'h-11 w-11',
+        'icon-sm': 'size-9',
+        icon: 'size-10',
+        'icon-lg': 'size-11',
       },
       shape: {
         default: 'rounded-md',

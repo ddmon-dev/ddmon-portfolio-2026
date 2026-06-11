@@ -54,7 +54,7 @@ const displacementMap = `data:image/svg+xml,${encodeURIComponent(
 /** 굴절 SVG 필터 정의. 문서에 한 번만 렌더한다(레이아웃에 영향 없는 0-size SVG). */
 export function LiquidGlassFilter() {
   return (
-    <svg aria-hidden="true" className="pointer-events-none absolute h-0 w-0">
+    <svg aria-hidden="true" className="pointer-events-none absolute size-0">
       <filter
         id={FILTER_ID}
         x="0"

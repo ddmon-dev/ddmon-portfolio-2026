@@ -46,7 +46,7 @@ export function ProjectCard({
         transition={PROJECT_MORPH_TRANSITION}
         style={{ borderRadius: 28 }}
         className={cn(
-          'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-none',
+          'group relative h-80 overflow-hidden bg-ash-950 text-white shadow-sm outline-hidden',
           open && 'pointer-events-none',
           // 다이얼로그(z-80)보다는 낮게 — 열린 동안 카드는 그 아래 opacity 0으로 따라간다.
           elevated && 'z-60'

@@ -8,7 +8,7 @@ export function ProfileSection() {
     <Container as="section" className="grid grid-cols-2">
       <ProfileSideDecoration />
       <div className="space-y-14">
-        <h1 className="text-5xl/14 [&>b]:text-orange-500">
+        <h1 className="text-5xl/14 [&>b]:text-primary">
           안녕하세요 <br />
           <b>주도적</b> 문제<b>해결사</b> <br />
           <b>FE</b> 개발자 <br />

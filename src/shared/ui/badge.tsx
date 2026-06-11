@@ -15,7 +15,7 @@ export const badgeVariants = cva(
   cn(
     'inline-flex items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap',
     '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+    'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring'
   ),
   {
     variants: {
@@ -31,7 +31,8 @@ export const badgeVariants = cva(
           'border-transparent bg-secondary-light text-secondary-foreground',
         'secondary-dark':
           'border-transparent bg-secondary-dark text-secondary-foreground',
-        destructive: 'border-transparent bg-red-500 text-white',
+        destructive:
+          'border-transparent bg-destructive text-destructive-foreground',
         // 중립/아웃라인
         ash: 'border-transparent bg-ash-lighter text-ash-darker',
         outline: 'border-border text-foreground',

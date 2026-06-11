@@ -30,6 +30,11 @@
   --secondary-dark: var(--ash-950);       /* 가장 진한 먹 */
   --secondary-foreground: var(--ash-50);  /* 먹색 위 글자 */
 
+  /* destructive — 삭제·위험 동작 (red-500/600 기반) */
+  --destructive: #ef4444;             /* 위험 동작 표면: 위에 destructive-foreground를 올린다 */
+  --destructive-dark: #dc2626;        /* hover, pressed */
+  --destructive-foreground: #ffffff;  /* 빨강 위 글자 */
+
   /* ash — 회색 주력 5단계 (ash 별칭, 일상 사용 API).
      primary/secondary와 동일한 base + light/lighter/dark/darker 컨벤션.
      그 외 명도가 필요하면 ash-* 원시 팔레트를 직접 쓴다. */
@@ -70,6 +75,9 @@
   --color-secondary-light: var(--secondary-light);
   --color-secondary-dark: var(--secondary-dark);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-dark: var(--destructive-dark);
+  --color-destructive-foreground: var(--destructive-foreground);
 
   --color-ash-lighter: var(--ash-lighter);
   --color-ash-light: var(--ash-light);

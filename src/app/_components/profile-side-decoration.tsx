@@ -138,7 +138,7 @@ export function ProfileSideDecoration() {
     <div aria-hidden className="relative w-full">
       {/* 우측 패딩으로 본문과 간격 확보. 캔버스는 콘텐츠 박스를 채운다. */}
       <div className="absolute inset-0 pr-5">
-        <canvas ref={canvasRef} className="block h-full w-full" />
+        <canvas ref={canvasRef} className="block size-full" />
       </div>
     </div>
   );

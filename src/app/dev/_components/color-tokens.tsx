@@ -36,6 +36,18 @@ const GROUPS: SwatchGroup[] = [
     ],
   },
   {
+    label: 'Destructive',
+    swatches: [
+      { name: 'destructive', bg: 'bg-destructive' },
+      { name: 'destructive-dark', bg: 'bg-destructive-dark' },
+      {
+        name: 'destructive-foreground',
+        bg: 'bg-destructive-foreground',
+        needsBorder: true,
+      },
+    ],
+  },
+  {
     label: 'Ash (gray)',
     swatches: [
       { name: 'ash-lighter', bg: 'bg-ash-lighter', needsBorder: true },

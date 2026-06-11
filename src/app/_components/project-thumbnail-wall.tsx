@@ -22,7 +22,7 @@ import type { ThumbItem } from './project-thumbnail-wall.data';
 // 썸네일 그리드 파라미터 (아래 ul 클래스와 일치해야 함)
 const MIN_COL = 88; // minmax(88px, 1fr)
 const GAP = 6; // gap-1.5
-const TILE_RATIO = 10 / 16; // aspect-[16/10] → 높이/너비
+const TILE_RATIO = 10 / 16; // aspect-16/10 → 높이/너비
 const COLLAPSED_ROWS = 5;
 const FALLBACK_COLS = 8; // 측정 전(SSR/첫 렌더) 임시 열 수
 const DURATION = 650; // ms
@@ -33,9 +33,9 @@ function Tile({ item }: { item: ThumbItem }) {
   const [broken, setBroken] = useState(!item.thumb);
 
   const inner = (
-    <div className="group relative aspect-[16/10] overflow-hidden rounded-sm bg-orange-500/15 ring-1 ring-black/5">
+    <div className="group relative aspect-16/10 overflow-hidden rounded-sm bg-primary/15 ring-1 ring-black/5">
       {broken || !item.thumb ? (
-        <div className="flex h-full w-full items-center justify-center bg-orange-500 px-1 text-center text-[10px] leading-tight font-medium text-white">
+        <div className="flex size-full items-center justify-center bg-primary px-1 text-center text-[10px] leading-tight font-medium text-primary-foreground">
           {item.name}
         </div>
       ) : (
@@ -45,7 +45,7 @@ function Tile({ item }: { item: ThumbItem }) {
           alt={item.name}
           loading="lazy"
           onError={() => setBroken(true)}
-          className="h-full w-full object-cover object-top"
+          className="size-full object-cover object-top"
         />
       )}
       <span className="pointer-events-none absolute inset-x-0 bottom-0 truncate bg-foreground/80 px-1.5 py-0.5 text-[10px] text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -161,7 +161,7 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
           aria-hidden
           className={cn(
             'pointer-events-none absolute inset-x-0 bottom-0 z-20 h-28',
-            'bg-gradient-to-b from-transparent to-background',
+            'bg-linear-to-b from-transparent to-background',
             'transition-opacity duration-300',
             hasMore && !isOpen ? 'opacity-100' : 'opacity-0',
           )}
