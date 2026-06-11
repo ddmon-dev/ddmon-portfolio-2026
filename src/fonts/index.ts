@@ -8,8 +8,8 @@ export const poppins = Poppins({
 });
 
 export const pretendard = localFont({
-  src: './PretendardVariable.woff2',
-  weight: '45 920',
+  src: './PretendardVariable.subset.woff2',
+  weight: '45 930',
   variable: '--font-pretendard',
   display: 'swap',
   fallback: [
