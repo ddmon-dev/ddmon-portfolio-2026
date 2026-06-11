@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises';
-import path from 'node:path';
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { DetailSection } from './detail-section';
@@ -9,11 +7,12 @@ import { DetailSection } from './detail-section';
  * 마크다운 파싱·렌더가 전부 서버에서 끝나고 결과 트리만 RSC payload로 내려가므로
  * 클라이언트 번들에 파서가 포함되지 않는다.
  *
+ * md는 fs가 아니라 import로 읽는다(raw-loader, next.config.ts 참조).
+ * 모듈 그래프에 포함되어 dev에서 md 수정 시 HMR이 동작한다.
+ *
  * md 작성 규칙: 문서는 `## 섹션 제목`으로 시작하고, `##` 단위가 다이얼로그의
  * 구분선(divide-y) 섹션 하나가 된다. 섹션 내부 소제목은 `###`을 쓴다.
  */
-
-const DETAILS_DIR = path.join(process.cwd(), 'src/data/projects');
 
 /** `## 제목` 헤딩을 경계로 마크다운을 {제목, 본문} 섹션 목록으로 나눈다. */
 function splitSections(markdown: string) {
@@ -78,9 +77,8 @@ const markdownComponents: Components = {
 };
 
 export async function ProjectDetail({ slug }: { slug: string }) {
-  const markdown = await readFile(
-    path.join(DETAILS_DIR, `${slug}.md`),
-    'utf-8'
+  const { default: markdown } = await import(
+    `@/data/projects/${slug}.md`
   );
 
   return splitSections(markdown).map(({ title, body }) => (

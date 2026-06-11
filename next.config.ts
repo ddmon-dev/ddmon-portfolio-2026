@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
   // 모바일 실기기에서 LAN IP로 dev 서버 접속 시 cross-origin 차단 해제.
   // Next.js 16은 localhost 외 origin의 dev 리소스(HMR/청크) 요청을 기본 차단한다.
   allowedDevOrigins: ['172.30.1.*'],
+  // md를 raw 문자열 모듈로 import한다. fs.readFile과 달리 모듈 그래프에
+  // 포함되므로 dev에서 md 수정 시 HMR이 동작한다 (ProjectDetail에서 사용).
+  turbopack: {
+    rules: {
+      '*.md': { loaders: ['raw-loader'], as: '*.js' },
+    },
+  },
 };
 
 export default nextConfig;
