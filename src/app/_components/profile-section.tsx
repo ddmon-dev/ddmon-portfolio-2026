@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ProfileImage from '@/assets/profile-img-9.png';
+import ProfileImage from '@/assets/profile-img-6.png';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from './profile-side-decoration';
@@ -16,7 +16,7 @@ export function ProfileSection() {
           <Image
             src={ProfileImage}
             alt=""
-            className="relative z-10 w-full mix-blend-multiply translate-x-0 -translate-y-10 scale-200 origin-top"
+            className="relative z-10 w-full mix-blend-multiply"
           />
         </div>
       </div>
