@@ -50,6 +50,13 @@ const selectedProjects: Project[] = withDetail([
       'Nginx',
       'Kakao Alimtalk',
     ],
+    facts: {
+      period: '2024.06 – 2024.09 (4개월)',
+      team: '디자이너 1명 협업(브랜드 시안) · 개발 단독',
+      scope: 'FE · OMS/어드민 화면 설계 · DB 설계 · 배포 · 고객사 커뮤니케이션',
+      url: 'https://panoramafilm.co.kr',
+      status: '운영 중 · 유지보수 지속',
+    },
   },
   {
     slug: 'vaccine-portal',

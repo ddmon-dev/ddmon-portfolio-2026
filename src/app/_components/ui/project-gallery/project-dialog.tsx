@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { useMounted } from '@/shared/hooks/use-mounted';
 import { StackBadges } from './stack-badges';
+import { ProjectFactBox } from './project-fact-box';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { ProjectHero } from './project-hero';
@@ -112,12 +113,16 @@ export function ProjectDialog({
         <ProjectHero variant="dialog" project={project} index={index} id={id} />
 
         <div className="space-y-8 p-6 max-sm:p-5">
-          <div className="space-y-3">
-            <h4 className="font-secondary text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
-              Used stack
-            </h4>
-            <StackBadges stacks={project.stacks} full />
-          </div>
+          {project.facts ? (
+            <ProjectFactBox facts={project.facts} stacks={project.stacks} />
+          ) : (
+            <div className="space-y-3">
+              <h4 className="font-secondary text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+                Used stack
+              </h4>
+              <StackBadges stacks={project.stacks} full />
+            </div>
+          )}
 
           <div className="divide-y divide-border text-ash-dark [&>section]:py-6 [&>section]:first:pt-0 [&>section]:last:pb-0">
             {project.content}
