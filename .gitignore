@@ -44,7 +44,11 @@ next-env.d.ts
 .playwright-mcp/
 
 
-.claude/settings.local.json
+
+/.claude/
+/docs/
+/CLAUDE.md
+/AGENTS.md
 
 # superpowers brainstorm companion
 .superpowers/
