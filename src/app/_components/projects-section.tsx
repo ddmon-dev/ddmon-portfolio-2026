@@ -93,7 +93,23 @@ const selectedProjects: Project[] = withDetail([
     title: 'RGB Managers',
     category: '사내 운영 시스템',
     image: { ...placeholderImage, alt: 'RGB Managers 프로젝트' },
-    stacks: ['Next.js', 'MongoDB', 'Puppeteer'],
+    stacks: [
+      'Next.js',
+      'React',
+      'MongoDB',
+      'NextAuth',
+      'Server Actions',
+      'Tailwind',
+      'shadcn/ui',
+      'Puppeteer',
+    ],
+    facts: {
+      period: '2023.07 ~ 현재 (V1 Next.js 13 → V2 Next.js 15·shadcn)',
+      team: '개발 단독 · UI/디자인 직접',
+      scope:
+        '기획 · UI/디자인 · FE · DB 설계 · MySQL→MongoDB 마이그레이션 · 배포 · 운영',
+      status: '운영 중 · 퇴사 후에도 유지보수 지속',
+    },
   },
 ]);
 
