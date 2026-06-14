@@ -64,7 +64,22 @@ const selectedProjects: Project[] = withDetail([
     title: '백신정보포털',
     category: '데이터 포털 / CMS',
     image: { ...placeholderImage, alt: '백신정보포털 프로젝트' },
-    stacks: ['Next.js', 'Supabase', 'Server Actions'],
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Server Actions',
+      'Tailwind',
+      'Nginx',
+    ],
+    facts: {
+      period: '2024.08 (약 1개월)',
+      team: '개발 단독 · PC 디자인 시안 제공',
+      scope:
+        'FE · 복합 검색 UI 설계 · 관리자 CMS · 데이터 정규화·DB 설계 · 셀프호스팅 배포',
+      url: 'https://vitalkorea-vip.kr',
+      status: '운영 중',
+    },
   },
   {
     slug: 'angel-robotics',
