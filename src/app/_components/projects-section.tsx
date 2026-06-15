@@ -84,9 +84,26 @@ const selectedProjects: Project[] = withDetail([
   {
     slug: 'angel-robotics',
     title: '엔젤로보틱스 홈페이지',
-    category: '브랜드 / 제품 홈페이지',
+    category: '브랜드·제품 사이트 / CMS',
     image: { ...placeholderImage, alt: '엔젤로보틱스 홈페이지 프로젝트' },
-    stacks: ['Next.js', 'React', 'Supabase'],
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Server Actions',
+      'Framer Motion',
+      'Lenis',
+      'NextAuth',
+      'Tailwind',
+    ],
+    facts: {
+      period: '2024.12 ~ 2025.05 (재직 중 구축)',
+      team: '디자이너 1명·3D 영상작업자 1명 협업 · 개발 단독',
+      scope:
+        'FE(스크롤 인터랙션·다국어) · 반응형 직접 해석 · 어드민 CMS 설계·개발 · Supabase 연동 · 배포',
+      url: 'https://angel-robotics.com',
+      status: '운영 중',
+    },
   },
   {
     slug: 'rgb-managers',
