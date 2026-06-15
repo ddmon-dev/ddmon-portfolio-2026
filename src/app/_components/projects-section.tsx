@@ -106,6 +106,30 @@ const selectedProjects: Project[] = withDetail([
     },
   },
   {
+    slug: 'mr',
+    title: '(주)엠알 홈페이지',
+    category: '다국어 기업·제품 사이트 / CMS',
+    image: { ...placeholderImage, alt: '(주)엠알 홈페이지 프로젝트' },
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Server Actions',
+      'NextAuth',
+      'Framer Motion',
+      'CKEditor',
+      'Tailwind',
+    ],
+    facts: {
+      period: '2025.02 – 2025.06',
+      team: '디자이너 1명 협업 · PM 겸 개발 단독',
+      scope:
+        'PM · 기획 · 디자인 기획(디렉션) · FE(다국어·회원 인증) · 어드민 CMS 설계 · 반응형 직접 해석',
+      url: 'https://mrev.co.kr',
+      status: '운영 중',
+    },
+  },
+  {
     slug: 'rgb-managers',
     title: 'RGB Managers',
     category: '사내 운영 시스템',
