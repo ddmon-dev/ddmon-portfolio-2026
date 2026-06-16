@@ -177,9 +177,17 @@ const systemsProjects: Project[] = withDetail([
       'TypeScript',
       'Supabase',
       'Tailwind',
-      'zod',
       'shadcn/ui',
+      'React Hook Form',
+      'zod',
     ],
+    facts: {
+      period: '2025.11 ~ 현재 (지속 유지·발전)',
+      team: '개발 단독 · 본인 IP',
+      scope:
+        'FE 아키텍처 · CRUD/폼 추상화 · 인증 · DB 스키마 설계 · 거래처 어드민 이식',
+      status: '본인 자산 · 거래처 어드민 3곳 + 내부 도구에 이식 · 지속 발전',
+    },
   },
   {
     slug: 'react-ecatalog-template',
