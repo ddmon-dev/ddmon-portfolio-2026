@@ -130,6 +130,30 @@ const selectedProjects: Project[] = withDetail([
     },
   },
   {
+    slug: 'lxa-work-manager',
+    title: 'Work Manager',
+    category: '업무 운영 시스템 / 본인 IP',
+    image: { ...placeholderImage, alt: 'Work Manager 프로젝트' },
+    stacks: [
+      'React',
+      'Vite',
+      'TypeScript',
+      'Hono',
+      'Drizzle ORM',
+      'PostgreSQL',
+      'Better Auth',
+      'TanStack Query',
+      'Claude Code',
+    ],
+    facts: {
+      period: '2026.02 ~ 현재 (레거시 → React+Hono 전면 재작성)',
+      team: '개발 단독 · 본인 IP (디자인 시안 없음)',
+      scope:
+        'FE · 시스템 아키텍처 판단 · 도메인/데이터 모델링 · self-hosted 운영 · AI 드리븐 구현·디렉션',
+      status: '운영 중 · 일 들어올 때 매일 실사용(견적·프로젝트·세무)',
+    },
+  },
+  {
     slug: 'rgb-managers',
     title: 'RGB Managers',
     category: '사내 운영 시스템',
