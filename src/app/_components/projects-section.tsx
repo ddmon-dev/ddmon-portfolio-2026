@@ -60,6 +60,33 @@ const selectedProjects: Project[] = withDetail([
     },
   },
   {
+    slug: 'sgc-bf',
+    title: '솔라가드 건축필름 보증서',
+    category: '품질보증서 시스템 / 웹앱',
+    image: {
+      ...placeholderImage,
+      alt: '솔라가드 건축필름 보증서 시스템 프로젝트',
+    },
+    stacks: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Supabase',
+      'NextAuth',
+      'Server Actions',
+      'React PDF',
+      'Tailwind',
+    ],
+    facts: {
+      period: '2025.12 (약 2주)',
+      team: '개발 단독 · 기획·개발·디자인(보증서 PDF 시안만 제공)',
+      scope:
+        '요구사항 정의 · 공개 조회 사이트 + 어드민 2앱 FE · Supabase·공개 API · 배포',
+      url: 'https://sgcbf.co.kr',
+      status: '운영 중',
+    },
+  },
+  {
     slug: 'vaccine-portal',
     title: '백신정보포털',
     category: '데이터 포털 / CMS',
