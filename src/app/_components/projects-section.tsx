@@ -152,6 +152,30 @@ const selectedProjects: Project[] = withDetail([
       status: '운영 중 · 퇴사 후에도 유지보수 지속',
     },
   },
+  {
+    slug: 'rgb-3d',
+    title: 'KOREA3D',
+    category: '브랜드 사이트 / 인터랙션',
+    image: { ...placeholderImage, alt: 'KOREA3D 영상 브랜드 사이트 프로젝트' },
+    stacks: [
+      'Next.js',
+      'React',
+      'Framer Motion',
+      'Zustand',
+      'MongoDB',
+      'Server Actions',
+      'React Hook Form',
+      'CSS Modules',
+    ],
+    facts: {
+      period: '2024.03 ~ 현재',
+      team: '디자이너 협업(메인·소개 시안) · 개발 단독',
+      scope:
+        'FE · 스크롤 인터랙션/모션 · 포트폴리오 브라우징 UX · 화면 직접 설계 · 데이터 연동 · 온라인 문의 · 배포·운영',
+      url: 'https://korea3d.co.kr',
+      status: '운영 중',
+    },
+  },
 ]);
 
 export function SelectedProjectsSection() {
