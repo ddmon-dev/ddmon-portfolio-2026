@@ -176,6 +176,7 @@ const systemsProjects: Project[] = withDetail([
       'React',
       'TypeScript',
       'Supabase',
+      'NextAuth',
       'Tailwind',
       'shadcn/ui',
       'React Hook Form',
