@@ -17,7 +17,7 @@ export function ProjectFactBox({
   stacks: string[];
 }) {
   return (
-    <dl className="grid grid-cols-1 gap-x-6 gap-y-4 rounded-2xl border border-border bg-ash-lighter/50 p-5 sm:grid-cols-2">
+    <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
       <FactItem label="기간">{facts.period}</FactItem>
 
       <FactItem label="상태">
