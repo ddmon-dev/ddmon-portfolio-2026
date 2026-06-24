@@ -1,5 +1,4 @@
 import { type ReactNode } from 'react';
-import { cn } from '@/shared/utils/classnames';
 import { StackBadges } from './stack-badges';
 import { type ProjectFacts } from './types';
 
@@ -17,23 +16,29 @@ export function ProjectFactBox({
   stacks: string[];
 }) {
   const hasCondensedContribution = Boolean(facts.contribution);
+  const statusText = facts.operation ?? facts.status;
+  const contributionText = facts.contribution ?? facts.team;
 
   return (
-    <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-      <FactItem label="기간">{facts.period}</FactItem>
+    <dl className="grid grid-cols-1 gap-y-4">
+      {facts.period && <FactItem label="기간">{facts.period}</FactItem>}
 
-      <FactItem label={facts.operation ? '운영' : '상태'}>
-        <span className="inline-flex items-center gap-1.5">
-          <span aria-hidden className="size-1.5 rounded-full bg-primary" />
-          {facts.operation ?? facts.status}
-        </span>
-      </FactItem>
+      {statusText && (
+        <FactItem label={facts.operation ? '운영' : '상태'}>
+          <span className="inline-flex items-center gap-1.5">
+            <span aria-hidden className="size-1.5 rounded-full bg-primary" />
+            {statusText}
+          </span>
+        </FactItem>
+      )}
 
       {facts.product && <FactItem label="형태">{facts.product}</FactItem>}
 
-      <FactItem label={facts.contribution ? '기여' : '팀 / 담당'}>
-        {facts.contribution ?? facts.team}
-      </FactItem>
+      {contributionText && (
+        <FactItem label={facts.contribution ? '기여' : '팀 / 담당'}>
+          {contributionText}
+        </FactItem>
+      )}
 
       {facts.url && (
         <FactItem label="공개 URL">
@@ -48,13 +53,13 @@ export function ProjectFactBox({
         </FactItem>
       )}
 
-      {!hasCondensedContribution && (
-        <FactItem label="담당 범위" full>
+      {!hasCondensedContribution && facts.scope && (
+        <FactItem label="담당 범위">
           {facts.scope}
         </FactItem>
       )}
 
-      <FactItem label="기술 스택" full>
+      <FactItem label="기술 스택">
         <StackBadges
           stacks={stacks}
           full
@@ -67,19 +72,17 @@ export function ProjectFactBox({
 
 function FactItem({
   label,
-  full = false,
   children,
 }: {
   label: string;
-  full?: boolean;
   children: ReactNode;
 }) {
   return (
-    <div className={cn('space-y-1.5', full && 'sm:col-span-2')}>
-      <dt className="font-secondary text-xs font-semibold tracking-[0.16em] text-muted-foreground uppercase">
+    <div className="grid grid-cols-[100px_1fr] text-sm">
+      <dt className="font-secondary font-semibold text-muted-foreground uppercase">
         {label}
       </dt>
-      <dd className="text-sm text-ash-darker">{children}</dd>
+      <dd>{children}</dd>
     </div>
   );
 }

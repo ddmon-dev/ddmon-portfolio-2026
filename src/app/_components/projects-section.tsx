@@ -1,33 +1,46 @@
 import {
   ProjectGallery,
-  ProjectDetail,
+  ProjectDetailContent,
   type Project,
 } from './ui/project-gallery';
 import { majorProjects, systemsProjects } from './projects.data';
+import { parseProjectMarkdown } from './ui/project-gallery/project-markdown.mjs';
 
 type ProjectMeta = Omit<Project, 'content'>;
 
-function withDetail(metas: ProjectMeta[]): Project[] {
-  return metas.map(meta => ({
-    ...meta,
-    content: <ProjectDetail slug={meta.slug} />,
-  }));
+async function loadProjectMarkdown(slug: string) {
+  const { default: markdown } = await import(`@/data/projects/${slug}.md`);
+  return parseProjectMarkdown(markdown);
 }
 
-export function SelectedProjectsSection() {
+async function withDetail(metas: ProjectMeta[]): Promise<Project[]> {
+  return Promise.all(
+    metas.map(async meta => {
+      const { body, facts } = await loadProjectMarkdown(meta.slug);
+
+      return {
+        ...meta,
+        facts: facts ?? meta.facts,
+        content: <ProjectDetailContent markdown={body} />,
+      };
+    })
+  );
+}
+
+export async function SelectedProjectsSection() {
   return (
     <ProjectGallery
       title="주요 프로젝트"
-      projects={withDetail(majorProjects)}
+      projects={await withDetail(majorProjects)}
     />
   );
 }
 
-export function SystemsAndTemplatesSection() {
+export async function SystemsAndTemplatesSection() {
   return (
     <ProjectGallery
       title="Systems & Templates"
-      projects={withDetail(systemsProjects)}
+      projects={await withDetail(systemsProjects)}
     />
   );
 }

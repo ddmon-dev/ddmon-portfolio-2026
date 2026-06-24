@@ -1,6 +1,7 @@
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { DetailSection } from './detail-section';
+import { parseProjectMarkdown } from './project-markdown.mjs';
 
 /**
  * 프로젝트 상세 본문을 `src/data/projects/<slug>.md`에서 읽어 렌더하는 서버 컴포넌트.
@@ -76,11 +77,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export async function ProjectDetail({ slug }: { slug: string }) {
-  const { default: markdown } = await import(
-    `@/data/projects/${slug}.md`
-  );
-
+export function ProjectDetailContent({ markdown }: { markdown: string }) {
   return splitSections(markdown).map(({ title, body }) => (
     <DetailSection key={title} title={title}>
       <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
@@ -88,4 +85,13 @@ export async function ProjectDetail({ slug }: { slug: string }) {
       </Markdown>
     </DetailSection>
   ));
+}
+
+export async function ProjectDetail({ slug }: { slug: string }) {
+  const { default: markdown } = await import(
+    `@/data/projects/${slug}.md`
+  );
+  const { body } = parseProjectMarkdown(markdown);
+
+  return <ProjectDetailContent markdown={body} />;
 }

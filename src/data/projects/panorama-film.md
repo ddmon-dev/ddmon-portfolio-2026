@@ -1,3 +1,12 @@
+---
+facts:
+  period: 2024.06 – 2024.09 · 이후 유지보수
+  product: Brand Site · OMS · Admin
+  contribution: PM 보조 · FE 단독 구현 · DB/배포/운영 대응
+  url: https://panoramafilm.co.kr
+  operation: 2년 운영 · 72개 시공점 사용
+---
+
 ## 개요
 
 솔라가드 파노라마 필름 브랜드 홈페이지, 시공점 발주 관리 서비스(OMS), 운영 어드민을 구축한 프로젝트로, 서비스 오픈 후 약 2년 간 전국 72개 시공점을 대상으로 운영 및 유지보수되고 있습니다.
