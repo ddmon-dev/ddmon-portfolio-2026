@@ -6,7 +6,13 @@ export interface Project {
   link?: string;
 }
 
-const HOMEPAGE_DEFAULT_STACKS = ['PHP', 'GNUBOARD 5', 'HTML', 'CSS', 'JavaScript'];
+const HOMEPAGE_DEFAULT_STACKS = [
+  'PHP',
+  'GNUBOARD 5',
+  'HTML',
+  'CSS',
+  'JavaScript',
+];
 const E_CATALOG_OLD_STACKS = ['PHP', 'HTML', 'CSS', 'JavaScript'];
 const E_CATALOG_NEW_STACKS = ['React', 'JavaScript', 'HTML', 'CSS'];
 

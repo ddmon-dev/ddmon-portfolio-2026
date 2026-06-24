@@ -16,18 +16,24 @@ export function ProjectFactBox({
   facts: ProjectFacts;
   stacks: string[];
 }) {
+  const hasCondensedContribution = Boolean(facts.contribution);
+
   return (
     <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
       <FactItem label="기간">{facts.period}</FactItem>
 
-      <FactItem label="상태">
+      <FactItem label={facts.operation ? '운영' : '상태'}>
         <span className="inline-flex items-center gap-1.5">
           <span aria-hidden className="size-1.5 rounded-full bg-primary" />
-          {facts.status}
+          {facts.operation ?? facts.status}
         </span>
       </FactItem>
 
-      <FactItem label="팀 / 담당">{facts.team}</FactItem>
+      {facts.product && <FactItem label="형태">{facts.product}</FactItem>}
+
+      <FactItem label={facts.contribution ? '기여' : '팀 / 담당'}>
+        {facts.contribution ?? facts.team}
+      </FactItem>
 
       {facts.url && (
         <FactItem label="공개 URL">
@@ -42,9 +48,11 @@ export function ProjectFactBox({
         </FactItem>
       )}
 
-      <FactItem label="담당 범위" full>
-        {facts.scope}
-      </FactItem>
+      {!hasCondensedContribution && (
+        <FactItem label="담당 범위" full>
+          {facts.scope}
+        </FactItem>
+      )}
 
       <FactItem label="기술 스택" full>
         <StackBadges

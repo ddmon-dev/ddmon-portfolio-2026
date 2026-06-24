@@ -1,7 +1,7 @@
 import { Container } from '@/shared/ui/container';
 import { ECATALOG_PROJECTS, HOMEPAGE_PROJECTS } from '@/data/all-projects.data';
-import { ProjectThumbnailWall } from './project-thumbnail-wall';
-import { buildThumbnails } from './project-thumbnail-wall.data';
+import { ProjectThumbnailWall } from './ui/project-thumbnail-wall';
+import { buildThumbnails } from './ui/project-thumbnail-wall.data';
 
 /**
  * 150건에 가까운 프로젝트를 "다 읽어라"가 아니라 "이만큼 했다"로 어필하는 섹션.

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import ProfileImage from '@/assets/profile-img-6.png';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
-import { ProfileSideDecoration } from './profile-side-decoration';
+import { ProfileSideDecoration } from './ui/profile-side-decoration';
 import { CARREERS, HIGHLIGHTS, TECH_STACKS } from './profile.data';
 
 export function ProfileSection() {
