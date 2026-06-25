@@ -1,10 +1,10 @@
 ---
 facts:
   period: 2024.06 – 2024.09 · 이후 유지보수
-  product: Brand Site · OMS · Admin
-  contribution: PM 보조 · FE 단독 구현 · DB/배포/운영 대응
-  url: https://panoramafilm.co.kr
   operation: 2년 운영 · 72개 시공점 사용
+  product: Brand Site · OMS · Admin
+  contribution: PM · 단독 개발 · 배포/운영/유지보수
+  url: https://panoramafilm.co.kr
 ---
 
 ## 개요
@@ -46,12 +46,12 @@ facts:
 
 ### 화면 UI와 문서 출력물의 요구사항을 분리
 
-보증서·시공내역서는 조회, PDF 다운로드 및 인쇄가 가능해야 했습니다. 본 프로젝트에서는 HTML 기반 렌더링으로 구현하였고, 해당 방식의 한계점을 인지하여 후속 프로젝트의 유사 사례에서 개선된 방향을 적용하였습니다.
+보증서·시공내역서는 조회, PDF 다운로드 및 인쇄가 가능해야 했습니다. 본 프로젝트에서는 HTML/CSS로 문서를 구현한 뒤, 클라이언트에서 html2pdf.js로 PDF를 생성했습니다. 이 방식의 한계점을 운영 중 확인했고, 후속 프로젝트의 유사 사례에서 개선된 방향을 적용하였습니다.
 
 - HTML/CSS 기반 구현으로 보증서 디자인 반영 용이성 확보
-- html2pdf 라이브러리로 다운로드·인쇄 기능 구현
+- html2pdf.js 기반 클라이언트 변환으로 다운로드·인쇄 기능 구현
 - 운영 이후 해상도, 페이지 규격, 인쇄 출력 품질의 한계 확인
-- 후속 프로젝트 유사 사례에서 Puppeteer 기반 서버 렌더링과 react-pdf 방식 검토·적용
+- 후속 프로젝트 유사 사례에서 Puppeteer 기반 서버 렌더링과 @react-pdf/renderer 방식 검토·적용
 
 ### 어드민 화면의 반복 구조를 재사용 가능한 패턴으로 정리
 
