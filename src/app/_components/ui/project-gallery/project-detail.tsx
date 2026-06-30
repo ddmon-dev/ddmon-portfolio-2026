@@ -1,6 +1,5 @@
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { DetailSection } from './detail-section';
 import { parseProjectMarkdown } from './project-markdown.mjs';
 
 /**
@@ -11,28 +10,31 @@ import { parseProjectMarkdown } from './project-markdown.mjs';
  * md는 fs가 아니라 import로 읽는다(raw-loader, next.config.ts 참조).
  * 모듈 그래프에 포함되어 dev에서 md 수정 시 HMR이 동작한다.
  *
- * md 작성 규칙: 문서는 `## 섹션 제목`으로 시작하고, `##` 단위가 다이얼로그의
- * 구분선(divide-y) 섹션 하나가 된다. 섹션 내부 소제목은 `###`을 쓴다.
+ * 본문은 frontmatter를 걷어낸 마크다운을 통째로 단일 트리로 렌더한다.
+ * 섹션 경계 같은 특수 규칙 없이 작성한 대로 위계가 드러난다. 히어로가
+ * 사실상 h1이므로 본문 최상위 헤딩은 `##`(h2)부터 쓴다.
  */
 
-/** `## 제목` 헤딩을 경계로 마크다운을 {제목, 본문} 섹션 목록으로 나눈다. */
-function splitSections(markdown: string) {
-  return markdown
-    .split(/^## +/m)
-    .map((chunk) => chunk.trim())
-    .filter(Boolean)
-    .map((chunk) => {
-      const newline = chunk.indexOf('\n');
-      if (newline === -1) return { title: chunk, body: '' };
-      return {
-        title: chunk.slice(0, newline).trim(),
-        body: chunk.slice(newline + 1).trim(),
-      };
-    });
-}
-
-/** DetailSection 본문(leading-relaxed text-foreground/80) 위에 얹는 마크다운 요소 스타일. */
+/** 다이얼로그 본문(leading-relaxed text-ash-dark) 위에 얹는 마크다운 요소 스타일. */
 const markdownComponents: Components = {
+  h2: (props) => (
+    <h2
+      className="mt-8 text-lg font-bold text-ash-darker first:mt-0"
+      {...props}
+    />
+  ),
+  h3: (props) => (
+    <h3
+      className="mt-6 text-base font-semibold text-ash-darker first:mt-0"
+      {...props}
+    />
+  ),
+  h4: (props) => (
+    <h4
+      className="mt-4 text-sm font-semibold text-ash-darker first:mt-0"
+      {...props}
+    />
+  ),
   p: (props) => <p className="mt-3 first:mt-0" {...props} />,
   ul: (props) => (
     <ul className="mt-3 list-disc space-y-1 pl-5 first:mt-0" {...props} />
@@ -57,10 +59,13 @@ const markdownComponents: Components = {
       {...props}
     />
   ),
-  // 섹션 제목(h4, DetailSection)보다 한 단계 아래의 소제목
-  h3: (props) => (
-    <h5 className="mt-4 font-semibold text-ash-darker first:mt-0" {...props} />
+  blockquote: (props) => (
+    <blockquote
+      className="mt-3 border-l-2 border-border pl-4 text-ash first:mt-0"
+      {...props}
+    />
   ),
+  hr: (props) => <hr className="my-6 border-border" {...props} />,
   table: (props) => (
     <div className="mt-3 overflow-x-auto first:mt-0">
       <table className="w-full text-sm" {...props} />
@@ -78,13 +83,13 @@ const markdownComponents: Components = {
 };
 
 export function ProjectDetailContent({ markdown }: { markdown: string }) {
-  return splitSections(markdown).map(({ title, body }) => (
-    <DetailSection key={title} title={title}>
+  return (
+    <div className="leading-relaxed text-ash-dark">
       <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-        {body}
+        {markdown}
       </Markdown>
-    </DetailSection>
-  ));
+    </div>
+  );
 }
 
 export async function ProjectDetail({ slug }: { slug: string }) {

@@ -101,11 +101,7 @@ export function ProjectDialog({
             </div>
           )}
 
-          <div className="p-6 max-sm:p-5">
-            <div className="divide-y divide-border text-ash-dark [&>section]:py-6 [&>section]:first:pt-0 [&>section]:last:pb-0">
-              {project.content}
-            </div>
-          </div>
+          <div className="p-6 max-sm:p-5">{project.content}</div>
         </div>
 
         <ProjectDialogNav onClose={close} />
