@@ -37,3 +37,17 @@ test('returns original markdown when frontmatter is absent', () => {
   assert.equal(result.facts, undefined);
   assert.equal(result.body, markdown);
 });
+
+test('throws when facts frontmatter omits required fields', () => {
+  const markdown = `---
+facts:
+  period: 2024.06
+  product: Brand Site
+---
+## 개요`;
+
+  assert.throws(
+    () => parseProjectMarkdown(markdown),
+    /facts 필수 항목 누락: operation, contribution/
+  );
+});

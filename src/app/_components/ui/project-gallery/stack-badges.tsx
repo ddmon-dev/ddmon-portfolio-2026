@@ -1,10 +1,10 @@
 import { StackLogo, resolveStackId } from '@/shared/ui/stack-logo';
-import { HoverTooltip } from '@/shared/ui/tooltip';
+import { Badge } from '@/shared/ui/badge';
 import { cn } from '@/shared/utils/classnames';
 
 export const TRUNCATE_COUNT = 5;
 
-export function StackBadges({
+export function StackChips({
   stacks,
   full = false,
   className,
@@ -25,7 +25,7 @@ export function StackBadges({
       )}
     >
       {visible.map(stack => (
-        <StackChip key={stack} stack={stack} tooltip={full} />
+        <StackChip key={stack} stack={stack} />
       ))}
 
       <TruncatedChip
@@ -38,24 +38,43 @@ export function StackBadges({
 
 export function StackChip({
   stack,
-  tooltip,
   className,
 }: {
   stack: string;
-  tooltip?: boolean;
   className?: string;
 }) {
-  const chip = (
-    <span
-      title={tooltip ? undefined : stack}
-      aria-label={tooltip ? undefined : stack}
-      className={cn(className)}
-    >
+  return (
+    <span role="img" aria-label={stack} className={cn(className)}>
       <StackLogo stack={resolveStackId(stack)} />
     </span>
   );
+}
 
-  return tooltip ? <HoverTooltip label={stack}>{chip}</HoverTooltip> : chip;
+export function StackBadges({
+  stacks,
+  className,
+}: {
+  stacks: string[];
+  className?: string;
+}) {
+  return (
+    <ul className={cn('flex flex-wrap items-center gap-1', className)}>
+      {stacks.map(stack => (
+        <li key={stack}>
+          <Badge
+            variant="outline"
+            shape="pill"
+            className="gap-1.5 pl-1.5 pr-2.5 py-1 text-xs"
+          >
+            <span aria-hidden className="text-sm">
+              <StackLogo stack={resolveStackId(stack)} />
+            </span>
+            <span>{stack}</span>
+          </Badge>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function TruncatedChip({

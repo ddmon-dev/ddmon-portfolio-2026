@@ -2,8 +2,10 @@ const frontmatterPattern = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/;
 
 /**
  * @typedef {import('./types').ProjectFacts} ProjectFacts
- * @typedef {{ body: string; facts?: Partial<ProjectFacts> }} ParsedProjectMarkdown
+ * @typedef {{ body: string; facts?: ProjectFacts }} ParsedProjectMarkdown
  */
+
+const requiredFactKeys = ['period', 'operation', 'product', 'contribution'];
 
 /**
  * 프로젝트 상세 마크다운에서 YAML frontmatter의 facts 블록과 본문을 분리한다.
@@ -24,13 +26,13 @@ export function parseProjectMarkdown(markdown) {
 
   return {
     body,
-    facts: Object.keys(facts).length > 0 ? facts : undefined,
+    facts,
   };
 }
 
 /**
  * @param {string} frontmatter
- * @returns {Partial<ProjectFacts>}
+ * @returns {ProjectFacts | undefined}
  */
 function parseFacts(frontmatter) {
   /** @type {Record<string, string>} */
@@ -58,7 +60,17 @@ function parseFacts(frontmatter) {
     facts[key] = parseScalar(rawValue);
   }
 
-  return facts;
+  if (Object.keys(facts).length === 0) {
+    return undefined;
+  }
+
+  const missingKeys = requiredFactKeys.filter(key => !facts[key]);
+
+  if (missingKeys.length > 0) {
+    throw new Error(`facts 필수 항목 누락: ${missingKeys.join(', ')}`);
+  }
+
+  return /** @type {ProjectFacts} */ (facts);
 }
 
 /**
