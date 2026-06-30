@@ -3,7 +3,7 @@ import {
   ProjectDetailContent,
   type Project,
 } from './ui/project-gallery';
-import { majorProjects, systemsProjects } from './projects.data';
+import { majorProjects } from './projects.data';
 import { parseProjectMarkdown } from './ui/project-gallery/project-markdown.mjs';
 
 type ProjectMeta = Omit<Project, 'content'>;
@@ -32,15 +32,6 @@ export async function SelectedProjectsSection() {
     <ProjectGallery
       title="주요 프로젝트"
       projects={await withDetail(majorProjects)}
-    />
-  );
-}
-
-export async function SystemsAndTemplatesSection() {
-  return (
-    <ProjectGallery
-      title="Systems & Templates"
-      projects={await withDetail(systemsProjects)}
     />
   );
 }
