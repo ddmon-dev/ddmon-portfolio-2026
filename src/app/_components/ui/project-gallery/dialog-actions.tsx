@@ -31,7 +31,6 @@ export function ProjectDialogActions({
       <LiquidGlass className="pointer-events-auto flex justify-center gap-1 rounded-full p-3">
         <Button
           aria-label="다이얼로그 닫기"
-          data-autofocus
           onClick={onClose}
           size="sm"
           shape="pill"
