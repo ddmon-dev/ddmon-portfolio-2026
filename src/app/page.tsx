@@ -1,5 +1,6 @@
 import { ProfileSection } from './_components/profile-section';
 import { SelectedProjectsSection } from './_components/projects-section';
+import { OtherProjectsSection } from './_components/other-projects-section';
 import { ProjectArchiveSection } from './_components/project-archive-section';
 import { ContactSection } from './_components/contact-section';
 
@@ -8,6 +9,7 @@ export default function Home() {
     <main className="space-y-40">
       <ProfileSection />
       <SelectedProjectsSection />
+      <OtherProjectsSection />
       <ProjectArchiveSection />
       <ContactSection />
     </main>
