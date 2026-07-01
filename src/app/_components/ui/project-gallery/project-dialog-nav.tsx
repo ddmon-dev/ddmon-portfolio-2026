@@ -8,9 +8,9 @@ import { LiquidGlass } from '@/shared/ui/liquid-glass';
 
 /**
  * 프로젝트 다이얼로그 하단 액션 내비게이션.
- * 다이얼로그 스크롤 컨테이너(`<article overflow-y-auto>`) 기준 하단 중앙에 `sticky`로
- * 고정한다. 다이얼로그가 마운트되면(=펼침이 끝나갈 즈음) 슬라이드업으로 등장하고,
- * 부모 `AnimatePresence`의 언마운트(닫힘) 시 함께 사라진다.
+ * 다이얼로그 스크롤 컨테이너(`ProjectDialog`의 바깥 `overflow-y-auto` 래퍼) 기준
+ * 하단 중앙에 `sticky`로 고정한다. 다이얼로그가 마운트되면(=펼침이 끝나갈 즈음)
+ * 슬라이드업으로 등장하고, 부모 `AnimatePresence`의 언마운트(닫힘) 시 함께 사라진다.
  * Visit Site/Repo는 아직 자리만 잡은 빈 링크다.
  */
 export function ProjectDialogNav({ onClose }: { onClose: () => void }) {

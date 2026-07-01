@@ -15,6 +15,14 @@ import {
   type ProjectId,
 } from './morph';
 
+const DIALOG_MOBILE_QUERY = '(width < 40rem)';
+const DIALOG_RADIUS_MOBILE = 0;
+const DIALOG_RADIUS_DESKTOP = 32;
+
+function getDialogRadius(isMobile: boolean) {
+  return isMobile ? DIALOG_RADIUS_MOBILE : DIALOG_RADIUS_DESKTOP;
+}
+
 export function ProjectDialog({
   project,
   index,
@@ -27,18 +35,19 @@ export function ProjectDialog({
   onClose: () => void;
 }) {
   const trapRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const mounted = useMounted();
   const [radius, setRadius] = useState(() =>
-    typeof window !== 'undefined' &&
-    window.matchMedia('(width < 40rem)').matches
-      ? 0
-      : 32
+    getDialogRadius(
+      typeof window !== 'undefined' &&
+        window.matchMedia(DIALOG_MOBILE_QUERY).matches
+    )
   );
   useFocusTrap(true, trapRef);
 
   useEffect(() => {
-    const mq = window.matchMedia('(width < 40rem)');
-    const sync = () => setRadius(mq.matches ? 0 : 32);
+    const mq = window.matchMedia(DIALOG_MOBILE_QUERY);
+    const sync = () => setRadius(getDialogRadius(mq.matches));
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
   }, []);
@@ -51,26 +60,30 @@ export function ProjectDialog({
     };
   }, []);
 
+  // React Compiler가 참조를 안정화하므로 useEffect 재구독 걱정 없이 그대로 의존성에 둔다
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const close = () => {
-    trapRef.current?.scrollTo({ top: 0 });
+    scrollRef.current?.scrollTo({ top: 0 });
     onClose();
   };
 
   useEffect(() => {
-    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+    const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') return;
-      trapRef.current?.scrollTo({ top: 0 });
-      onClose();
+      close();
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onClose]);
+  }, [close]);
 
   if (!mounted) return null;
 
   const node = (
-    <div className="fixed inset-0 z-80 flex justify-center p-6 max-sm:p-0">
+    <div
+      ref={scrollRef}
+      className="fixed inset-0 z-80 flex items-start justify-center overflow-y-auto p-6 hide-scrollbar max-sm:p-0"
+    >
       <motion.button
         type="button"
         aria-label="다이얼로그 닫기"
@@ -90,18 +103,25 @@ export function ProjectDialog({
         aria-modal="true"
         aria-label={project.title}
         style={{ borderRadius: radius }}
-        className="relative z-10 size-full max-w-3xl bg-background text-foreground shadow-2xl overflow-y-auto hide-scrollbar"
+        className="relative z-10 w-full min-h-full max-w-3xl bg-background text-foreground shadow-2xl"
       >
-        <ProjectHero variant="dialog" project={project} index={index} id={id} />
+        <div className="overflow-hidden rounded-[inherit]">
+          <ProjectHero
+            variant="dialog"
+            project={project}
+            index={index}
+            id={id}
+          />
 
-        <div className="divide-y divide-border">
-          {project.facts && (
-            <div className="p-6 max-sm:p-5">
-              <ProjectFactBox facts={project.facts} stacks={project.stacks} />
-            </div>
-          )}
+          <div className="divide-y divide-border">
+            {project.facts && (
+              <div className="p-6 max-sm:p-5">
+                <ProjectFactBox facts={project.facts} stacks={project.stacks} />
+              </div>
+            )}
 
-          <div className="p-6 max-sm:p-5">{project.content}</div>
+            <div className="p-6 max-sm:p-5">{project.content}</div>
+          </div>
         </div>
 
         <ProjectDialogNav onClose={close} />
