@@ -15,6 +15,11 @@ const CFG = {
   opacityBoost: 0.2,
   follow: 0.12,
   scrollIdleMs: 60,
+  idlePulseDelayMs: 1000,
+  idlePulseIntervalMs: 1200,
+  rippleSpeed: 9,
+  rippleMaxRadius: 420,
+  rippleIntensity: 2,
 };
 
 export function ProfileSideDecoration({ className }: { className?: string }) {
@@ -30,8 +35,10 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
     let cssW = 0;
     let cssH = 0;
     const focus = { y: 0, ty: 0, strength: 0, target: 0 };
+    const ripple = { active: false, r: 0 };
     let raf = 0;
     let idleTimer = 0;
+    let pulseTimer = 0;
 
     function draw() {
       ctx.clearRect(0, 0, cssW, cssH);
@@ -52,12 +59,19 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
             Math.min(1, xx / (cssW * cfg.fadeWidth)),
             depth
           );
+          const dist = Math.hypot(xx - cssW, yy - y);
           let radius = cfg.dotRadius;
           let alpha = cfg.dotOpacity * fade;
           if (strength > 0.001) {
-            const dist = Math.hypot(xx - cssW, yy - y);
             const near = Math.max(0, 1 - dist / cfg.influence);
             const t = near * near * strength;
+            radius += cfg.dotRadius * (cfg.growScale - 1) * t;
+            alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
+          }
+          if (ripple.active) {
+            const near = Math.max(0, 1 - dist / ripple.r);
+            const fadeOut = 1 - ripple.r / cfg.rippleMaxRadius;
+            const t = Math.min(1, near * near * fadeOut * cfg.rippleIntensity);
             radius += cfg.dotRadius * (cfg.growScale - 1) * t;
             alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
           }
@@ -82,12 +96,16 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
     function tick() {
       focus.y += (focus.ty - focus.y) * cfg.follow;
       focus.strength += (focus.target - focus.strength) * cfg.follow;
+      if (ripple.active) {
+        ripple.r += cfg.rippleSpeed;
+        if (ripple.r > cfg.rippleMaxRadius) ripple.active = false;
+      }
       draw();
 
       const settled =
         Math.abs(focus.target - focus.strength) < 0.003 &&
         Math.abs(focus.ty - focus.y) < 0.3;
-      if (settled && focus.target === 0) {
+      if (settled && focus.target === 0 && !ripple.active) {
         focus.strength = 0;
         draw();
         raf = 0;
@@ -98,6 +116,19 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
 
     function wake() {
       if (!raf) raf = requestAnimationFrame(tick);
+    }
+
+    function stopIdlePulse() {
+      window.clearTimeout(pulseTimer);
+      pulseTimer = 0;
+      ripple.active = false;
+    }
+
+    function pulse() {
+      ripple.active = true;
+      ripple.r = 0;
+      wake();
+      pulseTimer = window.setTimeout(pulse, cfg.idlePulseIntervalMs);
     }
 
     function onScroll() {
@@ -111,10 +142,14 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
       focus.target = within ? 1 : 0;
       wake();
 
+      stopIdlePulse();
       window.clearTimeout(idleTimer);
       idleTimer = window.setTimeout(() => {
         focus.target = 0;
         wake();
+        if (within) {
+          pulseTimer = window.setTimeout(pulse, cfg.idlePulseDelayMs);
+        }
       }, cfg.scrollIdleMs);
     }
 
@@ -128,6 +163,7 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
       ro.disconnect();
       cancelAnimationFrame(raf);
       window.clearTimeout(idleTimer);
+      stopIdlePulse();
       window.removeEventListener('scroll', onScroll);
     };
   }, []);
