@@ -116,7 +116,11 @@ export function ProjectDialog({
           <div className="divide-y divide-border">
             {project.facts && (
               <div className="p-6 max-sm:p-5">
-                <ProjectFactBox facts={project.facts} stacks={project.stacks} />
+                <ProjectFactBox
+                  facts={project.facts}
+                  stacks={project.stacks}
+                  links={project.links}
+                />
               </div>
             )}
 
@@ -124,7 +128,7 @@ export function ProjectDialog({
           </div>
         </div>
 
-        <ProjectDialogNav onClose={close} />
+        <ProjectDialogNav onClose={close} links={project.links} />
       </motion.article>
     </div>
   );

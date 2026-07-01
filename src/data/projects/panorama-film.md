@@ -1,10 +1,19 @@
 ---
+title: 솔라가드 파노라마 필름
+category: 홈페이지 / 구매 관리 시스템
+image:
+  src: /projects/panoramafilm.jpg
+  alt: 파노라마 필름 프로젝트
+  width: 1920
+  height: 1080
+stacks: [Next.js, React, Supabase, Tailwind, Zustand]
+links:
+  site: https://panoramafilm.co.kr
 facts:
   period: 2024.06 – 2024.09 · 이후 유지보수
   operation: 2년 운영 · 72개 시공점 사용
   product: Brand Site · OMS · Admin
   contribution: PM · 단독 개발 · 배포/운영/유지보수
-  url: https://panoramafilm.co.kr
 ---
 
 ## 개요

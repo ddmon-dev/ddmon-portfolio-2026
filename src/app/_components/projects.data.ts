@@ -9,89 +9,17 @@ const placeholderImage = {
 
 type ProjectData = Omit<Project, 'content'>;
 
-export const majorProjects: ProjectData[] = [
-  {
-    slug: 'panorama-film',
-    title: '솔라가드 파노라마 필름',
-    category: '홈페이지 / 구매 관리 시스템',
-    image: {
-      src: '/projects/panoramafilm.jpg',
-      alt: '파노라마 필름 프로젝트',
-      width: 1920,
-      height: 1080,
-    },
-    stacks: ['Next.js', 'React', 'Supabase', 'Tailwind', 'Zustand'],
-  },
-  {
-    slug: 'rgb-managers',
-    title: 'rgb Managers',
-    category: '사내 백오피스',
-    image: {
-      src: '/projects/panoramafilm.jpg',
-      alt: 'RGB Managers 프로젝트',
-      width: 1920,
-      height: 1080,
-    },
-    stacks: ['Next.js', 'React', 'MongoDB', 'Tailwind', 'shadcn/ui'],
-  },
-  {
-    slug: 'admin-framework',
-    title: 'Admin Framework',
-    category: '재사용 개발 프레임워크',
-    image: {
-      src: '/projects/panoramafilm.jpg',
-      alt: 'Admin Framework',
-      width: 1920,
-      height: 1080,
-    },
-    stacks: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'Supabase',
-      'Tailwind',
-      'shadcn/ui',
-    ],
-  },
-  {
-    slug: 'sgc-bf',
-    title: '솔라가드 건축용 필름',
-    category: '품질보증서 시스템 / 웹앱',
-    image: {
-      src: '/projects/sgc-bf.jpg',
-      alt: '솔라가드 건축용 필름 보증서 시스템 프로젝트',
-      width: 1920,
-      height: 1080,
-    },
-    stacks: [
-      'Next.js',
-      'React',
-      'TypeScript',
-      'Supabase',
-      'Tailwind',
-      'shadcn/ui',
-    ],
-  },
-  {
-    slug: 'lxa-work-manager',
-    title: 'Work Manager',
-    category: '업무 운영 시스템 / 본인 IP',
-    image: {
-      src: '/projects/sgc-bf.jpg',
-      alt: 'Work Manager 프로젝트',
-      width: 1920,
-      height: 1080,
-    },
-    stacks: [
-      'React',
-      'TypeScript',
-      'Hono',
-      'Drizzle ORM',
-      'PostgreSQL',
-      'TanStack Query',
-      'Claude Code',
-    ],
-  },
+/**
+ * 주요 프로젝트의 표시 순서 레지스트리. 각 프로젝트의 데이터(제목·카테고리·이미지·
+ * 스택·링크·facts·본문)는 `src/data/projects/<slug>.md`의 frontmatter가 단일 소스다.
+ * 렌더 시 slug 순서대로 md를 로드해 조립한다(projects-section.tsx).
+ */
+export const majorProjectSlugs: string[] = [
+  'panorama-film',
+  'rgb-managers',
+  'admin-framework',
+  'sgc-bf',
+  'lxa-work-manager',
 ];
 
 export const otherProjects: ProjectData[] = [

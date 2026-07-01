@@ -25,8 +25,17 @@ export type ProjectFacts = {
   product: string;
   /** 간결한 기여 범위. 예: 'PM 보조 · FE 단독 구현 · 배포/운영 대응' */
   contribution: string;
-  /** 공개 운영 URL (https 포함 전체 주소, 없으면 생략) */
-  url?: string;
+};
+
+/**
+ * 프로젝트의 외부 링크. 값이 있는 것만 다이얼로그 하단 내비게이션 버튼으로 렌더한다.
+ * `site`는 팩트 박스의 URL 행과 nav "Visit Site"가 공유하는 단일 소스다.
+ */
+export type ProjectLinks = {
+  /** 공개 운영 URL (https 포함 전체 주소) */
+  site?: string;
+  /** 공개 저장소 URL (https 포함 전체 주소) */
+  repo?: string;
 };
 
 export type Project = {
@@ -36,6 +45,7 @@ export type Project = {
   category: string;
   image: ProjectImage;
   stacks: string[];
+  links?: ProjectLinks;
   /** 있으면 다이얼로그의 Used stack 블록 대신 팩트 박스를 렌더한다. */
   facts?: ProjectFacts;
   content: ReactNode;

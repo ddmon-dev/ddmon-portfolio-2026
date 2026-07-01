@@ -1,4 +1,12 @@
 ---
+title: rgb Managers
+category: 사내 백오피스
+image:
+  src: /projects/panoramafilm.jpg
+  alt: RGB Managers 프로젝트
+  width: 1920
+  height: 1080
+stacks: [Next.js, React, MongoDB, Tailwind, shadcn/ui]
 facts:
   period: 2023.07 - 2025.12
   operation: 사내 운영 중

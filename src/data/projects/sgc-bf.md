@@ -1,10 +1,19 @@
 ---
+title: 솔라가드 건축용 필름
+category: 품질보증서 시스템 / 웹앱
+image:
+  src: /projects/sgc-bf.jpg
+  alt: 솔라가드 건축용 필름 보증서 시스템 프로젝트
+  width: 1920
+  height: 1080
+stacks: [Next.js, React, TypeScript, Supabase, Tailwind, shadcn/ui]
+links:
+  site: https://sgcbf.co.kr
 facts:
-  period: 2025.12
+  period: "2025.12"
   operation: 운영중
   product: 보증서 조회 서비스 · 어드민
   contribution: 단독 개발 · 배포/운영
-  url: https://sgcbf.co.kr
 ---
 
 ## 개요

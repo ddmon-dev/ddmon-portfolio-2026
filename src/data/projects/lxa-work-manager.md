@@ -1,4 +1,12 @@
 ---
+title: Work Manager
+category: 업무 운영 시스템 / 본인 IP
+image:
+  src: /projects/sgc-bf.jpg
+  alt: Work Manager 프로젝트
+  width: 1920
+  height: 1080
+stacks: [React, TypeScript, Hono, Drizzle ORM, PostgreSQL, TanStack Query, Claude Code]
 facts:
   period: 2026.02 ~ 2026.05
   operation: 개인 업무 도구 활용

@@ -3,35 +3,22 @@ import {
   ProjectDetailContent,
   type Project,
 } from './ui/project-gallery';
-import { majorProjects } from './projects.data';
+import { majorProjectSlugs } from './projects.data';
 import { parseProjectMarkdown } from './ui/project-gallery/project-markdown.mjs';
 
-type ProjectMeta = Omit<Project, 'content'>;
-
-async function loadProjectMarkdown(slug: string) {
+/**
+ * slug 하나에 대응하는 md를 로드해 완성된 Project로 조립한다.
+ * frontmatter(meta)가 프로젝트 데이터의 단일 소스이고, slug은 파일명에서 온다.
+ */
+async function loadProject(slug: string): Promise<Project> {
   const { default: markdown } = await import(`@/data/projects/${slug}.md`);
-  return parseProjectMarkdown(markdown);
-}
+  const { meta, body } = parseProjectMarkdown(markdown);
 
-async function withDetail(metas: ProjectMeta[]): Promise<Project[]> {
-  return Promise.all(
-    metas.map(async meta => {
-      const { body, facts } = await loadProjectMarkdown(meta.slug);
-
-      return {
-        ...meta,
-        facts: facts ?? meta.facts,
-        content: <ProjectDetailContent markdown={body} />,
-      };
-    })
-  );
+  return { slug, ...meta, content: <ProjectDetailContent markdown={body} /> };
 }
 
 export async function SelectedProjectsSection() {
-  return (
-    <ProjectGallery
-      title="주요 프로젝트"
-      projects={await withDetail(majorProjects)}
-    />
-  );
+  const projects = await Promise.all(majorProjectSlugs.map(loadProject));
+
+  return <ProjectGallery title="주요 프로젝트" projects={projects} />;
 }

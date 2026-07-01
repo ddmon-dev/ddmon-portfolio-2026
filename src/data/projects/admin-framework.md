@@ -1,4 +1,12 @@
 ---
+title: Admin Framework
+category: 재사용 개발 프레임워크
+image:
+  src: /projects/panoramafilm.jpg
+  alt: Admin Framework
+  width: 1920
+  height: 1080
+stacks: [Next.js, React, TypeScript, Supabase, Tailwind, shadcn/ui]
 facts:
   period: 2025.11 ~ 2026.02
   operation: 거래처 어드민 개발 · 내부 도구 개발
