@@ -9,7 +9,7 @@ import {
   type ProjectId,
 } from './morph';
 
-export function ProjectHeroFace({
+export function ProjectHeroOverlay({
   project,
   index,
   id,

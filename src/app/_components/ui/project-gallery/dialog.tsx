@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'motion/react';
 import { useMounted } from '@/shared/hooks/use-mounted';
-import { ProjectFactBox } from './project-fact-box';
+import { ProjectFactBox } from './fact-box';
 import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
-import { ProjectHero } from './project-hero';
-import { ProjectDialogNav } from './project-dialog-nav';
+import { ProjectHero } from './hero';
+import { ProjectDialogActions } from './dialog-actions';
 import {
   PROJECT_MORPH_TRANSITION,
   projectMorphId,
@@ -128,7 +128,7 @@ export function ProjectDialog({
           </div>
         </div>
 
-        <ProjectDialogNav onClose={close} links={project.links} />
+        <ProjectDialogActions onClose={close} links={project.links} />
       </motion.article>
     </div>
   );

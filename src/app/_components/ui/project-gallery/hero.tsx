@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { type Project } from './types';
-import { ProjectHeroFace } from './project-hero-face';
+import { ProjectHeroOverlay } from './hero-overlay';
 import {
   PROJECT_MORPH_TRANSITION,
   projectMorphId,
@@ -80,7 +80,7 @@ export function ProjectHero({
         </div>
       </motion.div>
 
-      <ProjectHeroFace project={project} index={index} id={id} />
+      <ProjectHeroOverlay project={project} index={index} id={id} />
 
       {isCard ? (
         <div

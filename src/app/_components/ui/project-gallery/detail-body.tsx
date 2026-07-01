@@ -1,18 +1,13 @@
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { parseProjectMarkdown } from './project-markdown.mjs';
 
 /**
- * 프로젝트 상세 본문을 `src/data/projects/<slug>.md`에서 읽어 렌더하는 서버 컴포넌트.
- * 마크다운 파싱·렌더가 전부 서버에서 끝나고 결과 트리만 RSC payload로 내려가므로
- * 클라이언트 번들에 파서가 포함되지 않는다.
+ * 프로젝트 상세 본문(마크다운 문자열)을 다이얼로그 톤으로 렌더하는 서버 컴포넌트.
+ * 마크다운 렌더가 서버에서 끝나고 결과 트리만 RSC payload로 내려가므로
+ * 클라이언트 번들에 react-markdown이 포함되지 않는다.
  *
- * md는 fs가 아니라 import로 읽는다(raw-loader, next.config.ts 참조).
- * 모듈 그래프에 포함되어 dev에서 md 수정 시 HMR이 동작한다.
- *
- * 본문은 frontmatter를 걷어낸 마크다운을 통째로 단일 트리로 렌더한다.
- * 섹션 경계 같은 특수 규칙 없이 작성한 대로 위계가 드러난다. 히어로가
- * 사실상 h1이므로 본문 최상위 헤딩은 `##`(h2)부터 쓴다.
+ * 입력은 frontmatter를 걷어낸 본문이다(gallery의 loadProject가 parse-markdown으로 분리).
+ * 통째로 단일 트리로 렌더하며, 히어로가 사실상 h1이므로 본문 최상위 헤딩은 `##`(h2)부터 쓴다.
  */
 
 /** 다이얼로그 본문(leading-relaxed text-ash-dark) 위에 얹는 마크다운 요소 스타일. */
@@ -82,7 +77,7 @@ const markdownComponents: Components = {
   ),
 };
 
-export function ProjectDetailContent({ markdown }: { markdown: string }) {
+export function ProjectDetailBody({ markdown }: { markdown: string }) {
   return (
     <div className="leading-relaxed text-ash-dark">
       <Markdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
@@ -90,13 +85,4 @@ export function ProjectDetailContent({ markdown }: { markdown: string }) {
       </Markdown>
     </div>
   );
-}
-
-export async function ProjectDetail({ slug }: { slug: string }) {
-  const { default: markdown } = await import(
-    `@/data/projects/${slug}.md`
-  );
-  const { body } = parseProjectMarkdown(markdown);
-
-  return <ProjectDetailContent markdown={body} />;
 }

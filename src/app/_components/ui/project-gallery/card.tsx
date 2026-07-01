@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { type Project } from './types';
-import { ProjectHero } from './project-hero';
-import { ProjectDialog } from './project-dialog';
+import { ProjectHero } from './hero';
+import { ProjectDialog } from './dialog';
 import { PROJECT_MORPH_TRANSITION, projectMorphId } from './morph';
 
 /**
