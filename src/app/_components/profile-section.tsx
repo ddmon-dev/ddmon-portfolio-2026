@@ -28,7 +28,6 @@ export function ProfileSection() {
           <b>이동희</b>입니다.
         </h1>
 
-        {/* 소개문은 재작성 */}
         <p>
           안녕하세요, 저는 이동희입니다. 저는 프론트엔드 개발자로, 주도적 문제
           해결사입니다. 저는 회사의 목표와 운영 맥락을 이해하고, 기능의
@@ -36,7 +35,6 @@ export function ProfileSection() {
           개발자입니다.
         </p>
 
-        {/* Highlight 섹션의 실효성에 대해 고민해볼 것. 다른 컨텐츠를 고려해야 할 수 있음. */}
         <Article title="Highlight">
           <ul className="grid grid-cols-3 border border-ash-lighter rounded-xl bg-ash-50">
             {HIGHLIGHTS.map((item, index) => (

@@ -7,13 +7,6 @@ import { Button } from '@/shared/ui/button';
 import { LiquidGlass } from '@/shared/ui/liquid-glass';
 import { type ProjectLinks } from './types';
 
-/**
- * 프로젝트 다이얼로그 하단 액션 바.
- * 다이얼로그 스크롤 컨테이너(`ProjectDialog`의 바깥 `overflow-y-auto` 래퍼) 기준
- * 하단 중앙에 `sticky`로 고정한다. 다이얼로그가 마운트되면(=펼침이 끝나갈 즈음)
- * 슬라이드업으로 등장하고, 부모 `AnimatePresence`의 언마운트(닫힘) 시 함께 사라진다.
- * Visit Site/Repo는 md frontmatter의 `links.site`/`links.repo`가 있을 때만 렌더한다.
- */
 export function ProjectDialogActions({
   onClose,
   links,

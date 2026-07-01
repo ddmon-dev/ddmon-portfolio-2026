@@ -3,14 +3,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/shared/utils/classnames';
 
-/**
- * 공용 배지. Button과 같은 구조(cva variant + asChild)를 따른다.
- * - variant(색) / shape(모서리)를 cva 축으로 관리한다.
- * - asChild를 켜면 <span> 대신 자식 요소(Link, a 등)에 스타일만 입힌다.
- *
- * 색은 프로젝트 컬러 토큰(primary/secondary/foreground)에 맞춘다.
- * 아이콘 크기는 Phosphor의 size prop이 정하므로 기본 스타일에서 강제하지 않는다.
- */
 export const badgeVariants = cva(
   cn(
     'inline-flex items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap',
@@ -20,7 +12,6 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        // 컬러 토큰 기반 솔리드 (default = primary)
         default: 'border-transparent bg-primary text-primary-foreground',
         'primary-light':
           'border-transparent bg-primary-light text-primary-foreground',
@@ -33,7 +24,6 @@ export const badgeVariants = cva(
           'border-transparent bg-secondary-dark text-secondary-foreground',
         destructive:
           'border-transparent bg-destructive text-destructive-foreground',
-        // 중립/아웃라인
         ash: 'border-transparent bg-ash-lighter text-ash-darker',
         outline: 'border-border text-foreground',
       },
@@ -51,7 +41,6 @@ export const badgeVariants = cva(
 
 type BadgeProps = ComponentProps<'span'> &
   VariantProps<typeof badgeVariants> & {
-    /** true면 <span> 대신 자식 요소에 배지 스타일만 입힌다. */
     asChild?: boolean;
   };
 

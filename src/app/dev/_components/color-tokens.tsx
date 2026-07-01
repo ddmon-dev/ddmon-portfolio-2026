@@ -2,11 +2,8 @@ import { cn } from '@/shared/utils/classnames';
 import { DevSection } from './dev-section';
 
 type Swatch = {
-  /** 토큰 이름 (CSS 변수 / 색 단어) */
   name: string;
-  /** 스와치 배경에 쓸 Tailwind 클래스 */
   bg: string;
-  /** 흰색에 가까워 테두리가 필요한 경우 */
   needsBorder?: boolean;
 };
 

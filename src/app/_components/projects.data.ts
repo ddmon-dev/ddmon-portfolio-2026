@@ -9,11 +9,6 @@ const placeholderImage = {
 
 type ProjectData = Omit<Project, 'content'>;
 
-/**
- * 주요 프로젝트의 표시 순서 레지스트리. 각 프로젝트의 데이터(제목·카테고리·이미지·
- * 스택·링크·facts·본문)는 `src/data/projects/<slug>.md`의 frontmatter가 단일 소스다.
- * 렌더 시 slug 순서대로 md를 로드해 조립한다(projects-section.tsx).
- */
 export const majorProjectSlugs: string[] = [
   'panorama-film',
   'rgb-managers',

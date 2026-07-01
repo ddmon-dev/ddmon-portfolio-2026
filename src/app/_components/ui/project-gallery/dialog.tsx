@@ -61,9 +61,6 @@ export function ProjectDialog({
     };
   }, []);
 
-  // 다이얼로그가 열린 동안 배경(포털 밖 body 직계)을 inert 처리해 포커스/보조기술이
-  // 뒤로 새지 않게 한다. close()가 닫힘 즉시 해제하므로, 카드의 포커스 복귀가
-  // inert에 막히지 않는다(수축 모핑이 끝나는 언마운트까지 기다리지 않는다).
   const releaseBackground = () => {
     for (const el of backgroundRef.current) el.removeAttribute('inert');
     backgroundRef.current = [];
@@ -78,7 +75,6 @@ export function ProjectDialog({
     return releaseBackground;
   }, []);
 
-  // React Compiler가 참조를 안정화하므로 useEffect 재구독 걱정 없이 그대로 의존성에 둔다
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const close = () => {
     releaseBackground();
@@ -103,9 +99,6 @@ export function ProjectDialog({
       ref={scrollRef}
       className="fixed inset-0 z-80 flex items-start justify-center overflow-y-auto p-6 hide-scrollbar max-sm:p-0"
     >
-      {/* 백드롭은 클릭-닫기 편의용 장식이다. 키보드/보조기술 닫기는 Escape와 하단 닫기
-          버튼이 담당하므로 포커스 대상에서 제외한다(div + aria-hidden). 포커스 가능한
-          button이면 트랩 밖 형제라 Shift+Tab이 여기로 새어나간다. */}
       <motion.div
         aria-hidden
         className="fixed inset-0 size-full bg-black/60"

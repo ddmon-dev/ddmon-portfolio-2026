@@ -60,10 +60,9 @@ type Carreer = {
 
 export const CARREERS: Carreer[] = [
   {
-    company: '프리랜서', // 프리랜서... 라는 표현 말고 다른 표현 없을까..
+    company: '프리랜서',
     start: '2025.06',
     end: 'Current',
-    // 내용 보완
     points: [
       '골프존 클라우드 · 스마트캐디 홈페이지/어드민 개발',
       '솔라가드 건축용 필름 보증서 관리 서비스 개발',

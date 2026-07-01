@@ -1,10 +1,3 @@
-/**
- * devicons-react에 없는 브랜드 로고를 공식 SVG로 직접 그린 컴포넌트 모음.
- * devicons-react 아이콘과 동일한 `{ size, className }` 시그니처를 따라
- * stack-logo 레지스트리에서 그대로 끼워 쓸 수 있게 한다.
- * path는 simple-icons 공식 자산을 사용하고, 색은 각 브랜드 공식 컬러를 박는다.
- * 공식 색이 검정인 마크(shadcn/ui, OpenAI)는 currentColor로 두어 잉크 토큰을 따른다.
- */
 type BrandIconProps = { size?: number | string; className?: string };
 
 function BrandSvg({

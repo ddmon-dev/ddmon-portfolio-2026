@@ -17,7 +17,6 @@ const E_CATALOG_OLD_STACKS = ['PHP', 'HTML', 'CSS', 'JavaScript'];
 const E_CATALOG_NEW_STACKS = ['React', 'JavaScript', 'HTML', 'CSS'];
 
 export const HOMEPAGE_PROJECTS = [
-  // 2020
   {
     category: 'homepage',
     name: '비엘테크',
@@ -138,7 +137,6 @@ export const HOMEPAGE_PROJECTS = [
     link: 'http://jaeng.co.kr',
   },
 
-  // 2021
   {
     category: 'homepage',
     name: '백신실용화기술개발사업단',

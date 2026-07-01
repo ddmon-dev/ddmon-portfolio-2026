@@ -6,26 +6,12 @@ import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/utils/classnames';
 import type { ThumbItem } from './project-thumbnail-wall.data';
 
-/**
- * 썸네일 월 프로젝트 아카이브.
- * 실제 사이트 스크린샷을 빽빽한 그리드로 깔아 "내가 이걸 다 만들었다"를 눈으로 보여준다.
- * 로드 실패(죽은 사이트 등)는 오렌지 폴백 타일로 대체한다.
- *
- * 기본은 5줄만 노출하고(접힌 상태) 하단으로 갈수록 페이드아웃, "더보기"로 전체를 펼친다.
- * 펼칠 때는 스크롤은 그대로 두고(콘텐츠가 아래로 자람), 높이를 collapsedH→fullH로
- * 트랜지션해 하단 페이드가 아래로 밀리며 나머지 줄이 드러난다.
- *
- * 한 줄당 타일 수는 뷰포트에 따라 달라지므로, 실제 그리드와 동일한 auto-fill 열 수를
- * 측정해 정확히 5줄 높이를 계산한다.
- */
-
-// 썸네일 그리드 파라미터 (아래 ul 클래스와 일치해야 함)
-const MIN_COL = 88; // minmax(88px, 1fr)
-const GAP = 6; // gap-1.5
-const TILE_RATIO = 10 / 16; // aspect-16/10 → 높이/너비
+const MIN_COL = 88;
+const GAP = 6;
+const TILE_RATIO = 10 / 16;
 const COLLAPSED_ROWS = 5;
-const FALLBACK_COLS = 8; // 측정 전(SSR/첫 렌더) 임시 열 수
-const DURATION = 650; // ms
+const FALLBACK_COLS = 8;
+const DURATION = 650;
 
 type Phase = 'collapsed' | 'opening' | 'open' | 'closing';
 
@@ -78,7 +64,6 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
   const [width, setWidth] = useState<number | null>(null);
   const [phase, setPhase] = useState<Phase>('collapsed');
 
-  // 언마운트 시 진행 중 타이머 정리
   useEffect(
     () => () => {
       if (timer.current) clearTimeout(timer.current);
@@ -86,7 +71,6 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
     [],
   );
 
-  // 실제 그리드 너비를 측정해 열 수/행 높이를 계산 (페인트 전에 1차 측정 → 깜빡임 방지)
   useLayoutEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -117,17 +101,15 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
     ? 'auto'
     : phase === 'collapsed' || phase === 'closing'
       ? collapsedH
-      : fullH; // opening
+      : fullH;
 
   const toggle = () => {
     if (animating) return;
     const el = wrapRef.current;
     if (phase === 'collapsed') {
-      setPhase('opening'); // collapsedH(px) → fullH 로 트랜지션
+      setPhase('opening');
       timer.current = setTimeout(() => setPhase('open'), DURATION);
     } else if (phase === 'open' && el) {
-      // auto 높이는 트랜지션 불가 → 현재 px를 이번 프레임에 커밋한 뒤,
-      // 다음 프레임에 collapsedH로 트랜지션해야 닫힘이 애니메이션된다.
       el.style.height = `${el.offsetHeight}px`;
       requestAnimationFrame(() => {
         setPhase('closing');
@@ -156,7 +138,6 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
           ))}
         </ul>
 
-        {/* 하단 페이드 — 접힘/펼침 동안 클립 경계에 붙어 함께 내려가다, 펼침 완료 시 사라진다 */}
         <div
           aria-hidden
           className={cn(

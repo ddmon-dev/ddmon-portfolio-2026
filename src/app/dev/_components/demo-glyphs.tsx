@@ -1,7 +1,3 @@
-/**
- * 쇼케이스 데모용 인라인 글리프 모음.
- * 서버 컴포넌트 유지를 위해 Phosphor 대신 작은 인라인 SVG로 둔다.
- */
 type GlyphProps = { size?: number };
 
 export function PlusGlyph({ size = 18 }: GlyphProps) {

@@ -1,10 +1,6 @@
 import type { ReactNode } from 'react';
 import { Container } from '@/shared/ui/container';
 
-/**
- * 개발용 미리보기 페이지의 섹션 공통 래퍼.
- * 제목/설명 헤더와 컨테이너 여백을 통일한다.
- */
 export function DevSection({
   title,
   description,

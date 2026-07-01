@@ -18,11 +18,6 @@ const requiredFactKeys = /** @type {const} */ ([
 ]);
 
 /**
- * 프로젝트 상세 마크다운에서 YAML frontmatter(프로젝트 메타)와 본문을 분리한다.
- * frontmatter는 이 프로젝트 데이터의 단일 소스이므로, 필수 필드가 빠지면
- * 어느 필드가 문제인지 담아 throw 한다(빌드/렌더 시점에 즉시 드러난다).
- * slug은 파일명에서 파생하므로 여기서 다루지 않는다(호출측이 주입).
- *
  * @param {string} markdown
  * @returns {ParsedProjectMarkdown}
  */

@@ -40,11 +40,6 @@ type StackLogoEntry = {
   Icon?: ComponentType<DeviconProps>;
 };
 
-/**
- * 기술 스택 → 로고/라벨 매핑 단일 레지스트리.
- * devicons-react에 있는 스택은 컬러 아이콘을, 없는 스택은 범용 폴백을 쓴다.
- * StackId는 이 레지스트리의 키에서 파생되므로 여기가 스택의 단일 소스다.
- */
 export const STACK_LOGOS = {
   html: { label: 'HTML5', Icon: Html5Original },
   css: { label: 'CSS3', Icon: Css3Original },
@@ -79,10 +74,6 @@ export const STACK_LOGOS = {
 
 export type StackId = keyof typeof STACK_LOGOS;
 
-/**
- * 정규화 키가 축약 StackId와 다른 경우를 메우는 별칭.
- * 예: 'JavaScript' → 'javascript'(정규화) → 'js'(StackId).
- */
 const STACK_ALIASES: Record<string, StackId> = {
   javascript: 'js',
   typescript: 'ts',
@@ -94,12 +85,6 @@ const STACK_ALIASES: Record<string, StackId> = {
   drizzleorm: 'drizzle',
 };
 
-/**
- * 자유 문자열 스킬명을 StackId로 해석한다. 소문자+영숫자만 남겨 정규화하면
- * 'Next.js' → 'nextjs', 'Framer Motion' → 'framermotion'처럼 StackId와 맞아떨어진다.
- * 정규화 키가 축약 StackId와 어긋나는 경우(js/ts/g5 등)는 STACK_ALIASES로 보정한다.
- * 매칭되는 로고가 없으면 null(범용 폴백 글리프로 표기) 을 돌려준다.
- */
 export function resolveStackId(skill: string): StackId | null {
   const key = skill.toLowerCase().replace(/[^a-z0-9]/g, '');
   if (key in STACK_LOGOS) return key as StackId;
