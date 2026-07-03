@@ -1,27 +1,19 @@
 import { load } from 'js-yaml';
+import type { Project, ProjectFacts, ProjectImage, ProjectLinks } from './types';
 
 const frontmatterPattern = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/;
 
-/**
- * @typedef {import('./types').ProjectFacts} ProjectFacts
- * @typedef {import('./types').ProjectImage} ProjectImage
- * @typedef {import('./types').ProjectLinks} ProjectLinks
- * @typedef {Omit<import('./types').Project, 'slug' | 'content'>} ProjectMeta
- * @typedef {{ meta: ProjectMeta; body: string }} ParsedProjectMarkdown
- */
+type ProjectMeta = Omit<Project, 'id' | 'content'>;
+type ParsedProjectMarkdown = { meta: ProjectMeta; body: string };
 
-const requiredFactKeys = /** @type {const} */ ([
+const requiredFactKeys = [
   'period',
   'operation',
   'product',
   'contribution',
-]);
+] as const;
 
-/**
- * @param {string} markdown
- * @returns {ParsedProjectMarkdown}
- */
-export function parseProjectMarkdown(markdown) {
+export function parseProjectMarkdown(markdown: string): ParsedProjectMarkdown {
   const match = markdown.match(frontmatterPattern);
 
   if (!match) {
@@ -35,11 +27,7 @@ export function parseProjectMarkdown(markdown) {
   return { meta, body };
 }
 
-/**
- * @param {unknown} data
- * @returns {ProjectMeta}
- */
-function validateProjectMeta(data) {
+function validateProjectMeta(data: unknown): ProjectMeta {
   if (!isRecord(data)) {
     throw new Error('frontmatter가 객체가 아닙니다.');
   }
@@ -54,11 +42,7 @@ function validateProjectMeta(data) {
   };
 }
 
-/**
- * @param {unknown} value
- * @returns {ProjectImage}
- */
-function parseImage(value) {
+function parseImage(value: unknown): ProjectImage {
   if (!isRecord(value)) {
     throw new Error('image가 객체가 아닙니다.');
   }
@@ -71,11 +55,7 @@ function parseImage(value) {
   };
 }
 
-/**
- * @param {unknown} value
- * @returns {string[]}
- */
-function parseStacks(value) {
+function parseStacks(value: unknown): string[] {
   if (!Array.isArray(value) || value.length === 0) {
     throw new Error('stacks는 비어있지 않은 배열이어야 합니다.');
   }
@@ -88,27 +68,18 @@ function parseStacks(value) {
   });
 }
 
-/**
- * @param {unknown} value
- * @returns {ProjectLinks}
- */
-function parseLinks(value) {
+function parseLinks(value: unknown): ProjectLinks {
   if (!isRecord(value)) {
     throw new Error('links가 객체가 아닙니다.');
   }
 
-  /** @type {ProjectLinks} */
-  const links = {};
+  const links: ProjectLinks = {};
   if (value.site !== undefined) links.site = requireString(value, 'links.site');
   if (value.repo !== undefined) links.repo = requireString(value, 'links.repo');
   return links;
 }
 
-/**
- * @param {unknown} value
- * @returns {ProjectFacts}
- */
-function parseFacts(value) {
+function parseFacts(value: unknown): ProjectFacts {
   if (!isRecord(value)) {
     throw new Error('facts가 객체가 아닙니다.');
   }
@@ -125,41 +96,27 @@ function parseFacts(value) {
   }
 
   return {
-    period: /** @type {string} */ (value.period),
-    operation: /** @type {string} */ (value.operation),
-    product: /** @type {string} */ (value.product),
-    contribution: /** @type {string} */ (value.contribution),
+    period: value.period as string,
+    operation: value.operation as string,
+    product: value.product as string,
+    contribution: value.contribution as string,
   };
 }
 
-/**
- * @param {unknown} value
- * @returns {value is Record<string, unknown>}
- */
-function isRecord(value) {
+function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-/**
- * @param {Record<string, unknown>} obj
- * @param {string} label
- * @returns {string}
- */
-function requireString(obj, label) {
-  const value = obj[label.split('.').pop()];
+function requireString(obj: Record<string, unknown>, label: string): string {
+  const value = obj[label.split('.').pop()!];
   if (typeof value !== 'string' || !value.trim()) {
     throw new Error(`${label}가 비어있지 않은 문자열이어야 합니다.`);
   }
   return value;
 }
 
-/**
- * @param {Record<string, unknown>} obj
- * @param {string} label
- * @returns {number}
- */
-function requireNumber(obj, label) {
-  const value = obj[label.split('.').pop()];
+function requireNumber(obj: Record<string, unknown>, label: string): number {
+  const value = obj[label.split('.').pop()!];
   if (typeof value !== 'number' || Number.isNaN(value)) {
     throw new Error(`${label}가 숫자여야 합니다.`);
   }

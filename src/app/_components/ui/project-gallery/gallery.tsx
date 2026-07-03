@@ -1,6 +1,6 @@
 import { ProjectCard } from './card';
 import { ProjectDetailBody } from './detail-body';
-import { parseProjectMarkdown } from './parse-markdown.mjs';
+import { parseProjectMarkdown } from './parse-markdown';
 import { type Project } from './types';
 
 async function loadProject(projectId: string): Promise<Project> {

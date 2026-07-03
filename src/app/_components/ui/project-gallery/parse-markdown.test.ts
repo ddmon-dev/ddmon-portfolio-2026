@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { parseProjectMarkdown } from './parse-markdown.mjs';
+import { parseProjectMarkdown } from './parse-markdown.ts';
 
 const fullFrontmatter = `---
 title: 솔라가드 파노라마 필름
