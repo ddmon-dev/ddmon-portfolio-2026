@@ -1,29 +1,23 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { StackChips } from './stack-badges';
+import { StackChips } from '@/shared/ui/stack-badges';
 import { type Project } from './types';
-import {
-  PROJECT_MORPH_TRANSITION,
-  projectMorphId,
-  type ProjectId,
-} from './morph';
+import { PROJECT_MORPH_TRANSITION, projectMorphId } from './morph';
 
 export function ProjectHeroOverlay({
   project,
   index,
-  id,
 }: {
   project: Project;
   index: number;
-  id: ProjectId;
 }) {
   return (
     <>
       <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/0 to-black/95" />
       <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
         <motion.div
-          layoutId={projectMorphId.num(id)}
+          layoutId={projectMorphId.num(project.id)}
           layout="position"
           transition={PROJECT_MORPH_TRANSITION}
           className="font-secondary text-7xl font-bold text-white/20 -translate-y-3 -translate-x-2"
@@ -32,7 +26,7 @@ export function ProjectHeroOverlay({
         </motion.div>
 
         <motion.div
-          layoutId={projectMorphId.title(id)}
+          layoutId={projectMorphId.title(project.id)}
           layout="position"
           transition={PROJECT_MORPH_TRANSITION}
           className="space-y-4"

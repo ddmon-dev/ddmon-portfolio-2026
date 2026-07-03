@@ -1,11 +1,18 @@
-import { StackBadges } from '@/app/_components/ui/project-gallery/stack-badges';
-import type { OtherProject } from '@/app/_components/projects.data';
+import { StackBadges } from '@/shared/ui/stack-badges';
 
-export function OtherProjectList({ items }: { items: OtherProject[] }) {
+export type ProjectListItem = {
+  id: string;
+  title: string;
+  description: string;
+  stacks: string[];
+  href: string;
+};
+
+export function ProjectList({ items }: { items: ProjectListItem[] }) {
   return (
     <ul className="divide-y divide-ash-light border-y border-ash-light">
       {items.map(item => (
-        <li key={item.slug}>
+        <li key={item.id}>
           <Row item={item} />
         </li>
       ))}
@@ -13,7 +20,7 @@ export function OtherProjectList({ items }: { items: OtherProject[] }) {
   );
 }
 
-function Row({ item }: { item: OtherProject }) {
+function Row({ item }: { item: ProjectListItem }) {
   const content = (
     <div className="group grid grid-cols-[288px_1fr] items-center gap-x-8 py-5 relative overflow-hidden hover:opacity-70 transition-opacity max-sm:grid-cols-1 max-sm:gap-y-4">
       <img

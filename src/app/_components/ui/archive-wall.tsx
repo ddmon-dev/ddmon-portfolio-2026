@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/utils/classnames';
-import type { ThumbItem } from './project-thumbnail-wall.data';
+import type { ThumbItem } from '../data/archive';
 
 const MIN_COL = 88;
 const GAP = 6;
@@ -58,7 +58,7 @@ interface ProjectThumbnailWallProps {
   items: ThumbItem[];
 }
 
-export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
+export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [width, setWidth] = useState<number | null>(null);
@@ -68,13 +68,13 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
     () => () => {
       if (timer.current) clearTimeout(timer.current);
     },
-    [],
+    []
   );
 
   useLayoutEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
-    const apply = (w: number) => setWidth((prev) => (prev === w ? prev : w));
+    const apply = (w: number) => setWidth(prev => (prev === w ? prev : w));
     apply(el.clientWidth);
     const ro = new ResizeObserver(([entry]) => apply(entry.contentRect.width));
     ro.observe(el);
@@ -87,7 +87,7 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
   const colW = width ? (width - (cols - 1) * GAP) / cols : MIN_COL;
   const rowH = colW * TILE_RATIO;
   const collapsedH = Math.round(
-    COLLAPSED_ROWS * rowH + (COLLAPSED_ROWS - 1) * GAP,
+    COLLAPSED_ROWS * rowH + (COLLAPSED_ROWS - 1) * GAP
   );
   const fullRows = Math.ceil(items.length / cols);
   const fullH = Math.round(fullRows * rowH + (fullRows - 1) * GAP);
@@ -122,7 +122,10 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
     <div className="space-y-6">
       <div
         ref={wrapRef}
-        className={cn('relative', isOpen ? 'overflow-visible' : 'overflow-hidden')}
+        className={cn(
+          'relative',
+          isOpen ? 'overflow-visible' : 'overflow-hidden'
+        )}
         style={{
           height,
           transition: animating
@@ -144,7 +147,7 @@ export function ProjectThumbnailWall({ items }: ProjectThumbnailWallProps) {
             'pointer-events-none absolute inset-x-0 bottom-0 z-20 h-28',
             'bg-linear-to-b from-transparent to-background',
             'transition-opacity duration-300',
-            hasMore && !isOpen ? 'opacity-100' : 'opacity-0',
+            hasMore && !isOpen ? 'opacity-100' : 'opacity-0'
           )}
         />
       </div>

@@ -5,12 +5,10 @@ export const PROJECT_MORPH_TRANSITION: Transition = {
   ease: [0.22, 1, 0.36, 1],
 };
 
-export type ProjectId = string;
-
 export const projectMorphId = {
-  frame: (id: ProjectId) => `project-frame-${id}`,
-  hero: (id: ProjectId) => `project-hero-${id}`,
-  image: (id: ProjectId) => `project-image-${id}`,
-  num: (id: ProjectId) => `project-num-${id}`,
-  title: (id: ProjectId) => `project-title-${id}`,
+  frame: (id: string) => `project-frame-${id}`,
+  hero: (id: string) => `project-hero-${id}`,
+  image: (id: string) => `project-image-${id}`,
+  num: (id: string) => `project-num-${id}`,
+  title: (id: string) => `project-title-${id}`,
 };

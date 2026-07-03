@@ -1,6 +1,6 @@
-import { StackLogo, resolveStackId } from '@/shared/ui/stack-logo';
-import { Badge } from '@/shared/ui/badge';
 import { cn } from '@/shared/utils/classnames';
+import { Badge } from './badge';
+import { StackLogo, resolveStackId } from './stack-logo';
 
 export const TRUNCATE_COUNT = 5;
 

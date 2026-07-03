@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { cn } from '@/shared/utils/classnames';
-import { StackBadges } from './stack-badges';
+import { StackBadges } from '@/shared/ui/stack-badges';
 import { type ProjectFacts, type ProjectLinks } from './types';
 
 const LABELS = {

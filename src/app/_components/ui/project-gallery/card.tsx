@@ -15,7 +15,6 @@ export function ProjectCard({
   project: Project;
   index: number;
 }) {
-  const id = project.slug;
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
@@ -31,7 +30,7 @@ export function ProjectCard({
   return (
     <>
       <motion.article
-        layoutId={projectMorphId.frame(id)}
+        layoutId={projectMorphId.frame(project.id)}
         transition={PROJECT_MORPH_TRANSITION}
         style={{ borderRadius: 28 }}
         className={cn(
@@ -53,7 +52,7 @@ export function ProjectCard({
           <span className="sr-only">{project.title} 상세 보기</span>
         </button>
 
-        <ProjectHero variant="card" project={project} index={index} id={id} />
+        <ProjectHero variant="card" project={project} index={index} />
       </motion.article>
 
       <AnimatePresence onExitComplete={() => setElevated(false)}>
@@ -62,7 +61,6 @@ export function ProjectCard({
             key="dialog"
             project={project}
             index={index}
-            id={id}
             onClose={() => setOpen(false)}
           />
         )}

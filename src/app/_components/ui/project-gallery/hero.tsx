@@ -5,21 +5,15 @@ import { motion } from 'motion/react';
 import { cn } from '@/shared/utils/classnames';
 import { type Project } from './types';
 import { ProjectHeroOverlay } from './hero-overlay';
-import {
-  PROJECT_MORPH_TRANSITION,
-  projectMorphId,
-  type ProjectId,
-} from './morph';
+import { PROJECT_MORPH_TRANSITION, projectMorphId } from './morph';
 
 export function ProjectHero({
   project,
   index,
-  id,
   variant,
 }: {
   project: Project;
   index: number;
-  id: ProjectId;
   variant: 'card' | 'dialog';
 }) {
   const isCard = variant === 'card';
@@ -49,12 +43,12 @@ export function ProjectHero({
 
   return (
     <motion.div
-      layoutId={projectMorphId.hero(id)}
+      layoutId={projectMorphId.hero(project.id)}
       transition={PROJECT_MORPH_TRANSITION}
       className={cn('relative h-80 overflow-hidden', !isCard && 'z-1')}
     >
       <motion.div
-        layoutId={projectMorphId.image(id)}
+        layoutId={projectMorphId.image(project.id)}
         layout="position"
         transition={PROJECT_MORPH_TRANSITION}
         className="absolute top-0 left-[calc(50%-24rem)] h-full w-3xl max-w-none"
@@ -80,7 +74,7 @@ export function ProjectHero({
         </div>
       </motion.div>
 
-      <ProjectHeroOverlay project={project} index={index} id={id} />
+      <ProjectHeroOverlay project={project} index={index} />
 
       {isCard ? (
         <div

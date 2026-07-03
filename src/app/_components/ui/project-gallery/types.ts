@@ -20,7 +20,7 @@ export type ProjectLinks = {
 };
 
 export type Project = {
-  slug: string;
+  id: string;
   title: string;
   category: string;
   image: ProjectImage;

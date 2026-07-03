@@ -1,8 +1,8 @@
-import { ProfileSection } from './_components/profile-section';
-import { SelectedProjectsSection } from './_components/projects-section';
-import { OtherProjectsSection } from './_components/other-projects-section';
-import { ProjectArchiveSection } from './_components/project-archive-section';
-import { ContactSection } from './_components/contact-section';
+import { ProfileSection } from './_components/sections/profile';
+import { SelectedProjectsSection } from './_components/sections/projects';
+import { OtherProjectsSection } from './_components/sections/other-projects';
+import { ArchiveSection } from './_components/sections/archive';
+import { ContactSection } from './_components/sections/contact';
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <ProfileSection />
       <SelectedProjectsSection />
       <OtherProjectsSection />
-      <ProjectArchiveSection />
+      <ArchiveSection />
       <ContactSection />
     </main>
   );

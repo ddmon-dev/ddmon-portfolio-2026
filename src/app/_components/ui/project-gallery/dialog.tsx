@@ -9,11 +9,7 @@ import { useFocusTrap } from './use-focus-trap';
 import { type Project } from './types';
 import { ProjectHero } from './hero';
 import { ProjectDialogActions } from './dialog-actions';
-import {
-  PROJECT_MORPH_TRANSITION,
-  projectMorphId,
-  type ProjectId,
-} from './morph';
+import { PROJECT_MORPH_TRANSITION, projectMorphId } from './morph';
 
 const DIALOG_MOBILE_QUERY = '(width < 40rem)';
 const DIALOG_RADIUS_MOBILE = 0;
@@ -26,12 +22,10 @@ function getDialogRadius(isMobile: boolean) {
 export function ProjectDialog({
   project,
   index,
-  id,
   onClose,
 }: {
   project: Project;
   index: number;
-  id: ProjectId;
   onClose: () => void;
 }) {
   const trapRef = useRef<HTMLElement>(null);
@@ -111,7 +105,7 @@ export function ProjectDialog({
 
       <motion.article
         ref={trapRef}
-        layoutId={projectMorphId.frame(id)}
+        layoutId={projectMorphId.frame(project.id)}
         transition={PROJECT_MORPH_TRANSITION}
         role="dialog"
         aria-modal="true"
@@ -121,12 +115,7 @@ export function ProjectDialog({
         className="relative z-10 w-full min-h-full max-w-3xl bg-background text-foreground shadow-2xl outline-hidden"
       >
         <div className="overflow-hidden rounded-[inherit]">
-          <ProjectHero
-            variant="dialog"
-            project={project}
-            index={index}
-            id={id}
-          />
+          <ProjectHero variant="dialog" project={project} index={index} />
 
           <div className="divide-y divide-border">
             {project.facts && (
