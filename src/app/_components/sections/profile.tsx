@@ -7,7 +7,7 @@ import { CARREERS, HIGHLIGHTS, TECH_STACKS } from '../data/profile';
 
 export function ProfileSection() {
   return (
-    <Container as="section" className="grid grid-cols-2">
+    <Container as="section" className="grid grid-cols-2 max-md:grid-cols-1">
       <div className="relative">
         <div className="absolute size-full pr-5">
           <ProfileSideDecoration />
@@ -20,7 +20,7 @@ export function ProfileSection() {
           />
         </div>
       </div>
-      <div className="space-y-14 pt-40">
+      <div className="space-y-14 pt-40 max-md:pt-14">
         <h1 className="text-5xl/14 [&>b]:text-primary">
           안녕하세요 <br />
           <b>주도적</b> 문제<b>해결사</b> <br />
