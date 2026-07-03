@@ -15,10 +15,13 @@ export function Section({
   children,
 }: SectionProps) {
   return (
-    <Container as="section" className={cn('', className)}>
-      <div className="text-center">
-        <h2 className="">{title}</h2>
-        {description && <p>{description}</p>}
+    <Container as="section" className={cn('space-y-12', className)}>
+      <div className="text-left space-y-4">
+        <h2 className="text-4xl font-bold font-secondary capitalize">
+          {title}
+          <span className="inline-block size-3 rounded-full bg-primary ml-1.5" />
+        </h2>
+        {description && <p className="text-lg">{description}</p>}
       </div>
       {children}
     </Container>
