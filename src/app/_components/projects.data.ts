@@ -28,38 +28,21 @@ export type OtherProject = {
 
 export const otherProjects: OtherProject[] = [
   {
-    slug: 'vaccine-portal',
-    title: '백신정보포털',
-    category: '데이터 포털 / CMS',
+    slug: 'golfzon-smartcaddie',
+    title: '골프존 스마트캐디',
+    category: '다국어 제품 소개 사이트 / 어드민',
     description:
-      '한글 문서로 흩어진 백신 R&D 지원시설 정보를 조건별 검색 포털과 운영자 CMS로 재구성',
-    stacks: [
-      'Next.js',
-      'React',
-      'Supabase',
-      'Server Actions',
-      'Tailwind',
-      'Nginx',
-    ],
-    href: 'https://vitalkorea-vip.kr',
+      'GPS 기반 스마트워치 골프 어시스턴트 앱 스마트캐디의 다국어 소개 사이트와 어드민',
+    stacks: ['Next.js', 'React', 'TypeScript', 'Supabase', 'GSAP', 'Tailwind'],
+    href: 'https://smartcaddie.io',
   },
   {
-    slug: 'angel-robotics',
-    title: '엔젤로보틱스 홈페이지',
-    category: '브랜드·제품 사이트 / CMS',
+    slug: 'golfzon-cloud',
+    title: '골프존클라우드',
+    category: 'B2B SaaS 소개 사이트 / 어드민',
     description:
-      '웨어러블 로봇 기업의 다국어 브랜드 사이트를 스크롤 인터랙션과 운영자 CMS로 리뉴얼',
-    stacks: [
-      'Next.js',
-      'React',
-      'Supabase',
-      'Server Actions',
-      'Framer Motion',
-      'Lenis',
-      'NextAuth',
-      'Tailwind',
-    ],
-    href: 'https://angel-robotics.com',
+      '골프장 운영을 위한 예약·정산·경기관제 등 클라우드 SaaS 플랫폼 소개 사이트와 어드민',
+    stacks: ['Next.js', 'React', 'Supabase', 'NextAuth', 'GSAP', 'Tailwind'],
   },
   {
     slug: 'mr',
@@ -80,6 +63,40 @@ export const otherProjects: OtherProject[] = [
     href: 'https://mrev.co.kr',
   },
   {
+    slug: 'angel-robotics',
+    title: '엔젤로보틱스 홈페이지',
+    category: '브랜드·제품 사이트 / CMS',
+    description:
+      '웨어러블 로봇 기업의 다국어 브랜드 사이트를 스크롤 인터랙션과 운영자 CMS로 리뉴얼',
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Server Actions',
+      'Framer Motion',
+      'Lenis',
+      'NextAuth',
+      'Tailwind',
+    ],
+    href: 'https://angel-robotics.com',
+  },
+  {
+    slug: 'vaccine-portal',
+    title: '백신정보포털',
+    category: '데이터 포털 / CMS',
+    description:
+      '한글 문서로 흩어진 백신 R&D 지원시설 정보를 조건별 검색 포털과 운영자 CMS로 재구성',
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Server Actions',
+      'Tailwind',
+      'Nginx',
+    ],
+    href: 'https://vitalkorea-vip.kr',
+  },
+  {
     slug: 'rgb-3d',
     title: 'KOREA3D',
     category: '브랜드 사이트 / 인터랙션',
@@ -95,23 +112,6 @@ export const otherProjects: OtherProject[] = [
       'CSS Modules',
     ],
     href: 'https://korea3d.co.kr',
-  },
-  {
-    slug: 'golfzon-cloud',
-    title: '골프존클라우드',
-    category: 'B2B SaaS 소개 사이트 / 어드민',
-    description:
-      '골프장 운영을 위한 예약·정산·경기관제 등 클라우드 SaaS 플랫폼 소개 사이트와 어드민',
-    stacks: ['Next.js', 'React', 'Supabase', 'NextAuth', 'GSAP', 'Tailwind'],
-  },
-  {
-    slug: 'golfzon-smartcaddie',
-    title: '골프존 스마트캐디',
-    category: '다국어 제품 소개 사이트 / 어드민',
-    description:
-      'GPS 기반 스마트워치 골프 어시스턴트 앱 스마트캐디의 다국어 소개 사이트와 어드민',
-    stacks: ['Next.js', 'React', 'TypeScript', 'Supabase', 'GSAP', 'Tailwind'],
-    href: 'https://smartcaddie.io',
   },
 ];
 
