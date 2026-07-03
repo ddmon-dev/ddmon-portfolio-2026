@@ -4,7 +4,6 @@ import './globals.css';
 
 import { cn } from '@/shared/utils/classnames';
 import { Header } from '@/shared/ui/header';
-import { Footer } from '@/shared/ui/footer';
 import { LiquidGlassFilter } from '@/shared/ui/liquid-glass';
 
 export const metadata: Metadata = {
@@ -30,7 +29,6 @@ export default function RootLayout({
         <LiquidGlassFilter />
         <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );
