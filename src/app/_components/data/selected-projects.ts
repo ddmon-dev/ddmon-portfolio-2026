@@ -1,4 +1,4 @@
-export const majorProjects: string[] = [
+export const selectedProjects: string[] = [
   'panorama-film',
   'rgb-managers',
   'admin-framework',
