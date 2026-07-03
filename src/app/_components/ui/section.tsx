@@ -17,13 +17,23 @@ export function Section({
   headerClassName,
 }: SectionProps) {
   return (
-    <Container as="section" className={cn('space-y-12', className)}>
-      <div className={cn('space-y-4', headerClassName)}>
-        <h2 className="text-4xl font-bold font-secondary capitalize">
+    <Container
+      as="section"
+      className={cn('space-y-12 max-sm:space-y-8', className)}
+    >
+      <div
+        className={cn(
+          'space-y-4 text-pretty text-center',
+          headerClassName
+        )}
+      >
+        <h2 className="text-4xl font-bold font-secondary capitalize max-sm:text-3xl">
           {title}
-          <span className="inline-block size-3 rounded-full bg-primary ml-1.5" />
+          <span className="inline-block size-3 rounded-full bg-primary ml-1.5 max-sm:size-2" />
         </h2>
-        {description && <p className="text-lg">{description}</p>}
+        {description && (
+          <p className="text-lg max-sm:text-base">{description}</p>
+        )}
       </div>
       {children}
     </Container>

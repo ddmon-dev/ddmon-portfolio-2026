@@ -16,7 +16,6 @@ export function ArchiveSection() {
           그리고 그 다음을 위한 목표 설정과 수행.
         </>
       }
-      headerClassName="text-center"
     >
       <ArchiveWall items={items} />
     </Section>
