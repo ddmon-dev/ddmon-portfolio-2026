@@ -29,8 +29,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LiquidGlassFilter />
-        <Header />
-        {children}
+        <div
+          data-vaul-drawer-wrapper
+          className="flex min-h-dvh flex-col bg-background"
+        >
+          <Header />
+          {children}
+        </div>
         {modal}
       </body>
     </html>
