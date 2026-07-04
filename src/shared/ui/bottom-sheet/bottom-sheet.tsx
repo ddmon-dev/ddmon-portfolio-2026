@@ -38,15 +38,15 @@ export function BottomSheet({
           onCloseAutoFocus={onCloseAutoFocus}
         >
           <Drawer.Title className="sr-only">{title}</Drawer.Title>
-          <div className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain">
-            <div className="sticky top-0 z-10 h-0">
-              <div
-                aria-hidden
-                className="absolute top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-black/25 px-2.5 py-1.5"
-              >
-                <div className="h-1 w-10 rounded-full bg-white/90" />
-              </div>
+          <div className="absolute inset-x-0 top-0 z-10 py-2.5">
+            <div
+              aria-hidden
+              className="mx-auto w-fit rounded-full bg-black/25 px-2.5 py-1.5"
+            >
+              <div className="h-1 w-10 rounded-full bg-white/90" />
             </div>
+          </div>
+          <div className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain">
             {children}
           </div>
         </Drawer.Content>
