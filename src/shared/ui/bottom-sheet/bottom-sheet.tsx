@@ -1,43 +1,41 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { type ReactNode } from 'react';
 import { Drawer } from 'vaul';
 import { useBackgroundScale } from './use-background-scale';
 
-export function ProjectSheet({
-  slug,
+export const BottomSheetClose = Drawer.Close;
+
+export function BottomSheet({
+  open,
+  onOpenChange,
+  onAnimationEnd,
+  onCloseAutoFocus,
   title,
   children,
 }: {
-  slug: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onAnimationEnd?: (open: boolean) => void;
+  onCloseAutoFocus?: (event: Event) => void;
   title: string;
   children: ReactNode;
 }) {
-  const router = useRouter();
-  const [open, setOpen] = useState(true);
   useBackgroundScale(open);
 
   return (
     <Drawer.Root
       autoFocus
       open={open}
-      onOpenChange={setOpen}
-      onAnimationEnd={(isOpen) => {
-        if (!isOpen) router.back();
-      }}
+      onOpenChange={onOpenChange}
+      onAnimationEnd={onAnimationEnd}
     >
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-80 bg-black/60 max-md:bg-transparent" />
         <Drawer.Content
           aria-describedby={undefined}
-          className="fixed inset-x-0 bottom-0 z-80 mx-auto flex h-[calc(100dvh-3rem)] w-full max-w-3xl flex-col overflow-hidden rounded-t-4xl bg-background text-foreground outline-hidden max-md:h-[calc(100dvh-4rem)] max-md:shadow-[0_-16px_48px_rgba(0,0,0,0.55)] max-sm:h-[calc(100dvh-2.5rem)] max-sm:rounded-t-2xl"
-          onCloseAutoFocus={(event) => {
-            event.preventDefault();
-            document
-              .querySelector<HTMLElement>(`[data-project-card="${slug}"]`)
-              ?.focus({ preventScroll: true });
-          }}
+          className="fixed inset-x-0 bottom-0 z-80 mx-auto flex h-[calc(100dvh-var(--sheet-top-gap))] w-full max-w-3xl flex-col overflow-hidden rounded-t-(--sheet-radius) bg-background text-foreground outline-hidden max-md:shadow-[0_-16px_48px_rgba(0,0,0,0.55)]"
+          onCloseAutoFocus={onCloseAutoFocus}
         >
           <Drawer.Title className="sr-only">{title}</Drawer.Title>
           <div className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain">

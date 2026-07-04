@@ -1,5 +1,5 @@
 import { Section } from '../ui/section';
-import { ECATALOG_PROJECTS, HOMEPAGE_PROJECTS } from '@/data/all-projects.data';
+import { ECATALOG_PROJECTS, HOMEPAGE_PROJECTS } from '../data/all-projects.data';
 import { ArchiveWall } from '../ui/archive-wall';
 import { buildThumbnails } from '../data/archive';
 

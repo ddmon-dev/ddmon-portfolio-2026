@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { cn } from '@/shared/utils/classnames';
 import { StackBadges } from '@/shared/ui/stack-badges';
-import { type ProjectFacts, type ProjectLinks } from '@/data/projects/types';
+import { type ProjectFacts, type ProjectLinks } from './types';
 
 const LABELS = {
   period: '기간',
@@ -32,7 +32,7 @@ export function ProjectFactBox({
             href={links.site}
             target="_blank"
             rel="noreferrer"
-            className="underline underline-offset-2 text-blue-500 hover:text-blue-400"
+            className="underline underline-offset-2 text-primary-dark hover:text-primary"
           >
             {links.site.replace(/^https?:\/\//, '')}
           </a>

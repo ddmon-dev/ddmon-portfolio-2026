@@ -1,0 +1,59 @@
+'use client';
+
+import { type ComponentProps } from 'react';
+import Link from 'next/link';
+import { HouseIcon, GithubLogoIcon, XIcon } from '@phosphor-icons/react';
+import { Button } from '@/shared/ui/button';
+import { LiquidGlass } from '@/shared/ui/liquid-glass';
+import { BottomSheetClose } from '@/shared/ui/bottom-sheet/bottom-sheet';
+import { type ProjectLinks } from './types';
+
+export function ProjectDetailActions({
+  links,
+  mode,
+}: {
+  links?: ProjectLinks;
+  mode: 'sheet' | 'page';
+}) {
+  return (
+    <nav className="pointer-events-none sticky inset-x-0 bottom-0 z-10 flex justify-center p-4">
+      <LiquidGlass className="pointer-events-auto flex justify-center gap-1 rounded-full p-3">
+        {mode === 'sheet' ? (
+          <BottomSheetClose asChild>
+            <ActionButton aria-label="상세 닫기">
+              <XIcon aria-hidden size={18} weight="light" />
+              닫기
+            </ActionButton>
+          </BottomSheetClose>
+        ) : (
+          <ActionButton asChild>
+            <Link href="/">
+              <HouseIcon aria-hidden />
+              홈으로
+            </Link>
+          </ActionButton>
+        )}
+        {links?.site && (
+          <ActionButton asChild>
+            <Link href={links.site} target="_blank" rel="noopener noreferrer">
+              <HouseIcon />
+              Visit Site
+            </Link>
+          </ActionButton>
+        )}
+        {links?.repo && (
+          <ActionButton asChild>
+            <Link href={links.repo} target="_blank" rel="noopener noreferrer">
+              <GithubLogoIcon />
+              Visit Repo
+            </Link>
+          </ActionButton>
+        )}
+      </LiquidGlass>
+    </nav>
+  );
+}
+
+function ActionButton(props: ComponentProps<typeof Button>) {
+  return <Button size="sm" shape="pill" variant="secondary" {...props} />;
+}

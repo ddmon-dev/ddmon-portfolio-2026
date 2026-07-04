@@ -54,6 +54,24 @@
   --ring: var(--primary-light);
 }
 
+:root {
+  --sheet-radius: 16px;
+  --sheet-top-gap: 40px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --sheet-radius: 32px;
+    --sheet-top-gap: 64px;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --sheet-top-gap: 48px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   /* 다크 모드: 라이트 우선 정책상 구조만 잡아둔다.
      활성화 시 아래 토큰을 오버라이드한다 (권장 출발값, ash 기준).

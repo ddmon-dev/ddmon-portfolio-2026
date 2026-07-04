@@ -1,4 +1,4 @@
-import type { Project } from '@/data/all-projects.data';
+import type { Project } from './all-projects.data';
 
 export interface ThumbItem {
   name: string;

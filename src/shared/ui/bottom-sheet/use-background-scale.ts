@@ -6,8 +6,11 @@ const CARD_BREAKPOINT = 768;
 const CARD_BLUR = 8;
 
 function getCardStyle() {
-  if (window.innerWidth >= 640) return { sheetRadius: 32, sheetTopOffset: 64 };
-  return { sheetRadius: 16, sheetTopOffset: 40 };
+  const style = getComputedStyle(document.documentElement);
+  return {
+    sheetRadius: parseFloat(style.getPropertyValue('--sheet-radius')),
+    sheetTopOffset: parseFloat(style.getPropertyValue('--sheet-top-gap')),
+  };
 }
 
 function getScale() {

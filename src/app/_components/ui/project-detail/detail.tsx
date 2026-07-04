@@ -1,4 +1,4 @@
-import { type Project } from '@/data/projects/types';
+import { type Project } from './types';
 import { ProjectHero } from './hero';
 import { ProjectFactBox } from './fact-box';
 import { ProjectDetailBody } from './detail-body';
@@ -11,7 +11,7 @@ export function ProjectDetail({
   index: number;
 }) {
   return (
-    <>
+    <article>
       <ProjectHero variant="detail" project={project} index={index} />
 
       <div className="divide-y divide-border">
@@ -27,6 +27,6 @@ export function ProjectDetail({
           <ProjectDetailBody markdown={project.body} />
         </div>
       </div>
-    </>
+    </article>
   );
 }
