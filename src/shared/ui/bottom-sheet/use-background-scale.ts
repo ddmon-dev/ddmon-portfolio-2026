@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 const SCALE_EASE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+const SCALE_TRANSITION = `transform 0.5s ${SCALE_EASE}, clip-path 0.5s ${SCALE_EASE}, filter 0.5s ${SCALE_EASE}`;
 const EDGE_GAP = 26;
 const CARD_BREAKPOINT = 768;
 const CARD_BLUR = 8;
@@ -46,7 +47,7 @@ function applyOpenStyles(wrapper: HTMLElement) {
   wrapper.style.transformOrigin = asCard
     ? `50% ${window.scrollY + topGap / (1 - scale)}px`
     : `50% ${window.scrollY + window.innerHeight / 2}px`;
-  wrapper.style.transition = `transform 0.5s ${SCALE_EASE}, clip-path 0.5s ${SCALE_EASE}, filter 0.5s ${SCALE_EASE}`;
+  wrapper.style.transition = SCALE_TRANSITION;
   wrapper.style.transform = `scale(${scale})`;
   if (asCard) {
     wrapper.style.clipPath = getViewportClip(wrapper, sheetRadius);
@@ -57,17 +58,35 @@ function applyOpenStyles(wrapper: HTMLElement) {
   }
 }
 
+function applyClosedStyles(wrapper: HTMLElement) {
+  wrapper.style.transition = SCALE_TRANSITION;
+  wrapper.style.transform = 'scale(1)';
+  if (wrapper.style.clipPath) {
+    wrapper.style.clipPath = getViewportClip(wrapper, 0);
+    wrapper.style.filter = 'blur(0px)';
+  }
+}
+
+function applyDragStyles(wrapper: HTMLElement, progress: number) {
+  const scale = getScale();
+  const asCard = window.innerWidth < CARD_BREAKPOINT;
+  const { sheetRadius } = getCardStyle();
+
+  wrapper.style.transition = 'none';
+  wrapper.style.transform = `scale(${scale + (1 - scale) * progress})`;
+  if (asCard) {
+    wrapper.style.clipPath = getViewportClip(wrapper, sheetRadius * (1 - progress));
+    wrapper.style.filter = `blur(${CARD_BLUR * (1 - progress)}px)`;
+  }
+}
+
 export function useBackgroundScale(open: boolean) {
   useEffect(() => {
     const wrapper = getWrapper();
     if (!wrapper) return;
 
     if (!open) {
-      wrapper.style.transform = 'scale(1)';
-      if (wrapper.style.clipPath) {
-        wrapper.style.clipPath = getViewportClip(wrapper, 0);
-        wrapper.style.filter = 'blur(0px)';
-      }
+      applyClosedStyles(wrapper);
       return;
     }
 
@@ -76,6 +95,19 @@ export function useBackgroundScale(open: boolean) {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, [open]);
+
+  const onDrag = (_event: unknown, progress: number) => {
+    const wrapper = getWrapper();
+    if (!wrapper) return;
+    applyDragStyles(wrapper, Math.min(Math.max(progress, 0), 1));
+  };
+
+  const onRelease = (_event: unknown, stayOpen: boolean) => {
+    const wrapper = getWrapper();
+    if (!wrapper) return;
+    if (stayOpen) applyOpenStyles(wrapper);
+    else applyClosedStyles(wrapper);
+  };
 
   useEffect(() => {
     return () => {
@@ -90,4 +122,6 @@ export function useBackgroundScale(open: boolean) {
       wrapper.style.filter = '';
     };
   }, []);
+
+  return { onDrag, onRelease };
 }

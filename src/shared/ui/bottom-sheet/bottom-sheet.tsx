@@ -21,7 +21,7 @@ export function BottomSheet({
   title: string;
   children: ReactNode;
 }) {
-  useBackgroundScale(open);
+  const { onDrag, onRelease } = useBackgroundScale(open);
 
   return (
     <Drawer.Root
@@ -29,6 +29,8 @@ export function BottomSheet({
       open={open}
       onOpenChange={onOpenChange}
       onAnimationEnd={onAnimationEnd}
+      onDrag={onDrag}
+      onRelease={onRelease}
     >
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-80 bg-black/60 max-md:bg-transparent" />
