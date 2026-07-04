@@ -9,7 +9,7 @@ export function ProfileSection() {
   return (
     <Container as="section" className="grid grid-cols-2 max-md:grid-cols-1">
       <div className="relative">
-        <div className="absolute size-full pr-5">
+        <div className="absolute size-full pr-5 max-sm:hidden">
           <ProfileSideDecoration />
         </div>
         <div className="pt-20">

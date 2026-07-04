@@ -22,7 +22,17 @@ const CFG = {
   rippleIntensity: 2,
 };
 
-export function ProfileSideDecoration({ className }: { className?: string }) {
+type ProfileSideDecorationProps = {
+  className?: string;
+  trackScrollbar?: boolean;
+  density?: number;
+};
+
+export function ProfileSideDecoration({
+  className,
+  trackScrollbar = false,
+  density = 1,
+}: ProfileSideDecorationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,7 +40,17 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
     const rawCtx = canvas.getContext('2d');
     if (!rawCtx) return;
     const ctx: CanvasRenderingContext2D = rawCtx;
-    const cfg = CFG;
+    const cfg = {
+      ...CFG,
+      dotGap: CFG.dotGap / density,
+      ...(trackScrollbar && {
+        dotOpacity: 0,
+        opacityBoost: 0.5,
+        dotRadius: 0.8,
+        growScale: 3,
+        influence: 80,
+      }),
+    };
 
     let cssW = 0;
     let cssH = 0;
@@ -54,6 +74,13 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
               Math.sin(yy * 0.047 + 1.7) * 0.3 +
               Math.sin(yy * 0.083 + 4.2) * 0.2);
         const depth = 1 + cfg.fadeWobble * noise;
+        const dy = yy - y;
+        let bellExtent = 0;
+        if (trackScrollbar && strength > 0.001) {
+          const spread = cfg.influence / 2;
+          bellExtent =
+            cssW * 0.5 * Math.exp(-(dy * dy) / (2 * spread * spread));
+        }
         for (let xx = cssW - cfg.dotRadius; xx > 0; xx -= cfg.dotGap) {
           const fade = Math.pow(
             Math.min(1, xx / (cssW * cfg.fadeWidth)),
@@ -62,7 +89,14 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
           const dist = Math.hypot(xx - cssW, yy - y);
           let radius = cfg.dotRadius;
           let alpha = cfg.dotOpacity * fade;
-          if (strength > 0.001) {
+          if (trackScrollbar) {
+            if (bellExtent > 0) {
+              const near = Math.max(0, 1 - (cssW - xx) / bellExtent);
+              const t = near * strength;
+              radius += cfg.dotRadius * (cfg.growScale - 1) * t;
+              alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
+            }
+          } else if (strength > 0.001) {
             const near = Math.max(0, 1 - dist / cfg.influence);
             const t = near * near * strength;
             radius += cfg.dotRadius * (cfg.growScale - 1) * t;
@@ -75,6 +109,7 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
             radius += cfg.dotRadius * (cfg.growScale - 1) * t;
             alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
           }
+          if (alpha < 0.01) continue;
           ctx.globalAlpha = alpha;
           ctx.beginPath();
           ctx.arc(xx, yy, radius, 0, Math.PI * 2);
@@ -84,12 +119,23 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
       ctx.globalAlpha = 1;
     }
 
+    function scrollbarY() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      return max > 0 ? (window.scrollY / max) * cssH : 0;
+    }
+
     function resize() {
       ({ width: cssW, height: cssH } = canvas.getBoundingClientRect());
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (trackScrollbar) {
+        focus.ty = scrollbarY();
+        focus.y = focus.ty;
+        focus.target = 1;
+        focus.strength = 1;
+      }
       draw();
     }
 
@@ -105,8 +151,9 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
       const settled =
         Math.abs(focus.target - focus.strength) < 0.003 &&
         Math.abs(focus.ty - focus.y) < 0.3;
-      if (settled && focus.target === 0 && !ripple.active) {
-        focus.strength = 0;
+      if (settled && !ripple.active) {
+        focus.strength = focus.target;
+        focus.y = focus.ty;
         draw();
         raf = 0;
         return;
@@ -132,6 +179,11 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
     }
 
     function onScroll() {
+      if (trackScrollbar) {
+        focus.ty = scrollbarY();
+        wake();
+        return;
+      }
       const rect = canvas.getBoundingClientRect();
       focus.ty = window.innerHeight / 2 - rect.top;
       const within =
@@ -166,7 +218,7 @@ export function ProfileSideDecoration({ className }: { className?: string }) {
       stopIdlePulse();
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [trackScrollbar, density]);
 
   return (
     <canvas ref={canvasRef} className={cn('block size-full', className)} />
