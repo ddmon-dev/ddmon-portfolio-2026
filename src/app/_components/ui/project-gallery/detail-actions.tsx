@@ -1,37 +1,21 @@
-'use client';
-
+import { type ReactNode } from 'react';
 import Link from 'next/link';
-import { motion } from 'motion/react';
-import { XIcon, HouseIcon, GithubLogoIcon } from '@phosphor-icons/react';
+import { HouseIcon, GithubLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/shared/ui/button';
 import { LiquidGlass } from '@/shared/ui/liquid-glass';
-import { type ProjectLinks } from './types';
+import { type ProjectLinks } from '@/data/projects/types';
 
-export function ProjectDialogActions({
-  onClose,
+export function ProjectDetailActions({
   links,
+  children,
 }: {
-  onClose: () => void;
   links?: ProjectLinks;
+  children: ReactNode;
 }) {
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0, transition: { duration: 0.3, delay: 0.35 } }}
-      exit={{ opacity: 0, y: 24, transition: { duration: 0.25 } }}
-      className="pointer-events-none sticky inset-x-0 bottom-0 z-10 flex justify-center p-4"
-    >
+    <nav className="pointer-events-none sticky inset-x-0 bottom-0 z-10 flex justify-center p-4">
       <LiquidGlass className="pointer-events-auto flex justify-center gap-1 rounded-full p-3">
-        <Button
-          aria-label="다이얼로그 닫기"
-          onClick={onClose}
-          size="sm"
-          shape="pill"
-          variant="secondary"
-        >
-          <XIcon aria-hidden size={18} weight="light" />
-          닫기
-        </Button>
+        {children}
         {links?.site && (
           <Button asChild size="sm" shape="pill" variant="secondary">
             <Link href={links.site} target="_blank" rel="noopener noreferrer">
@@ -49,6 +33,6 @@ export function ProjectDialogActions({
           </Button>
         )}
       </LiquidGlass>
-    </motion.nav>
+    </nav>
   );
 }

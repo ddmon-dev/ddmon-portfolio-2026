@@ -1,9 +1,13 @@
 import { load } from 'js-yaml';
-import type { Project, ProjectFacts, ProjectImage, ProjectLinks } from './types';
+import type {
+  ProjectFacts,
+  ProjectImage,
+  ProjectLinks,
+  ProjectMeta,
+} from './types';
 
 const frontmatterPattern = /^---\s*\r?\n([\s\S]*?)\r?\n---\s*(?:\r?\n|$)/;
 
-type ProjectMeta = Omit<Project, 'id' | 'content'>;
 type ParsedProjectMarkdown = { meta: ProjectMeta; body: string };
 
 const requiredFactKeys = [

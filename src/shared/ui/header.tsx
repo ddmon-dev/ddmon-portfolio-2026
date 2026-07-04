@@ -4,7 +4,7 @@ import { LiquidGlass } from './liquid-glass';
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-4 z-50 pr-[var(--removed-scrollbar,0px)]">
+    <header className="fixed inset-x-0 top-4 z-50 pr-[var(--removed-body-scroll-bar-size,0px)]">
       <Container>
         <LiquidGlass className="mx-3 flex h-14 items-center justify-between rounded-full px-6">
           <Link

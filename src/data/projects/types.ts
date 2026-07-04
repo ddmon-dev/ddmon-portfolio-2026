@@ -1,5 +1,3 @@
-import { type ReactNode } from 'react';
-
 export type ProjectImage = {
   src: string;
   alt: string;
@@ -19,13 +17,16 @@ export type ProjectLinks = {
   repo?: string;
 };
 
-export type Project = {
-  id: string;
+export type ProjectMeta = {
   title: string;
   category: string;
   image: ProjectImage;
   stacks: string[];
   links?: ProjectLinks;
-  facts?: ProjectFacts;
-  content: ReactNode;
+  facts: ProjectFacts;
+};
+
+export type Project = ProjectMeta & {
+  id: string;
+  body: string;
 };
