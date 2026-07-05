@@ -9,7 +9,7 @@ const CFG = {
   dotRadius: 0.8,
   fadeWobble: 1.6,
   fadeWidth: 0.6,
-  minThumb: 64,
+  thumbLen: 160,
   bellPeak: 0.35,
   growScale: 3,
   opacityBoost: 0.5,
@@ -34,7 +34,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     let cssW = 0;
     let cssH = 0;
     const focus = { y: 0, ty: 0 };
-    let spread = CFG.minThumb / 4;
+    let spread = CFG.thumbLen / 4;
     let raf = 0;
 
     function draw() {
@@ -78,10 +78,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
         ? scroller.scrollHeight
         : document.documentElement.scrollHeight;
       const scrolled = scroller ? scroller.scrollTop : window.scrollY;
-      const thumbLen = Math.min(
-        cssH,
-        Math.max(CFG.minThumb, contentH > 0 ? cssH * (viewH / contentH) : cssH)
-      );
+      const thumbLen = Math.min(cssH, CFG.thumbLen);
       spread = thumbLen / 4;
       const max = contentH - viewH;
       const progress = max > 0 ? scrolled / max : 0;
