@@ -9,7 +9,7 @@ import { Section } from '../ui/section';
 
 export function ContactSection() {
   return (
-    <div className="overflow-hidden bg-foreground">
+    <div className="bg-foreground bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:360px]">
       <Section
         title="contact"
         description={
@@ -20,39 +20,33 @@ export function ContactSection() {
           </>
         }
         className="text-center pb-30"
-        headerClassName="relative z-10"
       >
-        <div className="relative z-0">
-          <div className="absolute z-0 bottom-4/9 left-1/2 -translate-x-1/2 overflow-hidden w-screen h-[200vw] max-md:bottom-[78%]">
-            <div className="absolute left-1/2 bottom-0 -translate-x-1/2 size-[300vw] rounded-full border bg-background max-md:size-[1500px]" />
-          </div>
-          <ul className="relative z-10 flex justify-center max-md:flex-col max-md:items-center max-md:gap-2 max-md:[&>li]:w-full max-md:[&>li]:max-w-xs max-md:[&>li]:-my-px">
-            <li>
-              <ContactItem
-                icon={GithubLogoIcon}
-                label="Github"
-                value="github.com/dd2mon"
-                href="https://github.com/dd2mon"
-              />
-            </li>
-            <li>
-              <ContactItem
-                icon={AtIcon}
-                label="E-mail"
-                value="ldhman91@gmail.com"
-                href="mailto:ldhman91@gmail.com"
-              />
-            </li>
-            <li>
-              <ContactItem
-                icon={PhoneIcon}
-                label="Call"
-                value=""
-                href="tel:"
-              />
-            </li>
-          </ul>
-        </div>
+        <ul className="flex justify-center max-md:flex-col max-md:items-center max-md:gap-2 max-md:[&>li]:w-full max-md:[&>li]:max-w-xs max-md:[&>li]:-my-px">
+          <li>
+            <ContactItem
+              icon={GithubLogoIcon}
+              label="Github"
+              value="github.com/dd2mon"
+              href="https://github.com/dd2mon"
+            />
+          </li>
+          <li>
+            <ContactItem
+              icon={AtIcon}
+              label="E-mail"
+              value="ldhman91@gmail.com"
+              href="mailto:ldhman91@gmail.com"
+            />
+          </li>
+          <li>
+            <ContactItem
+              icon={PhoneIcon}
+              label="Call"
+              value=""
+              href="tel:"
+            />
+          </li>
+        </ul>
         <p className="text-background text-center mt-20 max-lg:mt-15 max-md:mt-10">
           &copy; ㅇㄷㅎ all rights reserved.
         </p>

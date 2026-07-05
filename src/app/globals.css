@@ -166,3 +166,15 @@ body {
     max-width: 58rem;
   }
 }
+
+/* 지평선 아치 배경 — 반지름 --horizon-radius 원의 바닥을 요소 하단에서
+   --horizon-bottom 위에 두고, 내부 채움 + 1px 경계선을 그린다. */
+@utility bg-horizon {
+  background-image: radial-gradient(
+    circle var(--horizon-radius)
+      at 50% calc(100% - var(--horizon-bottom) - var(--horizon-radius)),
+    var(--color-background) calc(var(--horizon-radius) - 1px),
+    var(--color-border) var(--horizon-radius),
+    transparent calc(var(--horizon-radius) + 1px)
+  );
+}
