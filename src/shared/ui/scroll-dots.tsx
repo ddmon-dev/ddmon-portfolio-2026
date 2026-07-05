@@ -10,6 +10,7 @@ const CFG = {
   fadeWobble: 1.6,
   fadeWidth: 0.6,
   influence: 80,
+  bellPeak: 0.35,
   growScale: 3,
   opacityBoost: 0.5,
   follow: 0.12,
@@ -51,7 +52,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
         const depth = 1 + CFG.fadeWobble * noise;
         const dy = yy - focus.y;
         const bellExtent =
-          cssW * 0.5 * Math.exp(-(dy * dy) / (2 * spread * spread));
+          cssW * CFG.bellPeak * Math.exp(-(dy * dy) / (2 * spread * spread));
         for (let xx = cssW - CFG.dotRadius; xx > 0; xx -= CFG.dotGap) {
           const near = Math.max(0, 1 - (cssW - xx) / bellExtent);
           if (near <= 0) continue;
