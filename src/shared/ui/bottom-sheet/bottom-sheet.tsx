@@ -1,7 +1,8 @@
 'use client';
 
-import { type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { Drawer } from 'vaul';
+import { ScrollDots } from '@/shared/ui/scroll-dots';
 import { useBackgroundScale } from './use-background-scale';
 
 export const BottomSheetClose = Drawer.Close;
@@ -22,6 +23,7 @@ export function BottomSheet({
   children: ReactNode;
 }) {
   const { onDrag, onRelease } = useBackgroundScale(open);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   return (
     <Drawer.Root
@@ -48,8 +50,17 @@ export function BottomSheet({
               <div className="h-1 w-10 rounded-full bg-white/90" />
             </div>
           </div>
-          <div className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain">
+          <div
+            ref={scrollerRef}
+            className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
+          >
             {children}
+          </div>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-16"
+          >
+            <ScrollDots scrollRef={scrollerRef} />
           </div>
         </Drawer.Content>
       </Drawer.Portal>

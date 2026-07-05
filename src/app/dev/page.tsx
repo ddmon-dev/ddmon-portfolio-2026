@@ -3,6 +3,7 @@ import { LogoShowcase } from './_components/logo-showcase';
 import { ColorTokens } from './_components/color-tokens';
 import { ButtonShowcase } from './_components/button-showcase';
 import { BadgeShowcase } from './_components/badge-showcase';
+import { ScrollDotsShowcase } from './_components/scroll-dots-showcase';
 
 export const metadata: Metadata = {
   title: 'Dev Preview',
@@ -16,6 +17,7 @@ export default function DevPage() {
       <ColorTokens />
       <ButtonShowcase />
       <BadgeShowcase />
+      <ScrollDotsShowcase />
       <LogoShowcase />
     </main>
   );
