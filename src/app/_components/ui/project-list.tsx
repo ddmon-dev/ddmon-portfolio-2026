@@ -1,5 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
+import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
 import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
 import { StackBadges } from '@/shared/ui/stack-badges';
 
 export type ProjectListItem = {
@@ -12,15 +17,61 @@ export type ProjectListItem = {
   href: string;
 };
 
+const COLLAPSED_COUNT = 3;
+
 export function ProjectList({ items }: { items: ProjectListItem[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = items.slice(0, COLLAPSED_COUNT);
+  const rest = items.slice(COLLAPSED_COUNT);
+  const hasMore = rest.length > 0;
+
   return (
-    <ul className="divide-y divide-ash-light border-y border-ash-light">
-      {items.map(item => (
-        <li key={item.id}>
-          <Row item={item} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="divide-y divide-ash-light border-y border-ash-light">
+        {visible.map(item => (
+          <li key={item.id}>
+            <Row item={item} />
+          </li>
+        ))}
+      </ul>
+
+      {hasMore && (
+        <>
+          <div
+            className="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ gridTemplateRows: expanded ? '1fr' : '0fr' }}
+          >
+            <div className="overflow-hidden" inert={!expanded}>
+              <ul className="divide-y divide-ash-light border-b border-ash-light">
+                {rest.map(item => (
+                  <li key={item.id}>
+                    <Row item={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <Button
+              variant="outline"
+              shape="pill"
+              onClick={() => setExpanded(prev => !prev)}
+            >
+              {expanded ? (
+                <>
+                  접기 <CaretUpIcon weight="bold" />
+                </>
+              ) : (
+                <>
+                  더보기 (+{rest.length}) <CaretDownIcon weight="bold" />
+                </>
+              )}
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 
