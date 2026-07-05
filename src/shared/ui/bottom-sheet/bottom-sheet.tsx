@@ -52,7 +52,7 @@ export function BottomSheet({
           </div>
           <div
             ref={scrollerRef}
-            className="max-lg:hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
+            className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
           >
             {children}
           </div>
