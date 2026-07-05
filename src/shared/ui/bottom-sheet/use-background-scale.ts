@@ -17,7 +17,7 @@ function getCardStyle() {
 function getScale() {
   const { innerWidth } = window;
   if (innerWidth >= CARD_BREAKPOINT) {
-    return innerWidth >= 1536 ? 0.9 : 0.92;
+    return innerWidth >= 1536 ? 0.8 : 0.92;
   }
   return (innerWidth - EDGE_GAP) / innerWidth;
 }
@@ -75,7 +75,10 @@ function applyDragStyles(wrapper: HTMLElement, progress: number) {
   wrapper.style.transition = 'none';
   wrapper.style.transform = `scale(${scale + (1 - scale) * progress})`;
   if (asCard) {
-    wrapper.style.clipPath = getViewportClip(wrapper, sheetRadius * (1 - progress));
+    wrapper.style.clipPath = getViewportClip(
+      wrapper,
+      sheetRadius * (1 - progress)
+    );
     wrapper.style.filter = `blur(${CARD_BLUR * (1 - progress)}px)`;
   }
 }
