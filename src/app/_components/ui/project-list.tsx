@@ -1,8 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
-import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
+import {
+  ArrowUpRightIcon,
+  CaretDownIcon,
+  CaretUpIcon,
+} from '@phosphor-icons/react';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { StackBadges } from '@/shared/ui/stack-badges';
@@ -54,7 +59,7 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
 
           <div className="mt-6 flex justify-center">
             <Button
-              variant="outline"
+              variant="secondary"
               shape="pill"
               onClick={() => setExpanded(prev => !prev)}
             >
@@ -76,8 +81,8 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
 }
 
 function Row({ item }: { item: ProjectListItem }) {
-  const content = (
-    <div className="group grid grid-cols-[288px_1fr] items-center gap-x-7 py-5 relative overflow-hidden hover:opacity-70 transition-opacity max-sm:grid-cols-1 max-sm:gap-y-4">
+  return (
+    <div className="grid grid-cols-[288px_1fr] items-center gap-x-7 py-5 max-sm:grid-cols-1 max-sm:gap-y-4">
       <Image
         src={item.image}
         alt={`${item.title} 스크린샷`}
@@ -86,11 +91,9 @@ function Row({ item }: { item: ProjectListItem }) {
         sizes="(max-width: 640px) 100vw, 288px"
         className="aspect-16/10 w-full shrink-0 rounded-2xl bg-ash-lighter/20 border border-border object-cover"
       />
-      <div className="flex-1 space-y-3 max-sm:px-2">
+      <div className="flex-1 space-y-2 max-sm:px-2">
         <div className="space-y-1">
-          <h3 className="font-bold text-lg text-ash-darker group-hover:underline">
-            {item.title}
-          </h3>
+          <h3 className="font-bold text-lg text-ash-darker">{item.title}</h3>
           <p className="text-base text-ash-dark">{item.description}</p>
         </div>
         <div className="space-y-1">
@@ -108,18 +111,20 @@ function Row({ item }: { item: ProjectListItem }) {
           </div>
           <StackBadges stacks={item.stacks} />
         </div>
+        <div className="flex justify-start pt-1">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            shape="pill"
+            className="bg-ash-100 border-ash-300 hover:border-primary hover:text-primary hover:bg-transparent"
+          >
+            <Link href={item.href} target="_blank" rel="noopener noreferrer">
+              사이트 방문 <ArrowUpRightIcon weight="bold" />
+            </Link>
+          </Button>
+        </div>
       </div>
     </div>
-  );
-
-  return (
-    <a
-      href={item.href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block"
-    >
-      {content}
-    </a>
   );
 }

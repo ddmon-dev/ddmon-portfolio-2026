@@ -155,7 +155,7 @@ export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
       {hasMore && (
         <div className="flex justify-center">
           <Button
-            variant="outline"
+            variant="secondary"
             shape="pill"
             onClick={toggle}
             disabled={animating}

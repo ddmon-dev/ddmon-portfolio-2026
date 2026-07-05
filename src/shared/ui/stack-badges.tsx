@@ -53,9 +53,11 @@ export function StackChip({
 export function StackBadges({
   stacks,
   className,
+  badgeClassName,
 }: {
   stacks: string[];
   className?: string;
+  badgeClassName?: string;
 }) {
   return (
     <ul className={cn('flex flex-wrap items-center gap-1', className)}>
@@ -64,7 +66,7 @@ export function StackBadges({
           <Badge
             variant="outline"
             shape="pill"
-            className="gap-1.5 pl-1.5 pr-2.5 py-1 text-xs"
+            className={cn('gap-1.5 pl-1.5 pr-2.5 py-1 text-xs', badgeClassName)}
           >
             <span aria-hidden className="text-sm">
               <StackLogo stack={resolveStackId(stack)} />
