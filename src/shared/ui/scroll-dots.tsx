@@ -9,7 +9,7 @@ const CFG = {
   dotRadius: 0.8,
   fadeWobble: 1.6,
   fadeWidth: 0.6,
-  influence: 80,
+  minThumb: 64,
   bellPeak: 0.35,
   growScale: 3,
   opacityBoost: 0.5,
@@ -34,6 +34,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     let cssW = 0;
     let cssH = 0;
     const focus = { y: 0, ty: 0 };
+    let spread = CFG.minThumb / 4;
     let raf = 0;
 
     function draw() {
@@ -41,7 +42,6 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
       ctx.fillStyle =
         getComputedStyle(canvas).getPropertyValue('--primary').trim() ||
         CFG.fallbackColor;
-      const spread = CFG.influence / 2;
       for (let yy = CFG.dotGap / 2; yy < cssH; yy += CFG.dotGap) {
         const noise =
           0.5 +
@@ -72,12 +72,20 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
       ctx.globalAlpha = 1;
     }
 
-    function scrollbarY() {
-      const max = scroller
-        ? scroller.scrollHeight - scroller.clientHeight
-        : document.documentElement.scrollHeight - window.innerHeight;
+    function updateTarget() {
+      const viewH = scroller ? scroller.clientHeight : window.innerHeight;
+      const contentH = scroller
+        ? scroller.scrollHeight
+        : document.documentElement.scrollHeight;
       const scrolled = scroller ? scroller.scrollTop : window.scrollY;
-      return max > 0 ? (scrolled / max) * cssH : 0;
+      const thumbLen = Math.min(
+        cssH,
+        Math.max(CFG.minThumb, contentH > 0 ? cssH * (viewH / contentH) : cssH)
+      );
+      spread = thumbLen / 4;
+      const max = contentH - viewH;
+      const progress = max > 0 ? scrolled / max : 0;
+      focus.ty = progress * (cssH - thumbLen) + thumbLen / 2;
     }
 
     function resize() {
@@ -86,7 +94,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      focus.ty = scrollbarY();
+      updateTarget();
       focus.y = focus.ty;
       draw();
     }
@@ -108,7 +116,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     }
 
     function onScroll() {
-      focus.ty = scrollbarY();
+      updateTarget();
       wake();
     }
 
