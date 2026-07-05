@@ -6,6 +6,7 @@ import { cn } from '@/shared/utils/classnames';
 import { LiquidGlassFilter } from '@/shared/ui/liquid-glass';
 import { Header } from '@/app/_components/ui/header';
 import { Footer } from '@/app/_components/ui/footer';
+import { ScrollDotIndicator } from '@/app/_components/ui/scroll-dot-indicator';
 
 export const metadata: Metadata = {
   title: 'DDmon Portfolio',
@@ -34,6 +35,7 @@ export default function RootLayout({
           data-vaul-drawer-wrapper
           className="flex min-h-dvh flex-col bg-background"
         >
+          <ScrollDotIndicator />
           <Header />
           {children}
           <Footer />

@@ -24,14 +24,10 @@ const CFG = {
 
 type ProfileSideDecorationProps = {
   className?: string;
-  trackScrollbar?: boolean;
-  density?: number;
 };
 
 export function ProfileSideDecoration({
   className,
-  trackScrollbar = false,
-  density = 1,
 }: ProfileSideDecorationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -40,17 +36,6 @@ export function ProfileSideDecoration({
     const rawCtx = canvas.getContext('2d');
     if (!rawCtx) return;
     const ctx: CanvasRenderingContext2D = rawCtx;
-    const cfg = {
-      ...CFG,
-      dotGap: CFG.dotGap / density,
-      ...(trackScrollbar && {
-        dotOpacity: 0,
-        opacityBoost: 0.5,
-        dotRadius: 0.8,
-        growScale: 3,
-        influence: 80,
-      }),
-    };
 
     let cssW = 0;
     let cssH = 0;
@@ -64,50 +49,36 @@ export function ProfileSideDecoration({
       ctx.clearRect(0, 0, cssW, cssH);
       ctx.fillStyle =
         getComputedStyle(canvas).getPropertyValue('--primary').trim() ||
-        cfg.fallbackColor;
+        CFG.fallbackColor;
       const { y, strength } = focus;
-      for (let yy = cfg.dotGap / 2; yy < cssH; yy += cfg.dotGap) {
+      for (let yy = CFG.dotGap / 2; yy < cssH; yy += CFG.dotGap) {
         const noise =
           0.5 +
           0.5 *
             (Math.sin(yy * 0.021) * 0.5 +
               Math.sin(yy * 0.047 + 1.7) * 0.3 +
               Math.sin(yy * 0.083 + 4.2) * 0.2);
-        const depth = 1 + cfg.fadeWobble * noise;
-        const dy = yy - y;
-        let bellExtent = 0;
-        if (trackScrollbar && strength > 0.001) {
-          const spread = cfg.influence / 2;
-          bellExtent =
-            cssW * 0.5 * Math.exp(-(dy * dy) / (2 * spread * spread));
-        }
-        for (let xx = cssW - cfg.dotRadius; xx > 0; xx -= cfg.dotGap) {
+        const depth = 1 + CFG.fadeWobble * noise;
+        for (let xx = cssW - CFG.dotRadius; xx > 0; xx -= CFG.dotGap) {
           const fade = Math.pow(
-            Math.min(1, xx / (cssW * cfg.fadeWidth)),
+            Math.min(1, xx / (cssW * CFG.fadeWidth)),
             depth
           );
           const dist = Math.hypot(xx - cssW, yy - y);
-          let radius = cfg.dotRadius;
-          let alpha = cfg.dotOpacity * fade;
-          if (trackScrollbar) {
-            if (bellExtent > 0) {
-              const near = Math.max(0, 1 - (cssW - xx) / bellExtent);
-              const t = near * strength;
-              radius += cfg.dotRadius * (cfg.growScale - 1) * t;
-              alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
-            }
-          } else if (strength > 0.001) {
-            const near = Math.max(0, 1 - dist / cfg.influence);
+          let radius = CFG.dotRadius;
+          let alpha = CFG.dotOpacity * fade;
+          if (strength > 0.001) {
+            const near = Math.max(0, 1 - dist / CFG.influence);
             const t = near * near * strength;
-            radius += cfg.dotRadius * (cfg.growScale - 1) * t;
-            alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
+            radius += CFG.dotRadius * (CFG.growScale - 1) * t;
+            alpha = Math.min(1, alpha + CFG.opacityBoost * fade * t);
           }
           if (ripple.active) {
             const near = Math.max(0, 1 - dist / ripple.r);
-            const fadeOut = 1 - ripple.r / cfg.rippleMaxRadius;
-            const t = Math.min(1, near * near * fadeOut * cfg.rippleIntensity);
-            radius += cfg.dotRadius * (cfg.growScale - 1) * t;
-            alpha = Math.min(1, alpha + cfg.opacityBoost * fade * t);
+            const fadeOut = 1 - ripple.r / CFG.rippleMaxRadius;
+            const t = Math.min(1, near * near * fadeOut * CFG.rippleIntensity);
+            radius += CFG.dotRadius * (CFG.growScale - 1) * t;
+            alpha = Math.min(1, alpha + CFG.opacityBoost * fade * t);
           }
           if (alpha < 0.01) continue;
           ctx.globalAlpha = alpha;
@@ -119,32 +90,21 @@ export function ProfileSideDecoration({
       ctx.globalAlpha = 1;
     }
 
-    function scrollbarY() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      return max > 0 ? (window.scrollY / max) * cssH : 0;
-    }
-
     function resize() {
       ({ width: cssW, height: cssH } = canvas.getBoundingClientRect());
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (trackScrollbar) {
-        focus.ty = scrollbarY();
-        focus.y = focus.ty;
-        focus.target = 1;
-        focus.strength = 1;
-      }
       draw();
     }
 
     function tick() {
-      focus.y += (focus.ty - focus.y) * cfg.follow;
-      focus.strength += (focus.target - focus.strength) * cfg.follow;
+      focus.y += (focus.ty - focus.y) * CFG.follow;
+      focus.strength += (focus.target - focus.strength) * CFG.follow;
       if (ripple.active) {
-        ripple.r += cfg.rippleSpeed;
-        if (ripple.r > cfg.rippleMaxRadius) ripple.active = false;
+        ripple.r += CFG.rippleSpeed;
+        if (ripple.r > CFG.rippleMaxRadius) ripple.active = false;
       }
       draw();
 
@@ -175,19 +135,14 @@ export function ProfileSideDecoration({
       ripple.active = true;
       ripple.r = 0;
       wake();
-      pulseTimer = window.setTimeout(pulse, cfg.idlePulseIntervalMs);
+      pulseTimer = window.setTimeout(pulse, CFG.idlePulseIntervalMs);
     }
 
     function onScroll() {
-      if (trackScrollbar) {
-        focus.ty = scrollbarY();
-        wake();
-        return;
-      }
       const rect = canvas.getBoundingClientRect();
       focus.ty = window.innerHeight / 2 - rect.top;
       const within =
-        focus.ty > -cfg.influence && focus.ty < cssH + cfg.influence;
+        focus.ty > -CFG.influence && focus.ty < cssH + CFG.influence;
       if (within && focus.strength < 0.01) {
         focus.y = focus.ty;
       }
@@ -200,9 +155,9 @@ export function ProfileSideDecoration({
         focus.target = 0;
         wake();
         if (within) {
-          pulseTimer = window.setTimeout(pulse, cfg.idlePulseDelayMs);
+          pulseTimer = window.setTimeout(pulse, CFG.idlePulseDelayMs);
         }
-      }, cfg.scrollIdleMs);
+      }, CFG.scrollIdleMs);
     }
 
     resize();
@@ -218,7 +173,7 @@ export function ProfileSideDecoration({
       stopIdlePulse();
       window.removeEventListener('scroll', onScroll);
     };
-  }, [trackScrollbar, density]);
+  }, []);
 
   return (
     <canvas ref={canvasRef} className={cn('block size-full', className)} />
