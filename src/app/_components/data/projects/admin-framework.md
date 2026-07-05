@@ -2,7 +2,7 @@
 title: Admin Framework
 category: 재사용 개발 프레임워크
 image:
-  src: /projects/panoramafilm.jpg
+  src: /projects/admin-framework-list-blurred.png
   alt: Admin Framework
   width: 1920
   height: 1080

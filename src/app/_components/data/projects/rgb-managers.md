@@ -2,7 +2,7 @@
 title: rgb Managers
 category: 사내 백오피스
 image:
-  src: /projects/panoramafilm.jpg
+  src: /projects/rgb-managers-project-blurred.png
   alt: RGB Managers 프로젝트
   width: 1920
   height: 1080

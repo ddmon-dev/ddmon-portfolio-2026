@@ -2,7 +2,7 @@
 title: Work Manager
 category: 업무 운영 시스템 / 본인 IP
 image:
-  src: /projects/sgc-bf.jpg
+  src: /projects/work-manager-schedule-blurred.png
   alt: Work Manager 프로젝트
   width: 1920
   height: 1080
