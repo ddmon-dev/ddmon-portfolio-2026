@@ -146,24 +146,26 @@ body {
   border-radius: 5px;
 }
 
-@supports not selector(::-webkit-scrollbar) {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-primary) var(--color-ash-light);
-  }
-
-  .hide-scrollbar {
-    scrollbar-width: none;
+@layer base {
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-primary) var(--color-ash-light);
+    }
   }
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+@utility hide-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-/* sm 미만에서는 네이티브 스크롤바를 숨기고 ScrollDotIndicator가 대체한다.
+/* lg 미만에서는 네이티브 스크롤바를 숨기고 ScrollDotIndicator가 대체한다.
    iOS 18.1 이하는 scrollbar-width 미지원이라 네이티브 인디케이터가 남는다(공존 허용). */
-@media (width < 40rem) {
+@media (width < 64rem) {
   html {
     scrollbar-width: none;
   }

@@ -4,7 +4,7 @@ export function ScrollDotIndicator() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed top-0 right-0 z-40 h-dvh w-24 sm:hidden"
+      className="pointer-events-none fixed top-0 right-0 z-40 h-dvh w-24 lg:hidden"
     >
       <ScrollDots />
     </div>

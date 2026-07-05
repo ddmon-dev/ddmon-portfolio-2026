@@ -52,13 +52,13 @@ export function BottomSheet({
           </div>
           <div
             ref={scrollerRef}
-            className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
+            className="max-lg:hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
           >
             {children}
           </div>
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 w-16"
+            className="pointer-events-none absolute inset-y-0 right-0 w-16 lg:hidden"
           >
             <ScrollDots scrollRef={scrollerRef} />
           </div>
