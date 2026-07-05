@@ -30,7 +30,7 @@ export default async function ProjectPage({ params }: Params) {
   const index = selectedProjects.indexOf(slug);
 
   return (
-    <Container as="main" className="pb-16">
+    <Container as="main" className="border-b border-border pb-20 max-sm:px-0">
       <ProjectDetail project={project} index={index} />
       <ProjectDetailActions links={project.links} mode="page" />
     </Container>

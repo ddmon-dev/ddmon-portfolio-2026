@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Container } from './container';
-import { LiquidGlass } from './liquid-glass';
+import { Container } from '@/shared/ui/container';
+import { LiquidGlass } from '@/shared/ui/liquid-glass';
 
 export function Header() {
   return (
-    <header className="sticky top-4 z-50 mt-4 -mb-[4.5rem]">
+    <header className="sticky top-4 z-50 mt-4 -mb-18">
       <Container>
         <LiquidGlass className="mx-3 flex h-14 items-center justify-between rounded-full px-6">
           <Link

@@ -3,8 +3,9 @@ import { poppins, pretendard } from '@/fonts';
 import './globals.css';
 
 import { cn } from '@/shared/utils/classnames';
-import { Header } from '@/shared/ui/header';
 import { LiquidGlassFilter } from '@/shared/ui/liquid-glass';
+import { Header } from '@/app/_components/ui/header';
+import { Footer } from '@/app/_components/ui/footer';
 
 export const metadata: Metadata = {
   title: 'DDmon Portfolio',
@@ -35,6 +36,7 @@ export default function RootLayout({
         >
           <Header />
           {children}
+          <Footer />
         </div>
         {modal}
       </body>
