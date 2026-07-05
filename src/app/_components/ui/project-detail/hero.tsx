@@ -29,9 +29,9 @@ export function ProjectHero({
         className="object-cover"
       />
 
-      <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/0 to-black/95" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/0 to-black/85" />
       <div className="absolute inset-0 flex flex-col justify-between p-5 text-white">
-        <div className="font-secondary text-7xl font-bold text-white/20 -translate-y-3 -translate-x-2">
+        <div className="font-secondary text-7xl font-bold text-white/10 -translate-y-3 -translate-x-2 mix-blend-plus-lighter">
           {String(index + 1).padStart(2, '0')}
         </div>
 
