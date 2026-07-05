@@ -78,11 +78,9 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
         ? scroller.scrollHeight
         : document.documentElement.scrollHeight;
       const scrolled = scroller ? scroller.scrollTop : window.scrollY;
-      const thumbLen = Math.min(cssH, CFG.thumbLen);
-      spread = thumbLen / 4;
+      spread = Math.min(cssH, CFG.thumbLen) / 4;
       const max = contentH - viewH;
-      const progress = max > 0 ? scrolled / max : 0;
-      focus.ty = progress * (cssH - thumbLen) + thumbLen / 2;
+      focus.ty = max > 0 ? (scrolled / max) * cssH : 0;
     }
 
     function resize() {
