@@ -26,7 +26,7 @@ export default function RootLayout({
       className={cn(
         poppins.variable,
         pretendard.variable,
-        'h-full antialiased'
+        'h-full antialiased max-lg:hide-scrollbar'
       )}
     >
       <body className="min-h-full flex flex-col">

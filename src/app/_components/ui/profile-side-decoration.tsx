@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { cn } from '@/shared/utils/classnames';
 
 const CFG = {
   fallbackColor: '#f26619',
@@ -22,13 +21,7 @@ const CFG = {
   rippleIntensity: 2,
 };
 
-type ProfileSideDecorationProps = {
-  className?: string;
-};
-
-export function ProfileSideDecoration({
-  className,
-}: ProfileSideDecorationProps) {
+export function ProfileSideDecoration() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -175,7 +168,5 @@ export function ProfileSideDecoration({
     };
   }, []);
 
-  return (
-    <canvas ref={canvasRef} className={cn('block size-full', className)} />
-  );
+  return <canvas ref={canvasRef} className="block size-full" />;
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, type RefObject } from 'react';
-import { cn } from '@/shared/utils/classnames';
 
 const CFG = {
   fallbackColor: '#f26619',
@@ -9,7 +8,7 @@ const CFG = {
   dotRadius: 0.8,
   fadeWobble: 1.6,
   fadeWidth: 0.6,
-  thumbLen: 160,
+  bellHeight: 160,
   bellPeak: 0.35,
   growScale: 3,
   opacityBoost: 0.5,
@@ -18,10 +17,9 @@ const CFG = {
 
 type ScrollDotsProps = {
   scrollRef?: RefObject<HTMLElement | null>;
-  className?: string;
 };
 
-export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
+export function ScrollDots({ scrollRef }: ScrollDotsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -34,7 +32,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     let cssW = 0;
     let cssH = 0;
     const focus = { y: 0, ty: 0 };
-    let spread = CFG.thumbLen / 4;
+    let spread = CFG.bellHeight / 4;
     let raf = 0;
 
     function draw() {
@@ -72,15 +70,12 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
       ctx.globalAlpha = 1;
     }
 
-    function updateTarget() {
-      const viewH = scroller ? scroller.clientHeight : window.innerHeight;
-      const contentH = scroller
-        ? scroller.scrollHeight
-        : document.documentElement.scrollHeight;
+    function scrollbarY() {
+      const max = scroller
+        ? scroller.scrollHeight - scroller.clientHeight
+        : document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = scroller ? scroller.scrollTop : window.scrollY;
-      spread = Math.min(cssH, CFG.thumbLen) / 4;
-      const max = contentH - viewH;
-      focus.ty = max > 0 ? (scrolled / max) * cssH : 0;
+      return max > 0 ? (scrolled / max) * cssH : 0;
     }
 
     function resize() {
@@ -89,7 +84,8 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
       canvas.width = Math.round(cssW * dpr);
       canvas.height = Math.round(cssH * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      updateTarget();
+      spread = Math.min(cssH, CFG.bellHeight) / 4;
+      focus.ty = scrollbarY();
       focus.y = focus.ty;
       draw();
     }
@@ -111,7 +107,7 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     }
 
     function onScroll() {
-      updateTarget();
+      focus.ty = scrollbarY();
       wake();
     }
 
@@ -129,7 +125,5 @@ export function ScrollDots({ scrollRef, className }: ScrollDotsProps) {
     };
   }, [scrollRef]);
 
-  return (
-    <canvas ref={canvasRef} className={cn('block size-full', className)} />
-  );
+  return <canvas ref={canvasRef} className="block size-full" />;
 }
