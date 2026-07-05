@@ -89,7 +89,7 @@ function Row({ item }: { item: ProjectListItem }) {
         width={576}
         height={360}
         sizes="(max-width: 640px) 100vw, 288px"
-        className="aspect-16/10 w-full shrink-0 rounded-2xl bg-ash-lighter/20 border border-border object-cover"
+        className="aspect-16/10 w-full shrink-0 rounded-4xl bg-ash-lighter/20 border border-border object-cover"
       />
       <div className="flex-1 space-y-2 max-sm:px-2">
         <div className="space-y-1">

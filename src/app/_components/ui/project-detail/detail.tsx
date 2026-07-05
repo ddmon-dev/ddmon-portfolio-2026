@@ -12,7 +12,9 @@ export function ProjectDetail({
 }) {
   return (
     <article>
-      <ProjectHero variant="detail" project={project} index={index} />
+      <div className="h-70">
+        <ProjectHero variant="detail" project={project} index={index} />
+      </div>
 
       <div className="divide-y divide-border">
         <div className="p-6 max-sm:p-5">

@@ -7,7 +7,7 @@ export async function ProjectGallery({ projectIds }: { projectIds: string[] }) {
   const projects = await Promise.all(projectIds.map(loadProject));
 
   return (
-    <ul className="grid grid-cols-3 gap-x-4 gap-y-8 max-sm:grid-cols-1">
+    <ul className="grid grid-cols-3 gap-4 max-lg:grid-cols-2 max-lg:gap-3 max-sm:grid-cols-1 max-sm:gap-2">
       {projects.map((project, index) => (
         <li key={project.id}>
           <ProjectCard project={project} index={index} />
@@ -24,7 +24,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       scroll={false}
       aria-label={`${project.title} 상세 보기`}
       data-project-card={project.id}
-      className="relative block h-80 overflow-hidden rounded-[28px] bg-ash-950 text-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      className="group relative block h-70 overflow-hidden rounded-4xl text-white border border-border"
     >
       <ProjectHero variant="card" project={project} index={index} />
     </Link>

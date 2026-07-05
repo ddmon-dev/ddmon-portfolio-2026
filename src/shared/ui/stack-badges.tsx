@@ -19,7 +19,7 @@ export function StackChips({
   return (
     <p
       className={cn(
-        'flex flex-wrap justify-center items-center gap-3 text-3xl',
+        'flex flex-wrap justify-center items-center gap-2.5 text-3xl',
         full && 'text-4xl gap-4',
         className
       )}
