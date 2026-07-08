@@ -25,10 +25,10 @@ export default function RootLayout({
       className={cn(
         poppins.variable,
         pretendard.variable,
-        'h-full antialiased max-lg:hide-scrollbar'
+        'antialiased max-lg:hide-scrollbar'
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body>
         <LiquidGlassFilter />
         <div
           data-vaul-drawer-wrapper
