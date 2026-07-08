@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Container } from '@/shared/ui/container';
 import { LiquidGlass } from '@/shared/ui/liquid-glass';
-import { HomeLink } from './home-link';
+import { HomeLink } from '@/app/_components/recipient/home-link';
 
 export function Header() {
   return (

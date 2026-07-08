@@ -1,5 +1,5 @@
 import { Footer } from '@/app/_components/ui/footer';
-import { getRecipients } from './resolve-recipient';
+import { getRecipients } from '@/app/_components/recipient/resolve-recipient';
 
 export default async function RecipientLayout({
   children,

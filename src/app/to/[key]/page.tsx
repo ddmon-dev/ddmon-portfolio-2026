@@ -3,8 +3,8 @@ import { HomePage } from '@/app/_components/home-page';
 import {
   ClearRecipientKey,
   StoreRecipientKey,
-} from '@/app/_components/recipient-session';
-import { getRecipients } from './resolve-recipient';
+} from '@/app/_components/recipient/recipient-session';
+import { getRecipients } from '@/app/_components/recipient/resolve-recipient';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
