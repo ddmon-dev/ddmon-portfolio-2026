@@ -20,9 +20,9 @@ export default async function RecipientHome({
   params: Promise<{ key: string }>;
 }) {
   const { key } = await params;
-  const company = getRecipients()[key];
+  const recipient = getRecipients()[key];
 
-  if (!company) {
+  if (!recipient) {
     return (
       <>
         <ClearRecipientKey />
@@ -34,7 +34,7 @@ export default async function RecipientHome({
   return (
     <>
       <StoreRecipientKey recipientKey={key} />
-      <HomePage company={company} />
+      <HomePage recipient={recipient} />
     </>
   );
 }

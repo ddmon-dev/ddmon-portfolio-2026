@@ -5,7 +5,7 @@ import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
 import { CAREERS, STRENGTHS, TECH_STACK_GROUPS } from '../data/profile';
 
-export function ProfileSection({ company }: { company?: string }) {
+export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
     <Container as="section" className="grid grid-cols-2 max-md:grid-cols-1">
       <div className="relative">
@@ -22,9 +22,9 @@ export function ProfileSection({ company }: { company?: string }) {
       </div>
       <div className="space-y-14 pt-40 max-md:pt-14">
         <h1 className="text-5xl/14 [&>b]:text-primary">
-          {company ? (
+          {recipient ? (
             <>
-              안녕하세요, <b>{company}</b> 채용담당자님
+              안녕하세요, <b>{recipient}</b> 채용담당자님
             </>
           ) : (
             <>안녕하세요</>

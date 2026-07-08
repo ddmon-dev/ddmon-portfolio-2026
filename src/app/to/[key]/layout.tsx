@@ -9,12 +9,12 @@ export default async function RecipientLayout({
   params: Promise<{ key: string }>;
 }) {
   const { key } = await params;
-  const company = getRecipients()[key];
+  const recipient = getRecipients()[key];
 
   return (
     <>
       {children}
-      <Footer company={company} />
+      <Footer recipient={recipient} />
     </>
   );
 }
