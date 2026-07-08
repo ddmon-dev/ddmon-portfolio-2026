@@ -1,7 +1,7 @@
 import { Footer } from '@/app/_components/ui/footer';
-import { getGreetings } from './resolve-greeting';
+import { getRecipients } from './resolve-recipient';
 
-export default async function GreetingLayout({
+export default async function RecipientLayout({
   children,
   params,
 }: {
@@ -9,7 +9,7 @@ export default async function GreetingLayout({
   params: Promise<{ key: string }>;
 }) {
   const { key } = await params;
-  const company = getGreetings()[key];
+  const company = getRecipients()[key];
 
   return (
     <>

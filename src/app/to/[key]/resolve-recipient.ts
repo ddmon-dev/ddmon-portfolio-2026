@@ -1,6 +1,6 @@
 import { cache } from 'react';
 
-export function parseGreetings(raw: string | undefined): Record<string, string> {
+export function parseRecipients(raw: string | undefined): Record<string, string> {
   if (!raw) return {};
 
   try {
@@ -16,4 +16,4 @@ export function parseGreetings(raw: string | undefined): Record<string, string> 
   }
 }
 
-export const getGreetings = cache(() => parseGreetings(process.env.GREETINGS));
+export const getRecipients = cache(() => parseRecipients(process.env.RECIPIENTS));

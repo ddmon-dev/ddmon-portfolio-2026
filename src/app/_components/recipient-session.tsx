@@ -3,22 +3,22 @@
 import { useEffect, useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const KEY = 'greeting:key';
+const KEY = 'recipient:key';
 
 const useIsomorphicLayoutEffect =
   typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
-export function StoreGreetingKey({ greetingKey }: { greetingKey: string }) {
+export function StoreRecipientKey({ recipientKey }: { recipientKey: string }) {
   useEffect(() => {
     try {
-      sessionStorage.setItem(KEY, greetingKey);
+      sessionStorage.setItem(KEY, recipientKey);
     } catch {}
-  }, [greetingKey]);
+  }, [recipientKey]);
 
   return null;
 }
 
-export function ClearGreetingKey() {
+export function ClearRecipientKey() {
   useEffect(() => {
     try {
       sessionStorage.removeItem(KEY);
@@ -28,7 +28,7 @@ export function ClearGreetingKey() {
   return null;
 }
 
-export function RestoreGreetingRedirect() {
+export function RestoreRecipientRedirect() {
   const router = useRouter();
 
   useIsomorphicLayoutEffect(() => {

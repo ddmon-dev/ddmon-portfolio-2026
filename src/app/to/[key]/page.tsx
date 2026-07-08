@@ -1,31 +1,31 @@
 import type { Metadata } from 'next';
 import { HomePage } from '@/app/_components/home-page';
 import {
-  ClearGreetingKey,
-  StoreGreetingKey,
-} from '@/app/_components/greeting-session';
-import { getGreetings } from './resolve-greeting';
+  ClearRecipientKey,
+  StoreRecipientKey,
+} from '@/app/_components/recipient-session';
+import { getRecipients } from './resolve-recipient';
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
 export function generateStaticParams() {
-  return Object.keys(getGreetings()).map(key => ({ key }));
+  return Object.keys(getRecipients()).map(key => ({ key }));
 }
 
-export default async function GreetingHome({
+export default async function RecipientHome({
   params,
 }: {
   params: Promise<{ key: string }>;
 }) {
   const { key } = await params;
-  const company = getGreetings()[key];
+  const company = getRecipients()[key];
 
   if (!company) {
     return (
       <>
-        <ClearGreetingKey />
+        <ClearRecipientKey />
         <HomePage />
       </>
     );
@@ -33,7 +33,7 @@ export default async function GreetingHome({
 
   return (
     <>
-      <StoreGreetingKey greetingKey={key} />
+      <StoreRecipientKey recipientKey={key} />
       <HomePage company={company} />
     </>
   );
