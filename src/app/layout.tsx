@@ -8,7 +8,10 @@ import { Header } from '@/app/_components/ui/header';
 import { ScrollDotIndicator } from '@/app/_components/ui/scroll-dot-indicator';
 
 export const metadata: Metadata = {
-  title: 'DDmon Portfolio',
+  title: {
+    default: 'DDmon Portfolio',
+    template: '%s | DDmon Portfolio',
+  },
   description: 'DDmon Portfolio',
 };
 

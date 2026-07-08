@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const project = await loadProject(slug);
 
   return {
-    title: `${project.title} | DDmon Portfolio`,
+    title: project.title,
     description: project.category,
     openGraph: { images: [project.image.src] },
   };
