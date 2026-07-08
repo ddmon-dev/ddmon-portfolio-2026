@@ -5,7 +5,7 @@ import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
 import { CAREERS, STRENGTHS, TECH_STACK_GROUPS } from '../data/profile';
 
-export function ProfileSection() {
+export function ProfileSection({ company }: { company?: string }) {
   return (
     <Container as="section" className="grid grid-cols-2 max-md:grid-cols-1">
       <div className="relative">
@@ -22,7 +22,14 @@ export function ProfileSection() {
       </div>
       <div className="space-y-14 pt-40 max-md:pt-14">
         <h1 className="text-5xl/14 [&>b]:text-primary">
-          안녕하세요 <br />
+          {company ? (
+            <>
+              안녕하세요, <b>{company}</b> 채용담당자님
+            </>
+          ) : (
+            <>안녕하세요</>
+          )}{' '}
+          <br />
           <b>혼자서도 끝까지</b>, <br />
           <b>구조</b>로 완성하는 <br />
           FE 개발자 <b>이동희</b>입니다.
