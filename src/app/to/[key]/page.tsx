@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import { HomePage } from '@/app/_components/home-page';
+import {
+  ClearGreetingKey,
+  StoreGreetingKey,
+} from '@/app/_components/greeting-session';
 import { getGreetings } from './resolve-greeting';
 
 export const metadata: Metadata = {
@@ -19,7 +22,19 @@ export default async function GreetingHome({
   const { key } = await params;
   const company = getGreetings()[key];
 
-  if (!company) redirect('/');
+  if (!company) {
+    return (
+      <>
+        <ClearGreetingKey />
+        <HomePage />
+      </>
+    );
+  }
 
-  return <HomePage company={company} />;
+  return (
+    <>
+      <StoreGreetingKey greetingKey={key} />
+      <HomePage company={company} />
+    </>
+  );
 }
