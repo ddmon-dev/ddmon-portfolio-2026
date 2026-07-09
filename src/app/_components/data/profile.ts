@@ -1,28 +1,5 @@
 import { StackId } from '@/shared/ui/stack-logo';
 
-type Strength = {
-  title: string;
-  description: string;
-};
-
-export const STRENGTHS: Strength[] = [
-  {
-    title: '프로젝트 완성력',
-    description:
-      '화면 설계부터 데이터 구조, 배포, 운영까지 도맡아 일정 안에 완성하고, 납품 이후의 유지보수까지 책임져왔습니다.',
-  },
-  {
-    title: '운영 화면 구현',
-    description:
-      '어드민, CMS, 검색/필터, 등록·수정 흐름처럼 실제 운영자가 매일 쓰는 화면과 기능을 다뤄왔습니다.',
-  },
-  {
-    title: '구조화와 재사용',
-    description:
-      '반복되는 CRUD, 관리 모듈, UI 패턴을 공통 구조로 정리해 다음 프로젝트에 빠르게 적용할 수 있는 기반을 만들어왔습니다.',
-  },
-];
-
 type TechStackGroup = {
   label: string;
   stacks: StackId[];

@@ -4,7 +4,7 @@ import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
-import { CAREERS, STRENGTHS, TECH_STACK_GROUPS } from '../data/profile';
+import { CAREERS, TECH_STACK_GROUPS } from '../data/profile';
 
 export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
@@ -55,24 +55,6 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
           {recipient ? `${recipient}에서` : '개발 조직 안에서'} 설계와 기술적
           판단을 논의하고 검증하며 팀의 성과에 기여하고자 합니다.
         </p>
-
-        <Article title="주요 강점" subtitle="Strengths">
-          <ul className="space-y-1.5">
-            {STRENGTHS.map(strength => (
-              <li
-                key={strength.title}
-                className="rounded-xl border border-ash-lighter bg-ash-50 px-5 py-4 sm:grid sm:grid-cols-[8rem_1fr] sm:items-baseline sm:gap-4 max-sm:space-y-1.5"
-              >
-                <h4 className="font-semibold text-ash-darker">
-                  {strength.title}
-                </h4>
-                <p className="text-sm leading-relaxed text-ash-dark">
-                  {strength.description}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </Article>
 
         <Article title="기술스택" subtitle="Tech stacks">
           <div className="space-y-5">
