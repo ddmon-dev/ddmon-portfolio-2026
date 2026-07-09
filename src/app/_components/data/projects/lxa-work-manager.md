@@ -8,7 +8,7 @@ image:
   height: 1080
 stacks: [React, TypeScript, Hono, Drizzle ORM, PostgreSQL, TanStack Query, Claude Code]
 facts:
-  period: 2026.02 ~ 2026.05
+  period: 2026.02 – 2026.05
   operation: 개인 업무 도구 활용
   product: 로컬 업무 관리 시스템
   contribution: 요구사항 정의 · 구조 판단 · 도메인/데이터 모델링 · 로컬 운영환경 구성 · AI 에이전트 활용 구현

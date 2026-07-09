@@ -8,7 +8,7 @@ image:
   height: 1080
 stacks: [Next.js, React, MongoDB, Tailwind, shadcn/ui]
 facts:
-  period: 2023.07 - 2025.12
+  period: 2023.07 – 2025.12
   operation: 사내 운영 중
   product: Back-Office Service
   contribution: PM · 단독 개발 · 배포/운영/유지보수
