@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import ProfileImage from '@/assets/profile-img-6.png';
+import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
@@ -21,28 +22,38 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
         </div>
       </div>
       <div className="space-y-14 pt-40 max-md:pt-14">
-        <h1 className="text-5xl/14 [&>b]:text-primary">
-          {recipient ? (
+        <h1 className="text-4xl/11 [&>b]:text-primary">
+          안녕하세요
+          {recipient && (
             <>
-              안녕하세요, <b>{recipient}</b> 채용담당자님
+              , <br />
+              <b>{recipient}</b> 채용담당자님.
             </>
-          ) : (
-            <>안녕하세요</>
           )}{' '}
           <br />
-          <b>혼자서도 끝까지</b>, <br />
-          <b>구조</b>로 완성하는 <br />
-          FE 개발자 <b>이동희</b>입니다.
+          <b className="font-secondary font-semibold">
+            Frontend{' '}
+            <span className="font-normal text-foreground!">Developer</span>
+          </b>{' '}
+          <br />
+          <b>이동희</b>의{' '}
+          <span className={cn(recipient && 'font-bold text-primary')}>
+            포트폴리오
+          </span>
+          입니다.
         </h1>
 
         <p>
-          6년간 개발 조직이 없는 환경에서 고객사 홈페이지, 어드민, 사내 운영
-          도구를 화면 설계부터 배포·유지보수까지 혼자 완성해왔습니다. 반복되는
-          등록·수정 흐름, 검색/필터, 관리 화면은 공통 구조와 템플릿으로 정리해
-          다음 프로젝트의 기반으로 만들어왔고, 그 위에서 React와 Next.js 기반
-          실서비스를 구축해 지금도 운영하고 있습니다. 이제는 제품팀 안에서
-          동료들과 설계와 코드 품질을 논의하며, UI 중심 프론트엔드 개발자로 더
-          깊게 성장하고자 합니다.
+          주어진 범위의 구현에 머무르지 않고, 프로젝트의 맥락을 이해하며 <br />
+          필요한 문제를 해결해온 개발자입니다. 개발 조직이 없는 환경에서
+          퍼블리셔로 웹 개발을 시작해, 에이전시 프로젝트 수행부터 사내
+          프로젝트의 설계·개발·운영, 웹 개발 프로세스 구축까지 업무 범위를
+          확장해왔습니다.
+          <br />
+          <br />
+          프로젝트 전반을 혼자 책임지고 완성해온 경험을 바탕으로, <br />
+          {recipient ? `${recipient}에서` : '개발 조직 안에서'} 설계와 기술적
+          판단을 논의하고 검증하며 팀의 성과에 기여하고자 합니다.
         </p>
 
         <Article title="주요 강점" subtitle="Strengths">
