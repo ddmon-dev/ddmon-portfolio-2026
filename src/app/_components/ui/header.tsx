@@ -9,24 +9,28 @@ export function Header() {
   return (
     <header className="sticky h-0 top-4 z-50 mt-4">
       <Container>
-        <LiquidGlass className="mx-3 flex items-center justify-between rounded-full p-2">
-          <HomeLink
-            aria-label="홈"
-            className="text-3xl font-bold tracking-[-0.2em]"
-          >
-            ㅇㄷㅎ
-          </HomeLink>
-          <Button asChild size="icon" shape="pill" variant="secondary">
-            <Link
-              href="https://github.com/dd2mon"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
+        <div className="mx-3 flex items-center justify-between">
+          <LiquidGlass className="flex h-11 items-center rounded-full pl-3 pr-4">
+            <HomeLink
+              aria-label="홈"
+              className="text-3xl font-semibold font-secondary tracking-[-0.15em]"
             >
-              <GithubLogoIcon aria-hidden className="text-xl" />
-            </Link>
-          </Button>
-        </LiquidGlass>
+              ㅇㄷㅎ
+            </HomeLink>
+          </LiquidGlass>
+          <LiquidGlass className="flex h-12 items-center rounded-full px-1.5">
+            <Button asChild size="icon-sm" shape="pill" variant="secondary">
+              <Link
+                href="https://github.com/dd2mon"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <GithubLogoIcon aria-hidden className="text-xl" />
+              </Link>
+            </Button>
+          </LiquidGlass>
+        </div>
       </Container>
     </header>
   );

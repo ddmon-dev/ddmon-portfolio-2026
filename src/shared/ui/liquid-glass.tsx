@@ -106,14 +106,14 @@ export function LiquidGlass({
   return (
     <div
       className={cn(
-        'relative z-0 shadow-[0_0_7px_0_rgba(0,0,0,0.08)]',
+        'relative z-0 shadow-[0_0_3px_0px_rgb(0,0,0,0.1)]',
         className
       )}
       {...rest}
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-background/35"
+        className="pointer-events-none absolute inset-0 -z-10 rounded-[inherit] bg-background/55"
         style={{ backdropFilter: `url(#${FILTER_ID})` }}
       />
       <span
