@@ -5,7 +5,7 @@ image:
   src: /projects/work-manager-schedule-blurred.png
   alt: Work Manager 프로젝트
   width: 1920
-  height: 1080
+  height: 1052
 stacks: [React, TypeScript, Hono, Drizzle ORM, PostgreSQL, TanStack Query, Claude Code]
 facts:
   period: 2026.02 – 2026.05
