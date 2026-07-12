@@ -24,7 +24,7 @@ function Tile({ item }: { item: ThumbItem }) {
   const [broken, setBroken] = useState(!item.thumb);
 
   const inner = (
-    <div className="group relative aspect-16/10 overflow-hidden rounded-sm bg-primary/15 ring-1 ring-black/5">
+    <div className="group relative aspect-16/10 overflow-hidden rounded-lg bg-primary/15 ring-1 ring-black/5">
       {broken || !item.thumb ? (
         <div className="flex size-full items-center justify-center bg-primary px-1 text-center text-[10px] leading-tight font-medium text-primary-foreground">
           {item.name}
@@ -39,7 +39,7 @@ function Tile({ item }: { item: ThumbItem }) {
           className="size-full object-cover object-top"
         />
       )}
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 truncate bg-foreground/80 px-1.5 py-0.5 text-[10px] text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-foreground/70 px-1.5 text-center text-[10px] leading-tight text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
         {item.name}
       </span>
     </div>
@@ -50,7 +50,7 @@ function Tile({ item }: { item: ThumbItem }) {
       href={item.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block rounded-sm transition-[transform,box-shadow] duration-200 hover:z-10 hover:scale-110 hover:shadow-lg"
+      className="block rounded-lg"
     >
       {inner}
     </a>
