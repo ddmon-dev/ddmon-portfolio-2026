@@ -38,23 +38,6 @@ export const currentProjects: ProjectListItem[] = [
     href: 'https://golfzoncloud.com',
   },
   {
-    id: 'mr',
-    image: '/current-projects/mr.png',
-    title: '(주)엠알 홈페이지',
-    description:
-      '의료기기 기업의 다국어 사이트와 구매 의료진 전용 교육 콘텐츠 게이트를 PM 겸 단독 개발',
-    contribution: ['PM', '기획', '단독 개발', '어드민'],
-    stacks: [
-      'Next.js',
-      'React',
-      'Supabase',
-      'Framer Motion',
-      'Tailwind',
-      'Shadcn',
-    ],
-    href: 'https://mrev.co.kr',
-  },
-  {
     id: 'angel-robotics',
     image: '/current-projects/angel-robotics.png',
     title: '엔젤로보틱스 홈페이지',
@@ -80,6 +63,23 @@ export const currentProjects: ProjectListItem[] = [
     contribution: ['PM', '기획', '단독 개발', '어드민'],
     stacks: ['Next.js', 'React', 'Supabase', 'Tailwind', 'Nginx'],
     href: 'https://vitalkorea-vip.kr',
+  },
+  {
+    id: 'mr',
+    image: '/current-projects/mr.png',
+    title: '(주)엠알 홈페이지',
+    description:
+      '의료기기 기업의 다국어 사이트와 구매 의료진 전용 교육 콘텐츠 게이트를 PM 겸 단독 개발',
+    contribution: ['PM', '기획', '단독 개발', '어드민'],
+    stacks: [
+      'Next.js',
+      'React',
+      'Supabase',
+      'Framer Motion',
+      'Tailwind',
+      'Shadcn',
+    ],
+    href: 'https://mrev.co.kr',
   },
   {
     id: 'rgb3d',
