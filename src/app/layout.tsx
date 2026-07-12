@@ -3,8 +3,6 @@ import { poppins, pretendard } from '@/fonts';
 import './globals.css';
 
 import { cn } from '@/shared/utils/classnames';
-import { LiquidGlassFilter } from '@/shared/ui/liquid-glass';
-import { Header } from '@/app/_components/ui/header';
 import { ScrollDotIndicator } from '@/app/_components/ui/scroll-dot-indicator';
 
 export const metadata: Metadata = {
@@ -32,13 +30,11 @@ export default function RootLayout({
       )}
     >
       <body>
-        <LiquidGlassFilter />
         <div
           data-vaul-drawer-wrapper
           className="flex min-h-dvh flex-col bg-background"
         >
           <ScrollDotIndicator />
-          <Header />
           {children}
         </div>
         {modal}

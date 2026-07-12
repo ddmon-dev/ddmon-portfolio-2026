@@ -4,7 +4,6 @@ import { type ComponentProps } from 'react';
 import Link from 'next/link';
 import { HouseIcon, GithubLogoIcon, XIcon } from '@phosphor-icons/react';
 import { Button } from '@/shared/ui/button';
-import { LiquidGlass } from '@/shared/ui/liquid-glass';
 import { BottomSheetClose } from '@/shared/ui/bottom-sheet/bottom-sheet';
 import { type ProjectLinks } from './types';
 
@@ -17,7 +16,7 @@ export function ProjectDetailActions({
 }) {
   return (
     <nav className="pointer-events-none sticky inset-x-0 bottom-0 z-10 flex justify-center p-4">
-      <LiquidGlass className="pointer-events-auto flex justify-center gap-1 rounded-full p-3">
+      <div className="pointer-events-auto flex justify-center gap-1 rounded-full bg-background/55 p-3 shadow-[0_0_3px_0_rgb(0,0,0,0.1)] backdrop-blur-md">
         {mode === 'sheet' ? (
           <BottomSheetClose asChild>
             <ActionButton aria-label="상세 닫기">
@@ -49,7 +48,7 @@ export function ProjectDetailActions({
             </Link>
           </ActionButton>
         )}
-      </LiquidGlass>
+      </div>
     </nav>
   );
 }
