@@ -1,17 +1,29 @@
 ---
-title: Work Manager
-category: 업무 운영 시스템 / 본인 IP
+title: 프리랜서 업무 시스템
+category: 개인용 업무 운영 시스템
 image:
   src: /case-study/work-manager-schedule-blurred.png
-  alt: Work Manager 프로젝트
+  alt: lxa Work Manager 프로젝트
   width: 1920
   height: 1052
-stacks: [React, TypeScript, Hono, Drizzle ORM, PostgreSQL, TanStack Query, Claude Code]
+stacks:
+  [
+    React,
+    TypeScript,
+    Tailwind CSS,
+    Shadcn/ui,
+    TanStack Query,
+    react-pdf,
+    Hono,
+    Drizzle ORM,
+    PostgreSQL,
+    Claude Code,
+  ]
 facts:
-  period: 2026.02 – 2026.05
+  period: 2026.02 – 현재
   operation: 개인 업무 도구 활용
   product: 로컬 업무 관리 시스템
-  contribution: 요구사항 정의 · 구조 판단 · 도메인/데이터 모델링 · 로컬 운영환경 구성 · AI 에이전트 활용 구현
+  contribution: 요구사항 정의 · 구조 설계 · 도메인/데이터 모델링 · 로컬 운영환경 구성 · AI 에이전트 활용 구현
 ---
 
 ## 개요
@@ -29,7 +41,7 @@ Work Manager는 제 프리랜서 업무의 고객, 견적, 프로젝트, 일정,
 - 워크플로 기반 데이터 모델 설계
 - Docker PostgreSQL, LaunchAgent, 백업, 리빌드 스크립트 기반 로컬 운영환경 구성
 
-## 주요 기능
+## 주요기능
 
 - 고객 정보 관리
 - 버전 기반 견적서 관리 / PDF 견적서 출력
@@ -37,7 +49,7 @@ Work Manager는 제 프리랜서 업무의 고객, 견적, 프로젝트, 일정,
 - 프로젝트 일정, 간트, 투두, 메모 위젯
 - 파일 관리 드라이브 기능 (Global, 프로젝트, 고객별)
 
-## 핵심 설계 결정
+## 설계 포인트
 
 ### Supabase/Next.js 기반에서 React/Hono 기반 구조로 변경
 
