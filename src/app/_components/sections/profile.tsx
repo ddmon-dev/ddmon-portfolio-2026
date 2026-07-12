@@ -13,7 +13,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
         <div className="absolute size-full pr-5 max-sm:hidden">
           <ProfileSideDecoration />
         </div>
-        <div className="pt-20">
+        <div className="pt-15">
           <Image
             src={ProfileImage}
             alt=""
@@ -21,7 +21,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
           />
         </div>
       </div>
-      <div className="space-y-14 pt-40 max-md:pt-14">
+      <div className="space-y-14 pt-30 max-md:pt-14">
         <h1 className="text-4xl/11 [&>b]:text-primary">
           안녕하세요
           {recipient && (

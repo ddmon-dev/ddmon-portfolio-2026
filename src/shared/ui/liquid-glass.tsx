@@ -106,7 +106,7 @@ export function LiquidGlass({
   return (
     <div
       className={cn(
-        'relative z-0 shadow-[0_2px_6px_-1px_rgba(0,0,0,0.08)]',
+        'relative z-0 shadow-[0_0_7px_0_rgba(0,0,0,0.08)]',
         className
       )}
       {...rest}
