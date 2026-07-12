@@ -25,16 +25,7 @@ const items = buildThumbnails([...HOMEPAGE_ARCHIVE, ...ECATALOG_ARCHIVE]);
 
 export function ArchiveSection() {
   return (
-    <Section
-      title="Archive"
-      description={
-        <>
-          150건의 프로젝트, 클라이언트, 엣지 케이스, 트러블슈팅. <br />
-          주어진 환경에서의 문제 해결, 구현에만 그치지 않는 제품의 완성. <br />
-          그리고 그 다음을 위한 목표 설정과 수행.
-        </>
-      }
-    >
+    <Section title="Archive">
       <ArchiveWall items={items} />
     </Section>
   );

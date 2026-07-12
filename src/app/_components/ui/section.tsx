@@ -19,7 +19,7 @@ export function Section({
   return (
     <Container
       as="section"
-      className={cn('space-y-12 max-sm:space-y-8', className)}
+      className={cn('space-y-9 max-sm:space-y-8', className)}
     >
       <div className={cn('space-y-4 text-pretty text-center', headerClassName)}>
         <h2 className="text-4xl font-bold font-secondary capitalize max-sm:text-3xl">

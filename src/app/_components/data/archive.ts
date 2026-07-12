@@ -588,3 +588,6 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/ec-optimedi.webp',
   },
 ];
+
+export const ALL_PROJECT_COUNT = [...HOMEPAGE_ARCHIVE, ...ECATALOG_ARCHIVE]
+  .length;

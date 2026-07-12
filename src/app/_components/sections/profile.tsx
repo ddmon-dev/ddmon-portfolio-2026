@@ -10,20 +10,16 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
     <Container as="section" className="grid grid-cols-2 max-md:grid-cols-1">
       <div className="relative">
-        <div className="absolute size-full pr-5 max-sm:hidden">
+        <div className="absolute size-full pr-5 max-md:hidden">
           <ProfileSideDecoration />
         </div>
         <div className="pt-15">
-          <Image
-            src={ProfileImage}
-            alt=""
-            className="relative z-10 w-full mix-blend-multiply"
-          />
+          <Image src={ProfileImage} alt="" className="relative z-10 w-full" />
         </div>
       </div>
       <div className="space-y-20 pt-30 max-md:pt-14">
-        <div className="space-y-8">
-          <h1 className="text-4xl/11 [&>b]:text-primary">
+        <div className="space-y-8 max-sm:space-y-6">
+          <h1 className="text-4xl/11 [&>b]:text-primary max-sm:text-3xl">
             안녕하세요
             {recipient && (
               <>
@@ -46,14 +42,15 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
 
           <p>
             주어진 범위의 구현에 머무르지 않고, 프로젝트의 맥락을 이해하며{' '}
-            <br />
+            <br className="max-lg:hidden" />
             필요한 문제를 해결해온 개발자입니다. 개발 조직이 없는 환경에서
             퍼블리셔로 웹 개발을 시작해, 에이전시 프로젝트 수행부터 사내
             프로젝트의 설계·개발·운영, 웹 개발 프로세스 구축까지 업무 범위를
             확장해왔습니다.
             <br />
             <br />
-            프로젝트 전반을 혼자 책임지고 완성해온 경험을 바탕으로, <br />
+            프로젝트 전반을 혼자 책임지고 완성해온 경험을 바탕으로,{' '}
+            <br className="max-sm:hidden" />
             {recipient ? `${recipient}에서` : '개발 조직 안에서'} 설계와 기술적
             판단을 논의하고 검증하며 팀의 성과에 기여하고자 합니다.
           </p>
@@ -66,7 +63,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                 <h4 className="text-sm font-secondary font-medium text-ash">
                   {group.label}
                 </h4>
-                <ul className="grid grid-cols-5 gap-1.5">
+                <ul className="grid grid-cols-5 gap-1.5 max-sm:grid-cols-4">
                   {group.stacks.map(stack => (
                     <li
                       key={stack}

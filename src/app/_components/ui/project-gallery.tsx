@@ -25,7 +25,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       scroll={false}
       aria-label={`${project.title} 상세 보기`}
       data-project-card={project.id}
-      className="group relative block h-70 overflow-hidden rounded-4xl text-white border border-border"
+      className="group relative block h-70 overflow-hidden rounded-4xl text-white border border-border max-sm:rounded-4xl"
     >
       <Image
         src={project.image.src}

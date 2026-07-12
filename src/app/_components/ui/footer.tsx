@@ -20,7 +20,7 @@ export function Footer({ recipient }: { recipient?: string }) {
             시간을 내셔도 괜찮으시다면, 연락 부탁드립니다.
           </>
         }
-        className="text-center pt-20 pb-30"
+        className="pt-20 pb-30"
       >
         <ul className="flex justify-center max-md:flex-col max-md:items-center max-md:gap-2 max-md:[&>li]:w-full max-md:[&>li]:max-w-xs max-md:[&>li]:-my-px">
           <li>
