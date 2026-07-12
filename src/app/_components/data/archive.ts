@@ -6,6 +6,115 @@ export interface ArchiveItem {
 
 export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
   {
+    name: '골프존 스마트캐디',
+    link: 'https://golfzon-smartcaddie-2025.vercel.app/ko',
+    thumb: '/archive/hp-golfzon-smartcaddie.webp',
+  },
+  {
+    name: '골프존클라우드',
+    link: 'https://golfzon-cloud-homepage-2025.vercel.app/ko',
+    thumb: '/archive/hp-golfzon-cloud.webp',
+  },
+  {
+    name: '솔라가드 건축용 필름 보증서 관리 서비스',
+    link: 'https://sgcbf.co.kr',
+    thumb: '/archive/hp-sgcbf.webp',
+  },
+  {
+    name: '파노라마필름',
+    link: 'https://www.panoramafilm.co.kr',
+    thumb: '/archive/hp-panoramafilm.webp',
+  },
+  {
+    name: '솔라가드 특판 필름 보증서 발급 서비스',
+    link: 'http://sgwarranty.co.kr',
+    thumb: '/archive/hp-sgwarranty.webp',
+  },
+  {
+    name: '솔라가드 한국본사',
+    link: 'http://www.solargard.co.kr',
+    thumb: '/archive/hp-solargard.webp',
+  },
+  {
+    name: '엔젤로보틱스',
+    link: 'https://angel-robotics.com/ko',
+    thumb: '/archive/hp-angel-robotics.webp',
+  },
+  {
+    name: '엔젤로보틱스 (2023)',
+    link: 'http://webs.rgbcom.kr/ANGEL2024/ko/',
+    thumb: '/archive/hp-angel-2023.webp',
+  },
+  {
+    name: '엔젤로보틱스 채용 페이지',
+    thumb: '/archive/hp-angel-recruit.webp',
+  },
+  {
+    name: '엔젤로보틱스 (2021)',
+    thumb: '/archive/hp-angel-2021.webp',
+  },
+  {
+    name: '(주)엠알',
+    link: 'http://mrev.co.kr',
+    thumb: '/archive/hp-mrev.webp',
+  },
+  {
+    name: '백신정보포털',
+    link: 'https://vitalkorea-vip.kr',
+    thumb: '/archive/hp-vitalkorea-vip.webp',
+  },
+  { name: '하이모', link: 'http://himo.com', thumb: '/archive/hp-himo.webp' },
+  {
+    name: '백신실용화기술개발사업단',
+    link: 'https://vitalkorea.kr/kr/',
+    thumb: '/archive/hp-vitalkorea.webp',
+  },
+  {
+    name: '알지비커뮤니케이션즈',
+    link: 'https://rgbcom.co.kr',
+    thumb: '/archive/hp-rgbcom.webp',
+  },
+  {
+    name: '옵티팜',
+    link: 'http://www.optipharm.co.kr',
+    thumb: '/archive/hp-optipharm.webp',
+  },
+  {
+    name: '우리기술',
+    link: 'http://wooritg.com',
+    thumb: '/archive/hp-wooritg.webp',
+  },
+  {
+    name: '에이스엔지니어링',
+    link: 'https://aceengineering.com',
+    thumb: '/archive/hp-aceengineering.webp',
+  },
+  {
+    name: '체크메이트',
+    link: 'http://www.checkmatetx.com',
+    thumb: '/archive/hp-checkmatetx.webp',
+  },
+  {
+    name: '플럭시티',
+    link: 'http://www.pluxity.com',
+    thumb: '/archive/hp-pluxity.webp',
+  },
+  {
+    name: '플럭시티 : Safers',
+    link: 'http://web.rgbcom.kr/PLUXITY_SAFERS/en/',
+    thumb: '/archive/hp-pluxity-safers.webp',
+  },
+  {
+    name: '고려기연',
+    link: 'https://glovebox.jp',
+    thumb: '/archive/hp-glovebox.webp',
+  },
+  {
+    name: '한국주택학회',
+    link: 'https://www.kahps.org',
+    thumb: '/archive/hp-kahps.webp',
+  },
+  {
     name: '비엘테크',
     link: 'http://www.bl-tech.net',
     thumb: '/archive/hp-bl-tech.webp',
@@ -19,11 +128,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     name: '삼우DTP',
     link: 'http://www.samwoodtp.com',
     thumb: '/archive/hp-samwoodtp.webp',
-  },
-  {
-    name: '체크메이트',
-    link: 'http://www.checkmatetx.com',
-    thumb: '/archive/hp-checkmatetx.webp',
   },
   {
     name: '리가스',
@@ -40,7 +144,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     link: 'http://www.firekim.co.kr',
     thumb: '/archive/hp-firekim.webp',
   },
-  { name: '하이모', link: 'http://himo.com', thumb: '/archive/hp-himo.webp' },
   {
     name: '한아에스에스',
     link: 'http://hana-ss.co.kr',
@@ -70,17 +173,12 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     name: '대호냉각기',
     link: 'http://daehocooler.co.kr/ko/',
     thumb: '/archive/hp-daehocooler.webp',
-  }, // 썸네일 못가져옴
+  },
   {
     name: '중앙이엔지',
     link: 'http://jaeng.co.kr',
     thumb: '/archive/hp-jaeng.webp',
   },
-  {
-    name: '백신실용화기술개발사업단',
-    link: 'https://vitalkorea.kr/kr/',
-    thumb: '/archive/hp-vitalkorea.webp',
-  }, // 썸네일 못가져옴
   { name: 'UPI', link: 'http://www.upi.co.kr', thumb: '/archive/hp-upi.webp' },
   {
     name: 'FFA',
@@ -108,16 +206,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/hp-taesung.webp',
   },
   {
-    name: '고려기연',
-    link: 'https://glovebox.jp',
-    thumb: '/archive/hp-glovebox.webp',
-  },
-  {
-    name: '옵티팜',
-    link: 'http://www.optipharm.co.kr',
-    thumb: '/archive/hp-optipharm.webp',
-  },
-  {
     name: '제타크리젠',
     link: 'http://www.zetacrezen.com',
     thumb: '/archive/hp-zetacrezen.webp',
@@ -138,15 +226,10 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/hp-airxenbox.webp',
   },
   {
-    name: '한국주택학회',
-    link: 'https://www.kahps.org',
-    thumb: '/archive/hp-kahps.webp',
-  }, // 썸네일 다시 따기
-  {
     name: '에이유센서',
     link: 'https://au-sensor.com',
     thumb: '/archive/hp-au-sensor.webp',
-  }, // 썸네일 다시 따기
+  },
   { name: 'VSI', link: 'http://www.vsi.co.kr', thumb: '/archive/hp-vsi.webp' },
   {
     name: 'AST',
@@ -174,11 +257,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/hp-hanlip-use.webp',
   },
   {
-    name: '에이스엔지니어링',
-    link: 'https://aceengineering.com',
-    thumb: '/archive/hp-aceengineering.webp',
-  },
-  {
     name: 'BHLBIO',
     link: 'https://webs.rgbcom.kr/BHLBIO',
     thumb: '/archive/hp-bhlbio.webp',
@@ -192,11 +270,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     name: '멘피스코리아',
     link: 'http://menfiskorea.com',
     thumb: '/archive/hp-menfiskorea.webp',
-  },
-  {
-    name: '솔라가드 한국본사',
-    link: 'http://www.solargard.co.kr',
-    thumb: '/archive/hp-solargard.webp',
   },
   {
     name: '대일텍',
@@ -214,11 +287,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/hp-kjtrm.webp',
   },
   {
-    name: '플럭시티',
-    link: 'http://www.pluxity.com',
-    thumb: '/archive/hp-pluxity.webp',
-  },
-  {
     name: '케이넷츠',
     link: 'http://k-netz.com',
     thumb: '/archive/hp-k-netz.webp',
@@ -232,11 +300,6 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     name: '태원공업',
     link: 'http://taeweon.co.kr/ko/',
     thumb: '/archive/hp-taeweon.webp',
-  },
-  {
-    name: '엔젤로보틱스',
-    link: 'https://angel-robotics.com/ko',
-    thumb: '/archive/hp-angel-robotics.webp',
   },
   {
     name: '큐로직',
@@ -264,44 +327,9 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/hp-daeyee.webp',
   },
   {
-    name: '우리기술',
-    link: 'http://wooritg.com',
-    thumb: '/archive/hp-wooritg.webp',
-  },
-  {
-    name: '파노라마필름',
-    link: 'https://www.panoramafilm.co.kr',
-    thumb: '/archive/hp-panoramafilm.webp',
-  },
-  {
-    name: '솔라가드 특판 필름 보증서 발급 서비스',
-    link: 'http://sgwarranty.co.kr',
-    thumb: '/archive/hp-sgwarranty.webp',
-  },
-  {
-    name: '백신정보포털',
-    link: 'https://vitalkorea-vip.kr',
-    thumb: '/archive/hp-vitalkorea-vip.webp',
-  },
-  {
-    name: '(주)엠알',
-    link: 'http://mrev.co.kr',
-    thumb: '/archive/hp-mrev.webp',
-  },
-  {
     name: '아쿠아라마',
     link: 'http://www.aquarama.kr',
     thumb: '/archive/hp-aquarama.webp',
-  },
-  {
-    name: '골프존 스마트캐디',
-    link: 'https://golfzon-smartcaddie-2025.vercel.app/ko',
-    thumb: '/archive/hp-golfzon-smartcaddie.webp',
-  },
-  {
-    name: '골프존클라우드',
-    link: 'https://golfzon-cloud-homepage-2025.vercel.app/ko',
-    thumb: '/archive/hp-golfzon-cloud.webp',
   },
   {
     name: '선도전자',
@@ -313,27 +341,87 @@ export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [
     link: 'http://web.rgbcom.kr/DAEHO/ko/',
     thumb: '/archive/hp-daeho-renewal.webp',
   },
-  {
-    name: '플럭시티 : Safers',
-    link: 'http://web.rgbcom.kr/PLUXITY_SAFERS/en/',
-    thumb: '/archive/hp-pluxity-safers.webp',
-  },
-  {
-    name: '엔젤로보틱스 (2023)',
-    link: 'http://webs.rgbcom.kr/ANGEL2024/ko/',
-    thumb: '/archive/hp-angel-2023.webp',
-  },
   { name: '에스엠텍스', thumb: '/archive/hp-smtex.webp' },
   { name: '성주컴텍', thumb: '/archive/hp-seongju-comtech.webp' },
 ];
 
 export const ECATALOG_ARCHIVE: ArchiveItem[] = [
   {
+    name: '대유위니아',
+    link: 'ecatalog.rgbcom.kr/DAYOU',
+    thumb: '/archive/ec-dayou.webp',
+  },
+  {
+    name: '하이원리조트',
+    link: 'ecatalog.rgbcom.kr/HIGHONE',
+    thumb: '/archive/ec-highone.webp',
+  },
+  { name: 'S1 KAKAO', thumb: '/archive/ec-s1-kakao.webp' },
+  {
+    name: '남양넥스모',
+    link: 'e-catalog.rgbcom.kr/NEXMO',
+    thumb: '/archive/ec-nexmo.webp',
+  },
+  {
+    name: '하이모',
+    link: 'e-catalog.rgbcom.kr/HIMO',
+    thumb: '/archive/ec-himo.webp',
+  },
+  {
+    name: '[3호]한국원전수출산업협회',
+    link: 'e-catalog.rgbcom.kr/KNA_3/en/#1',
+    thumb: '/archive/ec-kna-3.webp',
+  },
+  {
+    name: '백신실용화기술개발사업단',
+    link: 'e-catalog.rgbcom.kr/VITAL/en/',
+    thumb: '/archive/ec-vital.webp',
+  },
+  {
+    name: '삼일제약',
+    link: 'http://websian.rgbcom.co.kr/E-catalogue/samil/en/pages/pg00.php',
+    thumb: '/archive/ec-samil.webp',
+  },
+  {
+    name: '제우스',
+    link: 'http://web.rgbcom.co.kr/E-catalog/Zeus/en/',
+    thumb: '/archive/ec-zeus.webp',
+  },
+  {
+    name: '엘앤씨바이오',
+    link: 'http://websian.rgbcom.co.kr/E-catalogue/LNCBIO/kr/pages/pg00.php',
+    thumb: '/archive/ec-lncbio.webp',
+  },
+  {
+    name: '셀레믹스', // 썸네일
+    link: 'http://websian.rgbcom.co.kr/E-catalogue/CELEMICS/en/pages/pg00.php',
+    thumb: '/archive/ec-celemics.webp',
+  },
+  {
+    name: '옵티팜',
+    link: 'http://websian.rgbcom.co.kr/E-catalogue/optipharm/en/pages/pg00.php',
+    thumb: '/archive/ec-optipharm.webp',
+  },
+  {
+    name: '[2호]한국원전수출산업협회',
+    link: 'http://web.rgbcom.co.kr/E-catalog/nuclear/en/pages/pg00.php',
+    thumb: '/archive/ec-nuclear.webp',
+  },
+  {
+    name: '에이스엔지니어링',
+    link: 'ecatalog.rgbcom.kr/AST/en/',
+    thumb: '/archive/ec-ast.webp',
+  },
+  {
+    name: '에이스엔지니어링',
+    link: 'https://ecatalog.rgbcom.kr/ACE_research/',
+    thumb: '/archive/ec-ace-research.webp',
+  },
+  {
     name: '컬러큐브',
     link: 'http://colorcube.co.kr',
     thumb: '/archive/ec-colorcube.webp',
   },
-
   {
     name: '엔원테크',
     link: 'http://n-onetech.com/ecatalog',
@@ -360,11 +448,6 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/ec-he-solution.webp',
   },
   {
-    name: '대유위니아',
-    link: 'ecatalog.rgbcom.kr/DAYOU',
-    thumb: '/archive/ec-dayou.webp',
-  },
-  {
     name: '태원공업',
     link: 'e-catalog.rgbcom.kr/TAEWEON/ko/',
     thumb: '/archive/ec-taeweon.webp',
@@ -385,16 +468,10 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/ec-daeiltec2023.webp',
   },
   {
-    name: '에이스엔지니어링',
-    link: 'ecatalog.rgbcom.kr/AST/en/',
-    thumb: '/archive/ec-ast.webp',
-  },
-  {
     name: 'APM Technologies',
     link: 'ecatalog.rgbcom.kr/APMTECH/#/en/cover/scene1',
     thumb: '/archive/ec-apmtech.webp',
   },
-  { name: 'S1 KAKAO', thumb: '/archive/ec-s1-kakao.webp' }, // 링크 공개 불가 , 썸네일 따로 따기
   {
     name: '큐로직 : Q-Platform',
     link: 'qlogic.co.kr/ecatalog/ko/1',
@@ -406,40 +483,15 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/ec-jinyoung2024.webp',
   },
   {
-    name: '하이원리조트',
-    link: 'ecatalog.rgbcom.kr/HIGHONE',
-    thumb: '/archive/ec-highone.webp',
-  },
-  {
-    name: '백신실용화기술개발사업단',
-    link: 'e-catalog.rgbcom.kr/VITAL/en/',
-    thumb: '/archive/ec-vital.webp',
-  },
-  {
-    name: '제우스',
-    link: 'http://web.rgbcom.co.kr/E-catalog/Zeus/en/',
-    thumb: '/archive/ec-zeus.webp',
-  },
-  {
-    name: '남양넥스모',
-    link: 'e-catalog.rgbcom.kr/NEXMO',
-    thumb: '/archive/ec-nexmo.webp',
-  },
-  {
     name: '크라텍',
     link: 'e-catalog.rgbcom.kr/Cratech/ko/',
     thumb: '/archive/ec-cratech.webp',
   },
   {
-    name: '에이스엔지니어링',
-    link: 'https://ecatalog.rgbcom.kr/ACE_research/',
-    thumb: '/archive/ec-ace-research.webp',
-  },
-  {
     name: '바이킬러',
     link: 'e-catalog.rgbcom.kr/VIKILLER/ko',
     thumb: '/archive/ec-vikiller.webp',
-  }, // 썸네일
+  },
   {
     name: '지케스',
     link: 'e-catalog.rgbcom.kr/GKES',
@@ -449,11 +501,6 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     name: '(주)진영 : IR',
     link: 'e-catalog.rgbcom.kr/JY_IR/ko/',
     thumb: '/archive/ec-jy-ir.webp',
-  },
-  {
-    name: '하이모',
-    link: 'e-catalog.rgbcom.kr/HIMO',
-    thumb: '/archive/ec-himo.webp',
   },
   {
     name: '한립',
@@ -481,29 +528,9 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     thumb: '/archive/ec-attotk.webp',
   },
   {
-    name: '[3호]한국원전수출산업협회',
-    link: 'e-catalog.rgbcom.kr/KNA_3/en/#1',
-    thumb: '/archive/ec-kna-3.webp',
-  },
-  {
-    name: '삼일제약',
-    link: 'http://websian.rgbcom.co.kr/E-catalogue/samil/en/pages/pg00.php',
-    thumb: '/archive/ec-samil.webp',
-  },
-  {
     name: '선메딕스', // 썸네일
     link: 'http://websian.rgbcom.co.kr/E-catalogue/sunmedix/en/pages/pg00.php',
     thumb: '/archive/ec-sunmedix.webp',
-  },
-  {
-    name: '옵티팜',
-    link: 'http://websian.rgbcom.co.kr/E-catalogue/optipharm/en/pages/pg00.php',
-    thumb: '/archive/ec-optipharm.webp',
-  },
-  {
-    name: '[2호]한국원전수출산업협회',
-    link: 'http://web.rgbcom.co.kr/E-catalog/nuclear/en/pages/pg00.php',
-    thumb: '/archive/ec-nuclear.webp',
   },
   {
     name: '거산무역상사',
@@ -519,16 +546,6 @@ export const ECATALOG_ARCHIVE: ArchiveItem[] = [
     name: '삼우DTP',
     link: 'http://web.rgbcom.co.kr/E-catalog/Samwoo_use/en/',
     thumb: '/archive/ec-samwoo-use.webp',
-  },
-  {
-    name: '엘앤씨바이오',
-    link: 'http://websian.rgbcom.co.kr/E-catalogue/LNCBIO/kr/pages/pg00.php',
-    thumb: '/archive/ec-lncbio.webp',
-  },
-  {
-    name: '셀레믹스', // 썸네일
-    link: 'http://websian.rgbcom.co.kr/E-catalogue/CELEMICS/en/pages/pg00.php',
-    thumb: '/archive/ec-celemics.webp',
   },
   {
     name: '에버그린켐텍',
