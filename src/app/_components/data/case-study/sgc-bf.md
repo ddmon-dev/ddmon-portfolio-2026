@@ -2,7 +2,7 @@
 title: 솔라가드 건축용 필름
 category: 품질보증서 시스템 / 웹앱
 image:
-  src: /projects/sgc-bf.jpg
+  src: /case-study/sgc-bf.jpg
   alt: 솔라가드 건축용 필름 보증서 시스템 프로젝트
   width: 1920
   height: 1080

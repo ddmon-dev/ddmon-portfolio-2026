@@ -1,14 +1,14 @@
 import { Section } from '../ui/section';
 import { ProjectGallery } from '../ui/project-gallery';
-import { selectedProjects } from '../data/selected-projects';
+import { caseStudies } from '../data/case-study';
 
-export function SelectedProjectsSection() {
+export function CaseStudySection() {
   return (
     <Section
-      title="Selected Projects"
+      title="Case Study"
       description="프론트엔드에만 국한되지 않는, 제품 지향 개발을 합니다."
     >
-      <ProjectGallery projectIds={selectedProjects} />
+      <ProjectGallery projectIds={caseStudies} />
     </Section>
   );
 }

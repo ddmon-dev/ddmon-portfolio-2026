@@ -20,7 +20,7 @@ export async function ProjectGallery({ projectIds }: { projectIds: string[] }) {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <Link
-      href={`/projects/${project.id}`}
+      href={`/case-study/${project.id}`}
       scroll={false}
       aria-label={`${project.title} 상세 보기`}
       data-project-card={project.id}

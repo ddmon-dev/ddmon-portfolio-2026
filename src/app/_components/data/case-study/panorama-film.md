@@ -2,7 +2,7 @@
 title: 솔라가드 파노라마 필름
 category: 홈페이지 / 구매 관리 시스템
 image:
-  src: /projects/panoramafilm.jpg
+  src: /case-study/panoramafilm.jpg
   alt: 파노라마 필름 프로젝트
   width: 1920
   height: 1080

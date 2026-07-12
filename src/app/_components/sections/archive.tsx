@@ -26,7 +26,7 @@ const items = buildThumbnails([...HOMEPAGE_ARCHIVE, ...ECATALOG_ARCHIVE]);
 export function ArchiveSection() {
   return (
     <Section
-      title="Project Archive"
+      title="Archive"
       description={
         <>
           150건의 프로젝트, 클라이언트, 엣지 케이스, 트러블슈팅. <br />
