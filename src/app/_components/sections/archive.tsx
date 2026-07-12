@@ -1,9 +1,32 @@
 import { Section } from '../ui/section';
-import { ECATALOG_PROJECTS, HOMEPAGE_PROJECTS } from '../data/all-projects.data';
-import { ArchiveWall } from '../ui/archive-wall';
-import { buildThumbnails } from '../data/archive';
+import {
+  ECATALOG_ARCHIVE,
+  HOMEPAGE_ARCHIVE,
+  type ArchiveItem,
+} from '../data/archive';
+import { ArchiveWall, type ThumbItem } from '../ui/archive-wall';
 
-const items = buildThumbnails(HOMEPAGE_PROJECTS, ECATALOG_PROJECTS);
+function normalizeLink(link?: string): string | null {
+  const trimmed = link?.trim();
+  if (!trimmed) return null;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
+function buildThumbnails(items: ArchiveItem[]): ThumbItem[] {
+  return items.map(({ name, link }) => {
+    const href = normalizeLink(link);
+    return {
+      name,
+      href,
+      thumb: href
+        ? `https://s.wordpress.com/mshots/v1/${encodeURIComponent(href)}?w=500&h=313`
+        : null,
+    };
+  });
+}
+
+const items = buildThumbnails([...HOMEPAGE_ARCHIVE, ...ECATALOG_ARCHIVE]);
 
 export function ArchiveSection() {
   return (

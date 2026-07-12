@@ -4,7 +4,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/utils/classnames';
-import type { ThumbItem } from '../data/archive';
+
+export interface ThumbItem {
+  name: string;
+  href: string | null;
+  thumb: string | null;
+}
 
 const MIN_COL = 88;
 const GAP = 6;
