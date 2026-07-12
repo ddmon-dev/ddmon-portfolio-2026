@@ -14,16 +14,11 @@ function normalizeLink(link?: string): string | null {
 }
 
 function buildThumbnails(items: ArchiveItem[]): ThumbItem[] {
-  return items.map(({ name, link }) => {
-    const href = normalizeLink(link);
-    return {
-      name,
-      href,
-      thumb: href
-        ? `https://s.wordpress.com/mshots/v1/${encodeURIComponent(href)}?w=500&h=313`
-        : null,
-    };
-  });
+  return items.map(({ name, link, thumb }) => ({
+    name,
+    href: normalizeLink(link),
+    thumb: thumb ?? null,
+  }));
 }
 
 const items = buildThumbnails([...HOMEPAGE_ARCHIVE, ...ECATALOG_ARCHIVE]);
