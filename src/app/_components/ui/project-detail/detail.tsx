@@ -13,7 +13,7 @@ export function ProjectDetail({
   return (
     <article>
       <div className="h-70">
-        <ProjectHero variant="detail" project={project} index={index} />
+        <ProjectHero project={project} index={index} />
       </div>
 
       <div className="divide-y divide-border">
