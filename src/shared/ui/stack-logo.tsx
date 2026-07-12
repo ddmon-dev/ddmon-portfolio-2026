@@ -31,6 +31,7 @@ import {
   ClaudeIcon,
   DrizzleIcon,
   HonoIcon,
+  KakaoIcon,
   ReactHookFormIcon,
   ShadcnIcon,
   TanstackQueryIcon,
@@ -72,6 +73,7 @@ export const STACK_LOGOS = {
   postgresql: { label: 'PostgreSQL', Icon: PostgresqlOriginal },
   hono: { label: 'Hono', Icon: HonoIcon },
   claudecode: { label: 'Claude Code', Icon: ClaudeIcon },
+  kakaomap: { label: 'Kakao Map API', Icon: KakaoIcon },
   shadcn: { label: 'shadcn/ui', Icon: ShadcnIcon },
   figma: { label: 'Figma', Icon: FigmaOriginal },
   xd: { label: 'Adobe XD', Icon: XdOriginal },
@@ -91,6 +93,7 @@ const STACK_ALIASES: Record<string, StackId> = {
   reacthookform: 'rhf',
   nextauth: 'authjs',
   shadcnui: 'shadcn',
+  kakaomapapi: 'kakaomap',
   adobexd: 'xd',
   drizzleorm: 'drizzle',
 };

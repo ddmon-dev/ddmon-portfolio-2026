@@ -146,6 +146,14 @@ export function AuthjsIcon({ size = '1em', className }: BrandIconProps) {
   );
 }
 
+export function KakaoIcon(props: BrandIconProps) {
+  return (
+    <BrandSvg {...props} fill="#3C1E1E">
+      <path d="M12 .5C5.649.5.5 4.805.5 10.117c0 3.288 1.998 6.185 5.024 7.913-.222.83-.805 3.008-.921 3.475-.144.578.212.57.446.415.184-.122 2.921-1.983 4.103-2.786.899.133 1.822.2 2.848.2 6.351 0 11.5-4.305 11.5-9.617S18.351.5 12 .5" />
+    </BrandSvg>
+  );
+}
+
 export function ReactHookFormIcon(props: BrandIconProps) {
   return (
     <BrandSvg {...props} fill="#EC5990">

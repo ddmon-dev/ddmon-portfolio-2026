@@ -6,7 +6,17 @@ image:
   alt: Admin Framework
   width: 1920
   height: 1080
-stacks: [Next.js, React, TypeScript, Supabase, Tailwind, shadcn/ui]
+stacks:
+  [
+    Next.js,
+    React,
+    TypeScript,
+    Tailwind CSS,
+    Shadcn/ui,
+    Supabase,
+    NextAuth,
+    Claude Code,
+  ]
 facts:
   period: 2025.11 – 2026.03
   operation: 거래처 어드민 개발 · 내부 도구 개발

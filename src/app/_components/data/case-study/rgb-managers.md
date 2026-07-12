@@ -6,7 +6,7 @@ image:
   alt: rgb Managers 프로젝트
   width: 1920
   height: 1080
-stacks: [Next.js, React, MongoDB, Tailwind, shadcn/ui]
+stacks: [Next.js, React, Tailwind CSS, Shadcn/ui, MongoDB, Puppeteer, NextAuth]
 facts:
   period: 2023.07 – 2025.12
   operation: 사내 운영중
