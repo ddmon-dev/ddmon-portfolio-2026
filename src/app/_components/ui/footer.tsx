@@ -9,7 +9,7 @@ import { Section } from './section';
 
 export function Footer({ recipient }: { recipient?: string }) {
   return (
-    <footer className="bg-foreground bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:340px]">
+    <footer className="bg-secondary bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:340px]">
       <Section
         title="contact"
         description={
