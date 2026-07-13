@@ -7,10 +7,10 @@ import { ScrollDotIndicator } from '@/app/_components/ui/scroll-dot-indicator';
 
 export const metadata: Metadata = {
   title: {
-    default: 'DDmon Portfolio',
-    template: '%s | DDmon Portfolio',
+    default: '이동희 프론트엔드 포트폴리오',
+    template: '%s | 이동희 프론트엔드 포트폴리오',
   },
-  description: 'DDmon Portfolio',
+  description: '안녕하세요, 프론트엔드 개발자 이동희입니다.',
 };
 
 export default function RootLayout({
