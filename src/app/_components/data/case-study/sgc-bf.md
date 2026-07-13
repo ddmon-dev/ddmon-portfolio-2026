@@ -13,7 +13,7 @@ stacks:
     TypeScript,
     Tailwind CSS,
     Shadcn/ui,
-    react-pdf,
+    '@react-pdf/renderer',
     Supabase,
     NextAuth,
     Claude Code,
@@ -37,7 +37,7 @@ facts:
 
 - 보증서 조회 사이트 UI 디자인 및 개발
 - 보증서 발급 관리 어드민 개발
-- react-pdf 기반 보증서 렌더링 컴포넌트 구현
+- @react-pdf/renderer 기반 보증서 렌더링 컴포넌트 구현
 - 보증서 조회·PDF 발급 API와 조회 플로우 구현
 - 엑셀 대량 발급 플로우 및 운영자 교정 UI 구현
 - Supabase 기반 데이터 구조, 서버 액션, 배포 환경 구성
@@ -54,7 +54,7 @@ facts:
 
 ### 보증서 렌더링 스택 선정
 
-이전 프로젝트에서 html2pdf.js는 화면을 래스터화하는 방식이라 인쇄 품질과 용량 관리에 한계가 있었고, Puppeteer는 헤드리스 Chromium 런타임을 서버에 유지해야 해 배포와 리소스 부담이 컸습니다. react-pdf는 PDF를 벡터 기반으로 직접 그리는 방식이라 두 문제를 동시에 해결했습니다. A4 규격과 폰트 임베딩 제어가 쉽고, 브랜드 컬러를 유지한 고해상도 문서를 100KB 미만으로 생성합니다.
+이전 프로젝트에서 html2pdf.js는 화면을 래스터화하는 방식이라 인쇄 품질과 용량 관리에 한계가 있었고, Puppeteer는 헤드리스 Chromium 런타임을 서버에 유지해야 해 배포와 리소스 부담이 컸습니다. @react-pdf/renderer는 PDF를 벡터 기반으로 직접 그리는 방식이라 두 문제를 동시에 해결했습니다. A4 규격과 폰트 임베딩 제어가 쉽고, 브랜드 컬러를 유지한 고해상도 문서를 100KB 미만으로 생성합니다.
 
 유사한 환경에 배포한 Puppeteer 방식의 이전 프로젝트와 실측 비교한 결과, 같은 A4 문서 기준 PDF 생성 응답이 평균 약 1.5초에서 약 0.3초로 줄었습니다.
 
