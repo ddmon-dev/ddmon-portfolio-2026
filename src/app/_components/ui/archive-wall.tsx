@@ -33,7 +33,7 @@ function Tile({ item }: { item: ThumbItem }) {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={item.thumb}
-          alt={item.name}
+          alt=""
           loading="lazy"
           onError={() => setBroken(true)}
           className="size-full object-cover object-top"

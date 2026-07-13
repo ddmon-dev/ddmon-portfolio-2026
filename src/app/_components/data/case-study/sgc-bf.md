@@ -3,7 +3,6 @@ title: 솔라가드 건축용 필름
 category: 보증서 조회 및 관리 서비스
 image:
   src: /case-study/sgc-bf.jpg
-  alt: 솔라가드 건축용 필름 보증서 시스템 프로젝트
   width: 1920
   height: 1080
 stacks:

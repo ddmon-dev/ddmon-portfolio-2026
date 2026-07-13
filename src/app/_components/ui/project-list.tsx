@@ -31,8 +31,8 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
   const hasMore = rest.length > 0;
 
   return (
-    <div>
-      <ul className="divide-y divide-ash-light border-y border-ash-light">
+    <div className="max-sm:space-y-2">
+      <ul className="divide-y divide-ash-light border-y border-ash-light max-sm:divide-none max-sm:border-none max-sm:space-y-2">
         {visible.map(item => (
           <li key={item.id}>
             <Row item={item} />
@@ -47,7 +47,7 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
             style={{ gridTemplateRows: expanded ? '1fr' : '0fr' }}
           >
             <div className="overflow-hidden" inert={!expanded}>
-              <ul className="divide-y divide-ash-light border-b border-ash-light">
+              <ul className="divide-y divide-ash-light border-b border-ash-light max-sm:divide-none max-sm:border-none max-sm:space-y-2">
                 {rest.map(item => (
                   <li key={item.id}>
                     <Row item={item} />
@@ -82,16 +82,16 @@ export function ProjectList({ items }: { items: ProjectListItem[] }) {
 
 function Row({ item }: { item: ProjectListItem }) {
   return (
-    <div className="grid grid-cols-[288px_1fr] items-center gap-x-7 py-5 max-sm:grid-cols-1 max-sm:gap-y-4">
+    <div className="grid grid-cols-[288px_1fr] items-center gap-x-7 py-5 max-sm:grid-cols-1 max-sm:gap-y-0 max-sm:rounded-4xl max-sm:overflow-hidden max-sm:p-0 max-sm:border max-sm:border-border">
       <Image
         src={item.image}
-        alt={`${item.title} 스크린샷`}
+        alt=""
         width={576}
         height={360}
         sizes="(max-width: 640px) 100vw, 288px"
-        className="aspect-16/10 w-full shrink-0 rounded-4xl bg-ash-lighter/20 border border-border object-cover"
+        className="aspect-16/10 w-full shrink-0 rounded-4xl bg-ash-lighter/20 border border-border object-cover max-sm:border-none max-sm:aspect-video"
       />
-      <div className="flex-1 space-y-2 max-sm:px-4 max-sm:space-y-3">
+      <div className="flex-1 space-y-2 max-sm:p-5 max-sm:space-y-3">
         <div className="space-y-1 max-sm:space-y-0">
           <h3 className="font-bold text-xl text-ash-darker max-sm:text-lg">
             {item.title}
@@ -113,7 +113,7 @@ function Row({ item }: { item: ProjectListItem }) {
           </div>
           <StackBadges stacks={item.stacks} />
         </div>
-        <div className="flex justify-start pt-1">
+        <div className="flex justify-start pt-1 max-sm:justify-end">
           <Button
             asChild
             variant="outline"

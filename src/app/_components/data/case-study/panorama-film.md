@@ -3,7 +3,6 @@ title: 파노라마 필름
 category: 홈페이지 / 발주 관리 서비스
 image:
   src: /case-study/panoramafilm.jpg
-  alt: 파노라마 필름 프로젝트
   width: 1920
   height: 1080
 stacks: [Next.js, React, Tailwind CSS, Zustand, Supabase, Kakao Map API]

@@ -3,7 +3,6 @@ title: 프리랜서 업무 시스템
 category: 자체 개발 업무 도구
 image:
   src: /case-study/work-manager-schedule-blurred.png
-  alt: lxa Work Manager 프로젝트
   width: 1920
   height: 1052
 stacks:

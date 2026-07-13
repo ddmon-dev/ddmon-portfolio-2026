@@ -25,7 +25,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       scroll={false}
       aria-label={`${project.title} 상세 보기`}
       data-project-card={project.id}
-      className="group relative block h-70 overflow-hidden rounded-4xl text-white border border-border max-sm:rounded-4xl"
+      className="group relative block h-70 overflow-hidden rounded-4xl text-white border border-border max-sm:rounded-4xl max-sm:h-auto max-sm:aspect-16/10"
     >
       <Image
         src={project.image.src}
@@ -37,7 +37,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
       <div className="absolute inset-0 bg-black/40" />
       <div className="absolute inset-0 flex flex-col justify-between p-5">
-        <div className="font-secondary text-7xl font-bold text-white/10 -translate-y-3 -translate-x-2 mix-blend-plus-lighter">
+        <div className="font-secondary text-7xl font-bold text-white/10 -translate-y-3 -translate-x-2 mix-blend-plus-lighter max-sm:text-5xl">
           {String(index + 1).padStart(2, '0')}
         </div>
 

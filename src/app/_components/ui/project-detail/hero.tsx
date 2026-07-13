@@ -12,7 +12,7 @@ export function ProjectHero({
     <div className="relative h-full overflow-hidden">
       <Image
         src={project.image.src}
-        alt={project.image.alt}
+        alt=""
         fill
         priority
         sizes="(max-width: 768px) 100vw, 48rem"

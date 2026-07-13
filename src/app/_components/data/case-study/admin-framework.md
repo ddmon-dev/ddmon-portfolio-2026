@@ -3,7 +3,6 @@ title: 어드민 개발 프레임워크
 category: 재사용 개발 프레임워크
 image:
   src: /case-study/admin-framework-list-blurred.png
-  alt: Admin Framework
   width: 1920
   height: 1080
 stacks:

@@ -3,7 +3,6 @@ title: 에이전시 운영 관리 시스템
 category: 사내용 백오피스
 image:
   src: /case-study/rgb-managers-project-blurred.png
-  alt: rgb Managers 프로젝트
   width: 1920
   height: 1080
 stacks: [Next.js, React, Tailwind CSS, Shadcn/ui, MongoDB, Puppeteer, NextAuth]
