@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
@@ -58,16 +58,8 @@ interface ProjectThumbnailWallProps {
 
 export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [width, setWidth] = useState<number | null>(null);
   const [phase, setPhase] = useState<Phase>('collapsed');
-
-  useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    []
-  );
 
   useLayoutEffect(() => {
     const el = wrapRef.current;
@@ -106,12 +98,12 @@ export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
     const el = wrapRef.current;
     if (phase === 'collapsed') {
       setPhase('opening');
-      timer.current = setTimeout(() => setPhase('open'), DURATION);
+      setTimeout(() => setPhase('open'), DURATION);
     } else if (phase === 'open' && el) {
       el.style.height = `${el.offsetHeight}px`;
       requestAnimationFrame(() => {
         setPhase('closing');
-        timer.current = setTimeout(() => setPhase('collapsed'), DURATION);
+        setTimeout(() => setPhase('collapsed'), DURATION);
       });
     }
   };
