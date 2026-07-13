@@ -1,11 +1,12 @@
-import Link from 'next/link';
-import type { Icon } from '@phosphor-icons/react';
 import {
+  ArrowUpRightIcon,
   GithubLogoIcon,
   PhoneIcon,
-  AtIcon,
+  PhoneOutgoingIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import { Section } from './section';
+import { ContactItem } from './contact-item';
+import { CopyEmailItem } from './copy-email-item';
 
 export function Footer({ recipient }: { recipient?: string }) {
   return (
@@ -26,22 +27,19 @@ export function Footer({ recipient }: { recipient?: string }) {
           <li>
             <ContactItem
               icon={GithubLogoIcon}
+              hoverIcon={ArrowUpRightIcon}
               label="Github"
               value="github.com/dd2mon"
               href="https://github.com/dd2mon"
             />
           </li>
           <li>
-            <ContactItem
-              icon={AtIcon}
-              label="E-mail"
-              value="ldhman91@gmail.com"
-              href="mailto:ldhman91@gmail.com"
-            />
+            <CopyEmailItem value="ldhman91@gmail.com" />
           </li>
           <li>
             <ContactItem
               icon={PhoneIcon}
+              hoverIcon={PhoneOutgoingIcon}
               label="Call"
               value=""
               href="tel:"
@@ -53,37 +51,5 @@ export function Footer({ recipient }: { recipient?: string }) {
         </p>
       </Section>
     </footer>
-  );
-}
-
-function ContactItem({
-  icon: Icon,
-  label,
-  value,
-  href,
-}: {
-  icon: Icon;
-  label: string;
-  value: string;
-  href: string;
-}) {
-  const isExternal = href.startsWith('http');
-
-  return (
-    <Link
-      href={href}
-      target={isExternal ? '_blank' : undefined}
-      rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="flex flex-col justify-center items-center gap-5 text-center size-70 rounded-full shadow-[0px_-5px_10px_rgb(0,0,0,0.05)] bg-background overflow-hidden max-lg:size-58 max-lg:gap-3 max-md:w-full max-md:h-auto max-md:p-2 max-md:flex-row max-md:justify-start"
-    >
-      <span className="size-19 bg-secondary/90 text-secondary-foreground rounded-full flex items-center justify-center shrink-0 max-lg:size-16 max-md:size-12">
-        <Icon
-          weight="thin"
-          className="text-5xl max-lg:text-4xl max-md:text-3xl"
-        />
-      </span>
-      <span className="sr-only">{label}</span>
-      <span className="font-secondary">{value}</span>
-    </Link>
   );
 }
