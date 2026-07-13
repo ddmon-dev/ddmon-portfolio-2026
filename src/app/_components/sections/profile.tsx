@@ -13,6 +13,8 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
         <Image
           src={ProfileImage}
           alt=""
+          priority
+          sizes="400px"
           className="relative z-10 w-full mx-auto max-md:w-[400px] max-md:h-[420px] max-md:object-cover max-md:object-top max-sm:max-w-[350px] max-sm:h-[370px]"
         />
       </div>
@@ -22,7 +24,13 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             <ProfileSideDecoration />
           </div>
           <div className="pt-15">
-            <Image src={ProfileImage} alt="" className="relative z-10 w-full" />
+            <Image
+              src={ProfileImage}
+              alt=""
+              priority
+              sizes="(min-width: 928px) 448px, 50vw"
+              className="relative z-10 w-full"
+            />
           </div>
         </div>
         <div className="space-y-20 pt-30 max-md:space-y-16 max-md:pt-10 max-sm:space-y-12 max-sm:pt-8">
