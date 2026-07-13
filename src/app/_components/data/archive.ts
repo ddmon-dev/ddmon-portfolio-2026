@@ -1,7 +1,7 @@
 export interface ArchiveItem {
   name: string;
   link?: string;
-  thumb?: string;
+  thumb: string;
 }
 
 export const HOMEPAGE_ARCHIVE: ArchiveItem[] = [

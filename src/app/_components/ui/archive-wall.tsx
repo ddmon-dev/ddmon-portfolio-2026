@@ -10,7 +10,7 @@ import { cn } from '@/shared/utils/classnames';
 export interface ThumbItem {
   name: string;
   href: string | null;
-  thumb: string | null;
+  thumb: string;
 }
 
 const MIN_COL = 88;
@@ -23,24 +23,15 @@ const DURATION = 650;
 type Phase = 'collapsed' | 'opening' | 'open' | 'closing';
 
 function Tile({ item }: { item: ThumbItem }) {
-  const [broken, setBroken] = useState(!item.thumb);
-
   const inner = (
     <div className="group relative aspect-16/10 overflow-hidden rounded-lg bg-primary/15 ring-1 ring-black/5">
-      {broken || !item.thumb ? (
-        <div className="flex size-full items-center justify-center bg-primary px-1 text-center text-[10px] leading-tight font-medium text-primary-foreground">
-          {item.name}
-        </div>
-      ) : (
-        <Image
-          src={item.thumb}
-          alt=""
-          fill
-          sizes="120px"
-          onError={() => setBroken(true)}
-          className="object-cover object-top"
-        />
-      )}
+      <Image
+        src={item.thumb}
+        alt=""
+        fill
+        sizes="120px"
+        className="object-cover object-top"
+      />
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-foreground/70 px-1.5 text-center text-[10px] leading-tight text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
         {item.name}
       </span>
