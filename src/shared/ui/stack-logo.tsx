@@ -121,37 +121,22 @@ export function StackLogo({
     return <entry.Icon className={cn(className)} size="1em" />;
   }
 
-  return (
-    <span
-      className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-full size-[1em]',
-        'bg-secondary-dark text-secondary-foreground',
-        className
-      )}
-      aria-hidden
-    >
-      <CodeBracketIcon size="0.56em" />
-    </span>
-  );
+  return <FallbackStackLogo className={className} />;
 }
 
-function CodeBracketIcon({
-  size,
-  className,
-}: {
-  size?: string | number;
-  className?: string;
-}) {
+function FallbackStackLogo({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 20 20"
-      fill="currentColor"
       aria-hidden
-      width={size}
-      height={size}
-      className={className}
+      width="1em"
+      height="1em"
+      className={cn('shrink-0', className)}
     >
+      <circle cx="10" cy="10" r="10" className="fill-secondary-dark" />
       <path
+        className="fill-secondary-foreground"
+        transform="translate(4.4 4.4) scale(0.56)"
         fillRule="evenodd"
         clipRule="evenodd"
         d="M6.28 5.22a.75.75 0 0 1 0 1.06L2.56 10l3.72 3.72a.75.75 0 0 1-1.06 1.06L.97 10.53a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Zm7.44 0a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L17.44 10l-3.72-3.72a.75.75 0 0 1 0-1.06ZM11.377 2.011a.75.75 0 0 1 .612.867l-2.5 14.5a.75.75 0 0 1-1.478-.255l2.5-14.5a.75.75 0 0 1 .866-.612Z"
