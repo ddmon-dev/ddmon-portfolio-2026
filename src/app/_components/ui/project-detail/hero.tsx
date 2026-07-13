@@ -4,9 +4,11 @@ import { type Project } from './types';
 export function ProjectHero({
   project,
   index,
+  titleAs: TitleTag = 'h3',
 }: {
   project: Project;
   index: number;
+  titleAs?: 'h1' | 'h3';
 }) {
   return (
     <div className="relative h-full overflow-hidden">
@@ -26,9 +28,9 @@ export function ProjectHero({
         </div>
 
         <div className="space-y-1.5 pb-2">
-          <h3 className="text-3xl leading-tight font-bold max-sm:text-2xl">
+          <TitleTag className="text-3xl leading-tight font-bold max-sm:text-2xl">
             {project.title}
-          </h3>
+          </TitleTag>
           <p className="text-base">{project.category}</p>
         </div>
       </div>

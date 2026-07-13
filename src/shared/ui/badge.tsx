@@ -6,8 +6,7 @@ import { cn } from '@/shared/utils/classnames';
 export const badgeVariants = cva(
   cn(
     'inline-flex items-center justify-center gap-1 border px-2 py-0.5 text-xs font-medium whitespace-nowrap',
-    '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-    'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring'
+    '[&_svg]:pointer-events-none [&_svg]:shrink-0'
   ),
   {
     variants: {

@@ -6,14 +6,16 @@ import { ProjectDetailBody } from './detail-body';
 export function ProjectDetail({
   project,
   index,
+  titleAs,
 }: {
   project: Project;
   index: number;
+  titleAs?: 'h1' | 'h3';
 }) {
   return (
     <article>
       <div className="h-70">
-        <ProjectHero project={project} index={index} />
+        <ProjectHero project={project} index={index} titleAs={titleAs} />
       </div>
 
       <div className="divide-y divide-border">

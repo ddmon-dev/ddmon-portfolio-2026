@@ -125,7 +125,7 @@ export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
       >
         <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-1.5 p-0">
           {items.map((item, i) => (
-            <li key={`${item.name}-${i}`}>
+            <li key={`${item.name}-${i}`} inert={!isOpen && i >= collapsedCount}>
               <Tile item={item} />
             </li>
           ))}
@@ -144,12 +144,7 @@ export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
 
       {hasMore && (
         <div className="flex justify-center">
-          <Button
-            variant="secondary"
-            shape="pill"
-            onClick={toggle}
-            disabled={animating}
-          >
+          <Button variant="secondary" shape="pill" onClick={toggle}>
             {phase === 'open' ? (
               <>
                 접기 <CaretUpIcon weight="bold" />

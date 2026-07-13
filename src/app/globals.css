@@ -147,6 +147,15 @@ body {
 }
 
 @layer base {
+  * {
+    outline-color: color-mix(in srgb, var(--ring) 60%, transparent);
+  }
+
+  :focus-visible {
+    outline: 5px solid color-mix(in srgb, var(--ring) 60%, transparent);
+    outline-offset: 4px;
+  }
+
   @supports not selector(::-webkit-scrollbar) {
     * {
       scrollbar-width: thin;
