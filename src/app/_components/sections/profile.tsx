@@ -9,7 +9,7 @@ import { CAREERS, TECH_STACK_GROUPS } from '../data/profile';
 export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
     <div>
-      <div className="hidden max-md:block max-md:bg-secondary max-md:-mx-4 max-md:overflow-hidden">
+      <div className="hidden max-md:block max-md:bg-secondary max-md:overflow-hidden">
         <Image
           src={ProfileImage}
           alt=""
