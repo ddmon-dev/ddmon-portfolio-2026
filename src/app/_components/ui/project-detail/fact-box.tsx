@@ -58,7 +58,12 @@ function FactItem({
   labelClassName?: string;
 }) {
   return (
-    <div className={cn('grid grid-cols-[90px_1fr]', className)}>
+    <div
+      className={cn(
+        'grid grid-cols-[90px_1fr] max-sm:grid-cols-[70px_1fr]',
+        className
+      )}
+    >
       <dt className={cn('font-medium uppercase', labelClassName)}>{label}</dt>
       <dd>{children}</dd>
     </div>

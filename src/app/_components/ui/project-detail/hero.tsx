@@ -26,7 +26,9 @@ export function ProjectHero({
         </div>
 
         <div className="space-y-1.5 pb-2">
-          <h3 className="text-3xl leading-tight font-bold">{project.title}</h3>
+          <h3 className="text-3xl leading-tight font-bold max-sm:text-2xl">
+            {project.title}
+          </h3>
           <p className="text-base">{project.category}</p>
         </div>
       </div>

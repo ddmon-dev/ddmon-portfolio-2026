@@ -91,9 +91,11 @@ function Row({ item }: { item: ProjectListItem }) {
         sizes="(max-width: 640px) 100vw, 288px"
         className="aspect-16/10 w-full shrink-0 rounded-4xl bg-ash-lighter/20 border border-border object-cover"
       />
-      <div className="flex-1 space-y-2 max-sm:px-2">
-        <div className="space-y-1">
-          <h3 className="font-bold text-lg text-ash-darker">{item.title}</h3>
+      <div className="flex-1 space-y-2 max-sm:px-4 max-sm:space-y-3">
+        <div className="space-y-1 max-sm:space-y-0">
+          <h3 className="font-bold text-xl text-ash-darker max-sm:text-lg">
+            {item.title}
+          </h3>
           <p className="text-base text-ash-dark">{item.description}</p>
         </div>
         <div className="space-y-1">

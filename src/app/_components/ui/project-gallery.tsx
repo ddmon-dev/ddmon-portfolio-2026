@@ -43,7 +43,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         <div className="space-y-4">
           <div className="space-y-1">
-            <h3 className="text-2xl leading-tight font-bold">
+            <h3 className="text-2xl leading-tight font-bold max-sm:text-xl">
               {project.title}
             </h3>
             <p className="text-sm">{project.category}</p>
