@@ -16,10 +16,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
           className="relative z-10 w-full mx-auto max-md:w-[400px] max-md:h-[420px] max-md:object-cover max-md:object-top max-sm:max-w-[350px] max-sm:h-[370px]"
         />
       </div>
-      <Container
-        as="section"
-        className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12"
-      >
+      <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
         <div className="relative max-md:hidden">
           <div className="absolute size-full pr-8">
             <ProfileSideDecoration />
@@ -67,13 +64,13 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             </p>
           </div>
 
-          <Article title="기술스택" subtitle="Tech stacks">
+          <Section title="기술스택" subtitle="Tech stacks">
             <div className="space-y-5">
               {TECH_STACK_GROUPS.map(group => (
-                <div key={group.label} className="space-y-2">
-                  <h4 className="text-sm font-secondary font-medium text-ash">
+                <article key={group.label} className="space-y-2">
+                  <h3 className="text-sm font-secondary font-medium text-ash">
                     {group.label}
-                  </h4>
+                  </h3>
                   <ul className="grid grid-cols-5 gap-1.5 max-sm:grid-cols-4">
                     {group.stacks.map(stack => (
                       <li
@@ -87,12 +84,12 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </article>
               ))}
             </div>
-          </Article>
+          </Section>
 
-          <Article title="경력사항" subtitle="Career">
+          <Section title="경력사항" subtitle="Career">
             <div className="pt-1">
               {CAREERS.map(career => (
                 <article
@@ -108,14 +105,14 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                     className="absolute top-1 left-[7px] w-px h-full bg-border z-0 group-last:hidden"
                   />
                   <div className="border-b border-border pb-2 flex justify-between items-center gap-3">
-                    <h4>
+                    <h3>
                       <span className="block font-bold">{career.company}</span>
                       {career.role && (
                         <span className="block text-sm text-muted-foreground font-normal">
                           {career.role}
                         </span>
                       )}
-                    </h4>
+                    </h3>
                     <span className="shrink-0 tabular-nums font-secondary text-sm text-muted-foreground">
                       {career.start} – {career.end}
                     </span>
@@ -134,33 +131,33 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                 </article>
               ))}
             </div>
-          </Article>
+          </Section>
         </div>
       </Container>
     </div>
   );
 }
 
-type ArticleProps = {
+type SectionProps = {
   title?: string;
   subtitle?: string;
   children: React.ReactNode;
 };
 
-function Article({ title, subtitle, children }: ArticleProps) {
+function Section({ title, subtitle, children }: SectionProps) {
   return (
-    <article className="space-y-4">
+    <section className="space-y-4">
       {title && (
-        <h3 className="text-2xl font-medium font-secondary text-ash-dark">
+        <h2 className="text-2xl font-medium font-secondary text-ash-dark">
           {title}
           {subtitle && (
             <small className="ml-[0.5em] text-ash font-normal text-[0.6em]">
               {subtitle}
             </small>
           )}
-        </h3>
+        </h2>
       )}
       {children}
-    </article>
+    </section>
   );
 }
