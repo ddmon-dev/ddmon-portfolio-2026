@@ -1,30 +1,28 @@
 import type { ComponentType } from 'react';
-import {
-  ApacheOriginal,
-  Css3Original,
-  FigmaOriginal,
-  FramermotionOriginal,
-  GitOriginal,
-  GithubOriginal,
-  Html5Original,
-  JavascriptOriginal,
-  MongodbOriginal,
-  MysqlOriginal,
-  NextjsOriginal,
-  NginxOriginal,
-  PhpOriginal,
-  PostcssOriginal,
-  PostgresqlOriginal,
-  PrismaOriginal,
-  PuppeteerOriginal,
-  ReactOriginal,
-  SupabaseOriginal,
-  TailwindcssOriginal,
-  TypescriptOriginal,
-  UbuntuOriginal,
-  XdOriginal,
-  ZustandOriginal,
-} from 'devicons-react';
+import ApacheOriginal from 'devicons-react/icons/ApacheOriginal';
+import Css3Original from 'devicons-react/icons/Css3Original';
+import FigmaOriginal from 'devicons-react/icons/FigmaOriginal';
+import FramermotionOriginal from 'devicons-react/icons/FramermotionOriginal';
+import GitOriginal from 'devicons-react/icons/GitOriginal';
+import GithubOriginal from 'devicons-react/icons/GithubOriginal';
+import Html5Original from 'devicons-react/icons/Html5Original';
+import JavascriptOriginal from 'devicons-react/icons/JavascriptOriginal';
+import MongodbOriginal from 'devicons-react/icons/MongodbOriginal';
+import MysqlOriginal from 'devicons-react/icons/MysqlOriginal';
+import NextjsOriginal from 'devicons-react/icons/NextjsOriginal';
+import NginxOriginal from 'devicons-react/icons/NginxOriginal';
+import PhpOriginal from 'devicons-react/icons/PhpOriginal';
+import PostcssOriginal from 'devicons-react/icons/PostcssOriginal';
+import PostgresqlOriginal from 'devicons-react/icons/PostgresqlOriginal';
+import PrismaOriginal from 'devicons-react/icons/PrismaOriginal';
+import PuppeteerOriginal from 'devicons-react/icons/PuppeteerOriginal';
+import ReactOriginal from 'devicons-react/icons/ReactOriginal';
+import SupabaseOriginal from 'devicons-react/icons/SupabaseOriginal';
+import TailwindcssOriginal from 'devicons-react/icons/TailwindcssOriginal';
+import TypescriptOriginal from 'devicons-react/icons/TypescriptOriginal';
+import UbuntuOriginal from 'devicons-react/icons/UbuntuOriginal';
+import XdOriginal from 'devicons-react/icons/XdOriginal';
+import ZustandOriginal from 'devicons-react/icons/ZustandOriginal';
 import {
   AuthjsIcon,
   AwsIcon,
