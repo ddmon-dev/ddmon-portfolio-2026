@@ -83,7 +83,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                     {group.stacks.map(stack => (
                       <li
                         key={stack}
-                        className="flex flex-col items-center gap-2 pt-5 pb-3 rounded-xl bg-ash-50 border border-ash-lighter"
+                        className="flex flex-col items-center gap-2 pt-5 pb-3 px-2 rounded-xl bg-ash-50 border border-ash-lighter"
                       >
                         <StackLogo stack={stack} className="text-3xl" />
                         <span className="text-xs font-secondary text-center text-ash">
