@@ -49,7 +49,7 @@ export function Footer({ recipient }: { recipient?: string }) {
           </li>
         </ul>
         <p className="text-background text-center mt-20 max-lg:mt-15 max-md:mt-10">
-          &copy; ㅇㄷㅎ all rights reserved.
+          Designed &amp; built by 이동희 &copy; {new Date().getFullYear()}
         </p>
       </Section>
     </footer>
