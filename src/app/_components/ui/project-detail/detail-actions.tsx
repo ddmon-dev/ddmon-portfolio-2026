@@ -1,8 +1,10 @@
-'use client';
-
 import { type ComponentProps } from 'react';
 import Link from 'next/link';
-import { HouseIcon, GithubLogoIcon, XIcon } from '@phosphor-icons/react';
+import {
+  HouseIcon,
+  GithubLogoIcon,
+  XIcon,
+} from '@phosphor-icons/react/dist/ssr';
 import { Button } from '@/shared/ui/button';
 import { BottomSheetClose } from '@/shared/ui/bottom-sheet/bottom-sheet';
 import { type ProjectLinks } from './types';
