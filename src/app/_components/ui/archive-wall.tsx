@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { CaretDownIcon, CaretUpIcon } from '@phosphor-icons/react';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/utils/classnames';
@@ -30,13 +32,13 @@ function Tile({ item }: { item: ThumbItem }) {
           {item.name}
         </div>
       ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={item.thumb}
           alt=""
-          loading="lazy"
+          fill
+          sizes="120px"
           onError={() => setBroken(true)}
-          className="size-full object-cover object-top"
+          className="object-cover object-top"
         />
       )}
       <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-foreground/70 px-1.5 text-center text-[10px] leading-tight text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -46,14 +48,14 @@ function Tile({ item }: { item: ThumbItem }) {
   );
 
   return item.href ? (
-    <a
+    <Link
       href={item.href}
       target="_blank"
       rel="noopener noreferrer"
       className="block rounded-lg"
     >
       {inner}
-    </a>
+    </Link>
   ) : (
     <div>{inner}</div>
   );
