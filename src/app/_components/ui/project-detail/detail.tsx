@@ -17,7 +17,7 @@ export function ProjectDetail({
       </div>
 
       <div className="divide-y divide-border">
-        <div className="p-6 max-sm:p-5">
+        <div className="bg-ash-50 p-6 max-sm:p-5">
           <ProjectFactBox
             facts={project.facts}
             stacks={project.stacks}
