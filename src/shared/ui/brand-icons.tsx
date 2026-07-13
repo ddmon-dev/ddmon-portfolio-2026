@@ -36,6 +36,21 @@ export function ShadcnIcon(props: BrandIconProps) {
   );
 }
 
+export function BetterAuthIcon({ size = '1em', className }: BrandIconProps) {
+  return (
+    <svg
+      viewBox="0 0 61 51.66"
+      width={size}
+      height={size}
+      fill="currentColor"
+      className={className}
+      aria-hidden
+    >
+      <path d="M0 25.83v22.84h15.33V33.5h15v15.17H61V3H30.33v15.17h-15V3H0z" />
+    </svg>
+  );
+}
+
 export function DrizzleIcon(props: BrandIconProps) {
   return (
     <BrandSvg {...props} fill="#C5F74F">

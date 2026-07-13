@@ -28,6 +28,7 @@ import {
 import {
   AuthjsIcon,
   AwsIcon,
+  BetterAuthIcon,
   ClaudeIcon,
   DrizzleIcon,
   HonoIcon,
@@ -54,6 +55,7 @@ export const STACK_LOGOS = {
   ts: { label: 'TypeScript', Icon: TypescriptOriginal },
   supabase: { label: 'Supabase', Icon: SupabaseOriginal },
   authjs: { label: 'Auth.js', Icon: AuthjsIcon },
+  betterauth: { label: 'Better Auth', Icon: BetterAuthIcon },
   php: { label: 'PHP', Icon: PhpOriginal },
   g5: { label: '그누보드5' },
   mongodb: { label: 'MongoDB', Icon: MongodbOriginal },
