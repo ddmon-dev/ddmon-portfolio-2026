@@ -9,7 +9,7 @@ import { CAREERS, TECH_STACK_GROUPS } from '../data/profile';
 export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
     <div>
-      <div className="hidden max-md:block max-md:bg-secondary max-md:overflow-hidden">
+      <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
         <Image
           src={ProfileImage}
           alt=""
@@ -19,18 +19,22 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
         />
       </div>
       <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
-        <div className="relative max-md:hidden">
-          <div className="absolute size-full pr-8">
-            <ProfileSideDecoration />
-          </div>
-          <div className="pt-15">
-            <Image
-              src={ProfileImage}
-              alt=""
-              priority
-              sizes="(min-width: 928px) 448px, 50vw"
-              className="relative z-10 w-full"
-            />
+        <div className="max-md:hidden pr-8">
+          <div className="relative h-full">
+            <div className="absolute size-full">
+              <ProfileSideDecoration />
+            </div>
+            <div className="pt-22 max-lg:pt-20">
+              <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
+                <Image
+                  src={ProfileImage}
+                  alt=""
+                  priority
+                  sizes="(min-width: 928px) 448px, 50vw"
+                  className="object-cover object-top size-[200%] translate-y-[-3%]"
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div className="space-y-20 pt-30 max-md:space-y-16 max-md:pt-10 max-sm:space-y-12 max-sm:pt-8">
