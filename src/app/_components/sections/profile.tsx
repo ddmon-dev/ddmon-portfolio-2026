@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import ProfileImage from '@/assets/profile-img-6.png';
 import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
@@ -11,11 +10,13 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
     <div>
       <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
         <Image
-          src={ProfileImage}
+          src="/profile-img.png"
           alt=""
+          width={847}
+          height={1181}
           priority
-          sizes="400px"
-          className="relative z-10 w-full mx-auto max-md:w-[400px] max-md:h-[420px] max-md:object-cover max-md:object-top max-sm:max-w-[350px] max-sm:h-[370px]"
+          sizes="350px"
+          className="relative z-10 w-full mx-auto max-md:w-[350px] max-sm:max-w-[300px]"
         />
       </div>
       <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
@@ -27,11 +28,13 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             <div className="pt-22 max-lg:pt-20">
               <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
                 <Image
-                  src={ProfileImage}
+                  src="/profile-img-croped.png"
                   alt=""
+                  width={685}
+                  height={685}
                   priority
-                  sizes="(min-width: 928px) 448px, 50vw"
-                  className="object-cover object-top size-[200%] translate-y-[-3%]"
+                  sizes="290px"
+                  className="size-full"
                 />
               </div>
             </div>
