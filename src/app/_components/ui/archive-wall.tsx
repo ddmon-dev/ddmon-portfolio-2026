@@ -32,7 +32,7 @@ function Tile({ item }: { item: ThumbItem }) {
         sizes="120px"
         className="object-cover object-top"
       />
-      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-foreground/70 px-1.5 text-center text-[10px] leading-tight text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+      <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-primary/70 px-1.5 text-center text-[10px] leading-tight text-background opacity-0 transition-opacity duration-150 group-hover:opacity-100">
         {item.name}
       </span>
     </div>
@@ -125,7 +125,10 @@ export function ArchiveWall({ items }: ProjectThumbnailWallProps) {
       >
         <ul className="grid list-none grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-1.5 p-0">
           {items.map((item, i) => (
-            <li key={`${item.name}-${i}`} inert={!isOpen && i >= collapsedCount}>
+            <li
+              key={`${item.name}-${i}`}
+              inert={!isOpen && i >= collapsedCount}
+            >
               <Tile item={item} />
             </li>
           ))}
