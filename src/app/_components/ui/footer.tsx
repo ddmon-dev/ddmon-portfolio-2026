@@ -29,8 +29,8 @@ export function Footer({ recipient }: { recipient?: string }) {
               icon={GithubLogoIcon}
               hoverIcon={ArrowUpRightIcon}
               label="Github"
-              value="github.com/dd2mon"
-              href="https://github.com/dd2mon"
+              value="github.com/ddmon-dev"
+              href="https://github.com/ddmon-dev"
             />
           </li>
           <li>
