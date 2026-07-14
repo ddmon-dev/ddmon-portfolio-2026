@@ -56,10 +56,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                 <span className="font-normal text-foreground!">Developer</span>
               </b>{' '}
               <br />
-              <b>이동희</b>의{' '}
-              <span className={cn(recipient && 'font-bold text-primary')}>
-                포트폴리오
-              </span>
+              <b>이동희</b>의 <b>포트폴리오</b>
               입니다.
             </h1>
 
