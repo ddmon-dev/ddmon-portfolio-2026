@@ -2,7 +2,7 @@
 title: 프리랜서 업무 시스템
 category: 자체 개발 업무 도구
 image:
-  src: /case-study/work-manager-schedule-blurred.png
+  src: /case-study/work-manager-schedule-blurred.webp
   width: 1920
   height: 1052
 stacks:

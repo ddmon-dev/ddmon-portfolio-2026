@@ -10,11 +10,10 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
     <div>
       <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
         <Image
-          src="/profile-img.png"
+          src="/profile-img.webp"
           alt=""
           width={847}
           height={1181}
-          priority
           sizes="350px"
           className="relative z-10 w-full mx-auto max-md:w-[350px] max-sm:max-w-[300px]"
         />
@@ -28,7 +27,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             <div className="pt-22 max-lg:pt-20">
               <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
                 <Image
-                  src="/profile-img-croped.png"
+                  src="/profile-img-croped.webp"
                   alt=""
                   width={685}
                   height={685}

@@ -3,7 +3,7 @@ import type { ProjectListItem } from '../ui/project-list';
 export const projects: ProjectListItem[] = [
   {
     id: 'smartcaddie',
-    image: '/projects/smartcaddie.png',
+    image: '/projects/smartcaddie.webp',
     title: '골프존 스마트캐디 홈페이지',
     description: '골프존 스마트캐디 다국어 소개 사이트 / 어드민',
     contribution: ['프론트엔드', '어드민'],
@@ -20,7 +20,7 @@ export const projects: ProjectListItem[] = [
   },
   {
     id: 'golfzoncloud',
-    image: '/projects/golfzoncloud.png',
+    image: '/projects/golfzoncloud.webp',
     title: '골프존클라우드 홈페이지',
     description: '골프존클라우드 다국어 사이트 / 어드민',
     contribution: ['단독개발'],
@@ -37,7 +37,7 @@ export const projects: ProjectListItem[] = [
   },
   {
     id: 'angel-robotics',
-    image: '/projects/angel-robotics.png',
+    image: '/projects/angel-robotics.webp',
     title: '엔젤로보틱스 홈페이지',
     description: '엔젤로보틱스 다국어 사이트 / 어드민',
     contribution: ['단독개발'],
@@ -53,7 +53,7 @@ export const projects: ProjectListItem[] = [
   },
   {
     id: 'v-portal',
-    image: '/projects/v-portal.png',
+    image: '/projects/v-portal.webp',
     title: '백신정보포털',
     description: '백신실용화기술개발사업단의 정보포털 / 어드민',
     contribution: ['PM', '기획', '단독개발'],
@@ -62,7 +62,7 @@ export const projects: ProjectListItem[] = [
   },
   {
     id: 'mr',
-    image: '/projects/mr.png',
+    image: '/projects/mr.webp',
     title: '(주)엠알 홈페이지',
     description:
       '의료기기 기업 다국어 사이트 / 회원 전용 장비 교육 영상 포털 / 어드민',
@@ -79,7 +79,7 @@ export const projects: ProjectListItem[] = [
   },
   {
     id: 'rgb3d',
-    image: '/projects/rgb3d.png',
+    image: '/projects/rgb3d.webp',
     title: 'RGB3D 브랜드 홈페이지',
     description: '자사 영상 사업 브랜드 사이트',
     contribution: ['PM', '기획', '단독개발'],
