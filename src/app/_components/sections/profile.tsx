@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { cn } from '@/shared/utils/classnames';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
