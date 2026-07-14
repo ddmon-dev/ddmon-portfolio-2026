@@ -19,6 +19,11 @@ export function ProjectHero({
         priority
         sizes="(max-width: 768px) 100vw, 48rem"
         className="object-cover"
+        style={
+          project.image.position
+            ? { objectPosition: project.image.position }
+            : undefined
+        }
       />
 
       <div className="absolute inset-0 bg-black/40" />

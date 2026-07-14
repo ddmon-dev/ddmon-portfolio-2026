@@ -3,6 +3,7 @@ export type ProjectImage = {
   alt: string;
   width: number;
   height: number;
+  position?: string;
 };
 
 export type ProjectFacts = {

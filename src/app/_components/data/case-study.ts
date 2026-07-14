@@ -4,4 +4,5 @@ export const caseStudies: string[] = [
   'admin-framework',
   'sgc-bf',
   'lxa-work-manager',
+  'dd-portfolio',
 ];
