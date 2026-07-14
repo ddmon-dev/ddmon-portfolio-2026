@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     template: '%s | 이동희 프론트엔드 포트폴리오',
   },
   description: '안녕하세요, 프론트엔드 개발자 이동희입니다.',
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
