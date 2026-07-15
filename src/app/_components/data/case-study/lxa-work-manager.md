@@ -20,6 +20,8 @@ stacks:
     Better Auth,
     Claude Code,
   ]
+links:
+  repo: https://github.com/ddmon-dev/ddmon-work-manager
 facts:
   period: 2026.02 – 현재
   operation: 실사용 운영 중
