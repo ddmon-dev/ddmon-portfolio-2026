@@ -16,6 +16,9 @@ stacks:
     NextAuth,
     Claude Code,
   ]
+links:
+  site: https://admin-demo.ddmon.com
+  repo: https://github.com/ddmon-dev/ddmon-admin-framework
 facts:
   period: 2025.11 – 2026.03
   operation: 거래처 어드민 개발 · 내부 도구 개발
