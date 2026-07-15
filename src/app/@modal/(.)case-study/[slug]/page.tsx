@@ -4,6 +4,12 @@ import { ProjectDetail } from '@/app/_components/ui/project-detail/detail';
 import { ProjectDetailActions } from '@/app/_components/ui/project-detail/detail-actions';
 import { ProjectSheet } from '@/app/_components/ui/project-detail/project-sheet';
 
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return caseStudies.map(slug => ({ slug }));
+}
+
 export default async function InterceptedProjectPage({
   params,
 }: {
