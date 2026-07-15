@@ -32,7 +32,7 @@ src/
   shared/                # 도메인 비의존 재사용 레이어
     ui/                  # Container, Button, Badge, bottom-sheet 등
     utils/               # cn() 등 유틸
-  fonts/                 # next/font/local 로 로드한 한글 폰트 (Pretendard, SUIT)
+  fonts/                 # Pretendard 서브셋(next/font/local) + Poppins(next/font/google)
 ```
 
 ## 설계 사항
