@@ -41,7 +41,7 @@ export function CopyEmailItem({
             style.icon,
             springTransition,
             'group-hover:scale-50 group-hover:opacity-0 group-focus-visible:scale-50 group-focus-visible:opacity-0',
-            copied && 'scale-50 opacity-0',
+            copied && 'scale-50 opacity-0'
           )}
         />
         <CopyIcon
@@ -51,7 +51,7 @@ export function CopyEmailItem({
             springTransition,
             'absolute inset-0 m-auto scale-50 opacity-0',
             !copied &&
-              'group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100',
+              'group-hover:scale-100 group-hover:opacity-100 group-focus-visible:scale-100 group-focus-visible:opacity-100'
           )}
         />
         <CheckIcon
@@ -60,18 +60,18 @@ export function CopyEmailItem({
             style.icon,
             springTransition,
             'absolute inset-0 m-auto',
-            !copied && 'scale-50 opacity-0',
+            !copied && 'scale-50 opacity-0'
           )}
         />
       </span>
       <span className="sr-only">E-mail</span>
-      <span className={cn('relative font-secondary', style.value)}>
+      <span className={cn('relative font-secondary shrink-0', style.value)}>
         <span
           aria-hidden={copied}
           className={cn(
             springTransition,
             'block',
-            copied && '-translate-y-1 opacity-0',
+            copied && '-translate-y-1 opacity-0'
           )}
         >
           {value}
@@ -82,7 +82,7 @@ export function CopyEmailItem({
             springTransition,
             'absolute inset-0 flex items-center whitespace-nowrap',
             compact ? 'justify-start' : 'justify-center max-md:justify-start',
-            !copied && 'translate-y-1 opacity-0',
+            !copied && 'translate-y-1 opacity-0'
           )}
         >
           이메일 주소가 복사되었습니다

@@ -11,7 +11,7 @@ import { CONTACT } from '../data/contact';
 
 export function Footer({ recipient }: { recipient?: string }) {
   return (
-    <footer className="bg-secondary bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:340px]">
+    <footer className="bg-secondary bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:320px]">
       <Section
         title="contact"
         description={
@@ -24,7 +24,7 @@ export function Footer({ recipient }: { recipient?: string }) {
         }
         className="pt-20 pb-30"
       >
-        <ul className="flex justify-center max-md:flex-col max-md:items-center max-md:gap-2 max-md:[&>li]:w-full max-md:[&>li]:max-w-xs max-md:[&>li]:-my-px">
+        <ul className="flex justify-center max-md:flex-col max-md:gap-2 max-md:max-w-xs max-md:mx-auto max-md:p-5 max-md:rounded-[2.75rem] max-md:border max-md:border-border max-md:bg-background max-md:[&>li]:w-full">
           <li>
             <ContactItem
               icon={GithubLogoIcon}

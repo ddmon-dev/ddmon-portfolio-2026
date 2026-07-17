@@ -7,9 +7,9 @@ const skin =
 
 export const contactItemStyles = {
   default: {
-    root: `${skin} shadow-[0px_-5px_10px_rgb(0,0,0,0.05)] flex flex-col justify-center items-center gap-5 size-70 max-lg:size-58 max-lg:gap-3 max-md:w-full max-md:h-auto max-md:p-2 max-md:flex-row max-md:justify-start`,
+    root: `${skin} shadow-[0px_-5px_10px_rgb(0,0,0,0.05)] flex flex-col justify-center items-center gap-5 size-70 max-lg:size-58 max-lg:gap-3 max-md:w-full max-md:h-auto max-md:p-0 max-md:flex-row max-md:justify-start max-md:shadow-none max-md:bg-transparent max-md:rounded-none`,
     iconWrap:
-      'size-19 bg-secondary/90 text-secondary-foreground rounded-full flex items-center justify-center shrink-0 max-lg:size-16 max-md:size-12',
+      'size-19 bg-secondary/90 text-secondary-foreground rounded-full flex items-center justify-center shrink-0 max-lg:size-16 max-md:size-12 max-md:bg-ash-dark',
     icon: 'text-5xl max-lg:text-4xl max-md:text-3xl',
     value: '',
   },
@@ -75,7 +75,9 @@ export function ContactItem({
         )}
       </span>
       <span className="sr-only">{label}</span>
-      <span className={cn('font-secondary', style.value)}>{value}</span>
+      <span className={cn('font-secondary shrink-0', style.value)}>
+        {value}
+      </span>
     </Link>
   );
 }
