@@ -1,8 +1,17 @@
 import Image from 'next/image';
+import {
+  ArrowUpRightIcon,
+  GithubLogoIcon,
+  PhoneIcon,
+  PhoneOutgoingIcon,
+} from '@phosphor-icons/react/dist/ssr';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';
 import { ProfileSideDecoration } from '../ui/profile-side-decoration';
+import { ContactItem } from '../ui/contact-item';
+import { CopyEmailItem } from '../ui/copy-email-item';
 import { CAREERS, TECH_STACK_GROUPS } from '../data/profile';
+import { CONTACT } from '../data/contact';
 
 export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
@@ -57,6 +66,32 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               <b>이동희</b>의 <b>포트폴리오</b>
               입니다.
             </h1>
+
+            <ul className="flex flex-col gap-2 p-4 rounded-4xl border border-border max-w-64 [&>li]:w-full">
+              <li>
+                <ContactItem
+                  compact
+                  icon={GithubLogoIcon}
+                  hoverIcon={ArrowUpRightIcon}
+                  label={CONTACT.github.label}
+                  value={CONTACT.github.value}
+                  href={CONTACT.github.href}
+                />
+              </li>
+              <li>
+                <CopyEmailItem compact value={CONTACT.email.value} />
+              </li>
+              <li>
+                <ContactItem
+                  compact
+                  icon={PhoneIcon}
+                  hoverIcon={PhoneOutgoingIcon}
+                  label={CONTACT.phone.label}
+                  value={CONTACT.phone.value}
+                  href={CONTACT.phone.href}
+                />
+              </li>
+            </ul>
 
             <p className="max-sm:break-normal max-sm:text-justify">
               주어진 범위의 구현에 머무르지 않고, 프로젝트의 맥락을 이해하며{' '}

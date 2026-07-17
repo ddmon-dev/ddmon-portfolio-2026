@@ -3,16 +3,19 @@
 import { useRef, useState } from 'react';
 import { AtIcon, CheckIcon, CopyIcon } from '@phosphor-icons/react';
 import { cn } from '@/shared/utils/classnames';
-import {
-  contactItemClassName,
-  contactItemIconWrapClassName,
-  contactItemIconClassName,
-  springTransition,
-} from './contact-item';
+import { contactItemStyles, springTransition } from './contact-item';
 
-export function CopyEmailItem({ value }: { value: string }) {
+export function CopyEmailItem({
+  value,
+  compact = false,
+}: {
+  value: string;
+  compact?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const style = compact ? contactItemStyles.compact : contactItemStyles.default;
+  const iconWeight = compact ? 'regular' : 'thin';
 
   const handleCopy = async () => {
     try {
@@ -29,22 +32,22 @@ export function CopyEmailItem({ value }: { value: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      className={cn(contactItemClassName, 'group cursor-pointer')}
+      className={cn(style.root, 'group cursor-pointer')}
     >
-      <span className={cn(contactItemIconWrapClassName, 'relative')}>
+      <span className={cn(style.iconWrap, 'relative')}>
         <AtIcon
-          weight="thin"
+          weight={iconWeight}
           className={cn(
-            contactItemIconClassName,
+            style.icon,
             springTransition,
             'group-hover:scale-50 group-hover:opacity-0 group-focus-visible:scale-50 group-focus-visible:opacity-0',
             copied && 'scale-50 opacity-0',
           )}
         />
         <CopyIcon
-          weight="thin"
+          weight={iconWeight}
           className={cn(
-            contactItemIconClassName,
+            style.icon,
             springTransition,
             'absolute inset-0 m-auto scale-50 opacity-0',
             !copied &&
@@ -52,9 +55,9 @@ export function CopyEmailItem({ value }: { value: string }) {
           )}
         />
         <CheckIcon
-          weight="thin"
+          weight={iconWeight}
           className={cn(
-            contactItemIconClassName,
+            style.icon,
             springTransition,
             'absolute inset-0 m-auto',
             !copied && 'scale-50 opacity-0',
@@ -62,7 +65,7 @@ export function CopyEmailItem({ value }: { value: string }) {
         />
       </span>
       <span className="sr-only">E-mail</span>
-      <span className="relative font-secondary">
+      <span className={cn('relative font-secondary', style.value)}>
         <span
           aria-hidden={copied}
           className={cn(
@@ -77,7 +80,8 @@ export function CopyEmailItem({ value }: { value: string }) {
           aria-hidden={!copied}
           className={cn(
             springTransition,
-            'absolute inset-0 flex items-center justify-center whitespace-nowrap max-md:justify-start',
+            'absolute inset-0 flex items-center whitespace-nowrap',
+            compact ? 'justify-start' : 'justify-center max-md:justify-start',
             !copied && 'translate-y-1 opacity-0',
           )}
         >

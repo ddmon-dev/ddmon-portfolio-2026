@@ -7,6 +7,7 @@ import {
 import { Section } from './section';
 import { ContactItem } from './contact-item';
 import { CopyEmailItem } from './copy-email-item';
+import { CONTACT } from '../data/contact';
 
 export function Footer({ recipient }: { recipient?: string }) {
   return (
@@ -28,21 +29,21 @@ export function Footer({ recipient }: { recipient?: string }) {
             <ContactItem
               icon={GithubLogoIcon}
               hoverIcon={ArrowUpRightIcon}
-              label="Github"
-              value="github.com/ddmon-dev"
-              href="https://github.com/ddmon-dev"
+              label={CONTACT.github.label}
+              value={CONTACT.github.value}
+              href={CONTACT.github.href}
             />
           </li>
           <li>
-            <CopyEmailItem value="ldhman91@gmail.com" />
+            <CopyEmailItem value={CONTACT.email.value} />
           </li>
           <li>
             <ContactItem
               icon={PhoneIcon}
               hoverIcon={PhoneOutgoingIcon}
-              label="Call"
-              value=""
-              href="tel:"
+              label={CONTACT.phone.label}
+              value={CONTACT.phone.value}
+              href={CONTACT.phone.href}
             />
           </li>
         </ul>
