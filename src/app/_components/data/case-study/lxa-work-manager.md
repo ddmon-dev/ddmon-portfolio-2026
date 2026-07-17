@@ -21,6 +21,7 @@ stacks:
     Claude Code,
   ]
 links:
+  site: https://wm-demo.ddmon.com
   repo: https://github.com/ddmon-dev/ddmon-work-manager
 facts:
   period: 2026.02 – 현재
