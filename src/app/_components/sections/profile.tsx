@@ -18,12 +18,13 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
     <div>
       <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
         <Image
-          src="/profile-img.webp"
+          src="/profile-img-mo.png"
           alt=""
-          width={847}
-          height={1181}
+          width={1225}
+          height={1200}
+          quality={100}
           sizes="350px"
-          className="relative z-10 w-full mx-auto max-md:w-[350px] max-sm:max-w-[300px]"
+          className="relative z-10 w-full mx-auto max-md:w-[350px]"
         />
       </div>
       <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
@@ -32,22 +33,23 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             <div className="absolute size-full">
               <ProfileSideDecoration />
             </div>
-            <div className="pt-22 max-lg:pt-20">
+            <div className="pt-28 max-lg:pt-24">
               <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
                 <Image
-                  src="/profile-img-croped.webp"
+                  src="/profile-img-pc.png"
                   alt=""
-                  width={685}
-                  height={685}
+                  width={531}
+                  height={531}
+                  quality={100}
                   priority
                   sizes="290px"
-                  className="size-full"
+                  className="size-full object-cover object-top"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="space-y-20 pt-30 max-md:space-y-16 max-md:pt-10 max-sm:space-y-12 max-sm:pt-8">
+        <div className="space-y-20 pt-38 max-lg:pt-32 max-md:space-y-16 max-md:pt-10">
           <div className="space-y-8 max-sm:space-y-6">
             <h1 className="text-4xl/11 [&>b]:text-primary max-lg:text-3xl">
               안녕하세요
@@ -63,11 +65,12 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                 <span className="font-normal text-foreground!">Developer</span>
               </b>{' '}
               <br />
-              <b>이동희</b>의 <b>포트폴리오</b>
+              <b>이동희</b>의 <br />
+              <b>포트폴리오</b>
               입니다.
             </h1>
 
-            <ul className="flex flex-col gap-2 p-4 rounded-4xl border border-border max-w-64 [&>li]:w-full">
+            <ul className="flex flex-col gap-2 -mx-2 p-4 rounded-4xl border border-border max-w-94 [&>li]:w-full max-lg:max-w-none">
               <li>
                 <ContactItem
                   compact
