@@ -18,7 +18,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
     <div>
       <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
         <Image
-          src="/profile-img-mo.png"
+          src="/profile-img-mo.webp"
           alt=""
           width={1225}
           height={1200}
@@ -36,7 +36,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             <div className="pt-28 max-lg:pt-24">
               <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
                 <Image
-                  src="/profile-img-pc.png"
+                  src="/profile-img-pc.webp"
                   alt=""
                   width={531}
                   height={531}
