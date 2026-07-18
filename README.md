@@ -1,5 +1,12 @@
 # 프론트엔드 개발자 이동희의 포트폴리오입니다
 
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8)
+
+**[라이브 사이트 →](https://portfolio.ddmon.com)**
+
 안녕하세요, 프론트엔드 개발자 이동희입니다.
 
 다수의 지원서류를 검토하시느라 고생하시는 채용 담당자분들의 UX를 고려하였습니다. 피로하고 걸리적거리는 애니메이션보다 읽기 편한 사이트로 구성하였습니다. 스크롤 하시고, 읽으시고, 클릭하세요. 메뉴를 찾느라 에너지를 낭비하지 않으셨으면 좋겠습니다.
