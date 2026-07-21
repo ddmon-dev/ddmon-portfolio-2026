@@ -43,8 +43,7 @@ next-env.d.ts
 # playwright mcp 산출물
 .playwright-mcp/
 
-
-
+# 로컬 전용 (추적 제외)
 /.claude/
 /docs/
 /CLAUDE.md
