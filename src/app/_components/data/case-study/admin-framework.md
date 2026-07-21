@@ -21,9 +21,9 @@ links:
   repo: https://github.com/ddmon-dev/ddmon-admin-framework
 facts:
   period: 2025.11 – 2026.03
-  operation: 거래처 어드민 개발 · 내부 도구 개발
+  operation: 실사용 중 · 4개 프로젝트 적용
   product: Next.js 어드민 프레임워크
-  contribution: 단독 설계 · 개발 · 문서화 · 이식/개선
+  contribution: 단독 설계 · 개발 · 문서화
 ---
 
 ## 개요

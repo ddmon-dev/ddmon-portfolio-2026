@@ -25,9 +25,9 @@ links:
   repo: https://github.com/ddmon-dev/ddmon-work-manager
 facts:
   period: 2026.02 – 현재
-  operation: 실사용 운영 중
+  operation: 실사용 중
   product: 로컬 업무 관리 시스템
-  contribution: 요구사항 정의 · 구조 설계 · 도메인/데이터 모델링 · 로컬 운영환경 구성 · AI 에이전트 활용 구현
+  contribution: 요구사항 정의 · 구조 설계 · 도메인/데이터 모델링 · 로컬 운영환경 구성
 ---
 
 ## 개요

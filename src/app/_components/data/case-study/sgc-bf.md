@@ -23,7 +23,7 @@ facts:
   period: '2025.12'
   operation: 운영중
   product: 보증서 조회 및 관리 서비스 / 어드민
-  contribution: 단독 개발 · 배포
+  contribution: 설계 · 단독 개발 · 배포
 ---
 
 ## 개요
