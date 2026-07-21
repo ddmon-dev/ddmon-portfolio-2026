@@ -22,7 +22,6 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
           alt=""
           width={1225}
           height={1200}
-          quality={100}
           sizes="350px"
           className="relative z-10 w-full mx-auto max-md:w-[350px]"
         />
@@ -40,7 +39,6 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
                   alt=""
                   width={531}
                   height={531}
-                  quality={100}
                   priority
                   sizes="290px"
                   className="size-full object-cover object-top"
