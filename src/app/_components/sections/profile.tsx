@@ -103,8 +103,8 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               확장해왔습니다.
               <br />
               <br />
-              프로젝트 전반을 혼자 책임지고 완성해온 경험을 바탕으로,{' '}
-              <br className="max-sm:hidden" />
+              프로젝트의 설계부터 개발·운영까지 직접 책임져온 경험을 바탕으로,{' '}
+              <br className="max-lg:hidden" />
               {recipient ? `${recipient}에서` : '개발 조직 안에서'} 설계와
               기술적 판단을 논의하고 검증하며 팀의 성과에 기여하고자 합니다.
             </p>
