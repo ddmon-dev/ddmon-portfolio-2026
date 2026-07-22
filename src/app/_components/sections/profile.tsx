@@ -2,8 +2,6 @@ import Image from 'next/image';
 import {
   ArrowUpRightIcon,
   GithubLogoIcon,
-  PhoneIcon,
-  PhoneOutgoingIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import { Container } from '@/shared/ui/container';
 import { STACK_LOGOS, StackLogo } from '@/shared/ui/stack-logo';

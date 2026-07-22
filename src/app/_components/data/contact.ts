@@ -8,9 +8,4 @@ export const CONTACT = {
     label: 'E-mail',
     value: 'ldhman91@gmail.com',
   },
-  phone: {
-    label: 'Call',
-    value: '',
-    href: 'tel:',
-  },
 } as const;
