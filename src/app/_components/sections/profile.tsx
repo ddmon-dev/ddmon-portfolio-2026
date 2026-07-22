@@ -14,14 +14,14 @@ import { CONTACT } from '../data/contact';
 export function ProfileSection({ recipient }: { recipient?: string }) {
   return (
     <div>
-      <div className="hidden max-md:block max-md:bg-ash-50 max-md:overflow-hidden">
+      <div className="hidden max-md:block bg-linear-to-t from-foreground/5 to-transparent overflow-hidden border border-t-0 border-border rounded-b-4xl">
         <Image
           src="/profile-img-mo.webp"
           alt=""
           width={1225}
           height={1200}
-          sizes="350px"
-          className="relative z-10 w-full mx-auto max-md:w-[300px]"
+          sizes="280px"
+          className="relative z-10 w-full mx-auto max-md:w-70"
         />
       </div>
       <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
@@ -31,7 +31,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               <ProfileSideDecoration />
             </div>
             <div className="pt-28 max-lg:pt-24">
-              <div className="relative z-10 ml-auto mr-4 size-[260px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[230px]">
+              <div className="relative z-10 ml-auto mr-4 size-65 overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-57.5">
                 <Image
                   src="/profile-img-pc.webp"
                   alt=""
@@ -45,7 +45,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
             </div>
           </div>
         </div>
-        <div className="space-y-20 pt-38 max-lg:pt-32 max-md:space-y-16 max-md:pt-10">
+        <div className="space-y-20 pt-38 max-lg:pt-32 max-md:space-y-16 max-md:pt-8 max-sm:pt-6">
           <div className="space-y-8 max-sm:space-y-6">
             <h1 className="text-4xl/11 [&>b]:text-primary max-lg:text-3xl">
               안녕하세요
