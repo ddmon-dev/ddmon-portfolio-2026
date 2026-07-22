@@ -12,6 +12,7 @@ stacks:
     TypeScript,
     Tailwind CSS,
     Shadcn/ui,
+    React Hook Form,
     Supabase,
     NextAuth,
     Claude Code,

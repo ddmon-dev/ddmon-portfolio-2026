@@ -5,7 +5,16 @@ image:
   src: /case-study/panoramafilm.jpg
   width: 1920
   height: 1080
-stacks: [Next.js, React, Tailwind CSS, Zustand, Supabase, Kakao Map API]
+stacks:
+  [
+    Next.js,
+    React,
+    Tailwind CSS,
+    Zustand,
+    Supabase,
+    Kakao Map API,
+    React Hook Form,
+  ]
 links:
   site: https://panoramafilm.co.kr
 facts:

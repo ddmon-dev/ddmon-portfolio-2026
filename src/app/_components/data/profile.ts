@@ -19,12 +19,10 @@ export const TECH_STACK_GROUPS: TechStackGroup[] = [
       'rhf',
       'tanstackquery',
       'framermotion',
-      'html',
-      'css',
     ],
   },
   {
-    label: 'Data · Backend 경험',
+    label: 'Database · Backend 경험',
     stacks: [
       'supabase',
       'authjs',

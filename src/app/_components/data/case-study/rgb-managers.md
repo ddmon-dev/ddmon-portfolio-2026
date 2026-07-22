@@ -5,7 +5,17 @@ image:
   src: /case-study/rgb-managers-project-blurred.webp
   width: 1920
   height: 1080
-stacks: [Next.js, React, Tailwind CSS, Shadcn/ui, MongoDB, Puppeteer, NextAuth]
+stacks:
+  [
+    Next.js,
+    React,
+    Tailwind CSS,
+    Shadcn/ui,
+    React Hook Form,
+    MongoDB,
+    Puppeteer,
+    NextAuth,
+  ]
 facts:
   period: 2023.07 – 2025.12 · 퇴사 후 유지보수 포함
   operation: 사내 운영중
