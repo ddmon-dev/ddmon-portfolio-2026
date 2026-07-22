@@ -1,8 +1,6 @@
 import {
   ArrowUpRightIcon,
   GithubLogoIcon,
-  PhoneIcon,
-  PhoneOutgoingIcon,
 } from '@phosphor-icons/react/dist/ssr';
 import { Section } from './section';
 import { ContactItem } from './contact-item';
@@ -11,7 +9,7 @@ import { CONTACT } from '../data/contact';
 
 export function Footer({ recipient }: { recipient?: string }) {
   return (
-    <footer className="bg-secondary bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:320px]">
+    <footer className="bg-secondary bg-horizon [--horizon-radius:150vw] [--horizon-bottom:348px] max-lg:[--horizon-bottom:307px] max-md:[--horizon-radius:750px] max-md:[--horizon-bottom:270px]">
       <Section
         title="contact"
         description={
@@ -36,15 +34,6 @@ export function Footer({ recipient }: { recipient?: string }) {
           </li>
           <li>
             <CopyEmailItem value={CONTACT.email.value} />
-          </li>
-          <li>
-            <ContactItem
-              icon={PhoneIcon}
-              hoverIcon={PhoneOutgoingIcon}
-              label={CONTACT.phone.label}
-              value={CONTACT.phone.value}
-              href={CONTACT.phone.href}
-            />
           </li>
         </ul>
         <p className="text-background text-center mt-20 max-lg:mt-15 max-md:mt-10">

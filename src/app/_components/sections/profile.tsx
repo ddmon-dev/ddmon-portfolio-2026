@@ -82,16 +82,6 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               <li>
                 <CopyEmailItem compact value={CONTACT.email.value} />
               </li>
-              <li>
-                <ContactItem
-                  compact
-                  icon={PhoneIcon}
-                  hoverIcon={PhoneOutgoingIcon}
-                  label={CONTACT.phone.label}
-                  value={CONTACT.phone.value}
-                  href={CONTACT.phone.href}
-                />
-              </li>
             </ul>
 
             <p className="max-sm:break-normal max-sm:text-justify">
