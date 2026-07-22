@@ -4,6 +4,7 @@ import './globals.css';
 
 import { cn } from '@/shared/utils/classnames';
 import { ScrollDotIndicator } from '@/app/_components/ui/scroll-dot-indicator';
+import { ThemeLab } from '@/app/_components/ui/theme-lab';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -56,6 +57,7 @@ export default function RootLayout({
           {children}
         </div>
         {modal}
+        {process.env.NODE_ENV === 'development' && <ThemeLab />}
       </body>
     </html>
   );
