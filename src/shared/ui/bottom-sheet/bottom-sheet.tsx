@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from 'react';
 import { Drawer } from 'vaul';
 import { ScrollDots } from '@/shared/ui/scroll-dots';
 import { useBackgroundScale } from './use-background-scale';
+import { useFinePointer } from './use-fine-pointer';
 
 export const BottomSheetClose = Drawer.Close;
 
@@ -23,6 +24,7 @@ export function BottomSheet({
   children: ReactNode;
 }) {
   const { onDrag, onRelease } = useBackgroundScale(open);
+  const isFinePointer = useFinePointer();
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -52,7 +54,8 @@ export function BottomSheet({
           </div>
           <div
             ref={scrollerRef}
-            className="hide-scrollbar flex-1 overflow-y-auto overscroll-contain"
+            data-vaul-no-drag={isFinePointer ? '' : undefined}
+            className="hide-scrollbar flex-1 select-text overflow-y-auto overscroll-contain"
           >
             {children}
           </div>
