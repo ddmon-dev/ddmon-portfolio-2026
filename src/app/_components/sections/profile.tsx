@@ -23,7 +23,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
           width={1225}
           height={1200}
           sizes="350px"
-          className="relative z-10 w-full mx-auto max-md:w-[350px]"
+          className="relative z-10 w-full mx-auto max-md:w-[300px]"
         />
       </div>
       <Container className="grid grid-cols-2 max-md:grid-cols-1 max-md:border-b max-md:border-border max-md:pb-12">
@@ -33,7 +33,7 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               <ProfileSideDecoration />
             </div>
             <div className="pt-28 max-lg:pt-24">
-              <div className="relative z-10 ml-auto mr-4 size-[290px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[240px]">
+              <div className="relative z-10 ml-auto mr-4 size-[260px] overflow-hidden rounded-full bg-ash-50 border border-border/30 max-lg:size-[230px]">
                 <Image
                   src="/profile-img-pc.webp"
                   alt=""
