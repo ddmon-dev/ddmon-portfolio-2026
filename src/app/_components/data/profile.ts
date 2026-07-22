@@ -56,7 +56,7 @@ export const CAREERS: Career[] = [
     company: '프리랜서 웹 개발',
     start: '2025.06',
     end: 'Current',
-    role: '개인사업자 · 2026.03~',
+    role: '개인사업자 (2026.03)',
     points: [
       '파노라마 필름 OMS 포인트 내역 관리 기능 개발 및 프로젝트 유지보수',
       '골프존 스마트캐디 홈페이지 및 운영 어드민 개발',
