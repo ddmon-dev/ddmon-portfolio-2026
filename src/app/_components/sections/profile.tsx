@@ -78,19 +78,6 @@ export function ProfileSection({ recipient }: { recipient?: string }) {
               </li>
             </ul>
 
-            <p className="max-sm:break-normal max-sm:text-justify">
-              프론트엔드를 기반으로 사내 개발 환경과 프로세스를 구체화하고{' '}
-              <br className="max-lg:hidden" />
-              요구사항을 서비스로 발전시켜 온 개발자입니다. 개발 조직이 없는{' '}
-              <br className="max-lg:hidden" />
-              환경 속에서 가능한 방향을 판단하고, 개발부터 배포 및 유지보수까지의{' '}
-              <br className="max-lg:hidden" />
-              프로세스를 정립해 왔습니다. 최근에는 직접 부딪혀 익혀 왔던 경험을{' '}
-              <br className="max-lg:hidden" />
-              AI를 레버리지 삼아 개인 업무 도구와 고객사 프로젝트로 넓혔습니다.{' '}
-              <br className="max-lg:hidden" />
-              이제는 이 실행력을 우리의 서비스와 비즈니스 성장에 연결하고자 합니다.
-            </p>
           </div>
 
           <Section title="기술스택" subtitle="Tech stacks">
