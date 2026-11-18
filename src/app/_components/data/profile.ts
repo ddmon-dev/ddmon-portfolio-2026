@@ -53,7 +53,7 @@ export const CAREERS: Career[] = [
   {
     company: '프리랜서 웹 개발',
     start: '2025.06',
-    end: '현재',
+    end: '2026.07',
     role: '프리랜서',
     points: [
       '파노라마 필름 B2B 발주 서비스의 후속 기능 개선 · 유지보수',
